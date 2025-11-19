@@ -26,7 +26,7 @@ const Index = () => {
           <h1 className="text-3xl md:text-6xl font-bold leading-tight uppercase">
             WE ARE <span className="text-red-600">KAYSAR</span> <br />
             <span className="bg-gradient-premium bg-clip-text text-transparent">
-              ТЕХНОЛОГИИ ДЛЯ ФК KAYSAR
+              ТЕХНОЛОГИИ ДЛЯ ФК КАЙСАР
             </span>
           </h1>
           <p className="text-lg md:text-2xl text-muted-foreground max-w-3xl mx-auto px-2">

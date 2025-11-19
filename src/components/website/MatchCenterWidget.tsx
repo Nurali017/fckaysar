@@ -40,7 +40,7 @@ export const MatchCenterWidget = () => {
                 <div className="space-y-3">
                     <div className="flex items-center gap-3 text-sm text-gray-400">
                         <MapPin className="w-4 h-4 text-red-500" />
-                        <span>Ғани Мұратбаев стадионы</span>
+                        <span>Қызылорда арена</span>
                     </div>
 
                     <Button className="w-full bg-white text-black hover:bg-gray-200 font-bold h-12 uppercase tracking-wide">
