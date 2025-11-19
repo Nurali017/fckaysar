@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Check } from "lucide-react";
 import { PricingCard } from "@/components/PricingCard";
 import { BenefitsSection } from "@/components/BenefitsSection";
+import { PrototypesSection } from "@/components/PrototypesSection";
 
 const Index = () => {
   return (
@@ -24,6 +25,9 @@ const Index = () => {
 
       {/* Benefits Section */}
       <BenefitsSection />
+
+      {/* Prototypes Section */}
+      <PrototypesSection />
 
       {/* Pricing Section */}
       <section className="container mx-auto px-4 py-20">
