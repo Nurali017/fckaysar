@@ -4,12 +4,24 @@ import { PricingCard } from "@/components/PricingCard";
 import { BenefitsSection } from "@/components/BenefitsSection";
 import { PrototypesSection } from "@/components/PrototypesSection";
 
+import { useState } from "react";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import kaisarLogo from "@/assets/kaisar-logo.jpg";
+
 const Index = () => {
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
       <section className="container mx-auto px-4 py-20 md:py-32">
         <div className="max-w-4xl mx-auto text-center space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
+          <div className="flex justify-center mb-8">
+            <img
+              src={kaisarLogo}
+              alt="FC Kaisar Logo"
+              className="w-32 h-32 md:w-40 md:h-40 object-contain drop-shadow-2xl hover:scale-105 transition-transform duration-500"
+            />
+          </div>
           <h1 className="text-5xl md:text-7xl font-bold leading-tight">
             Превратите ФК Кайсар в
             <span className="block bg-gradient-premium bg-clip-text text-transparent">
@@ -17,7 +29,7 @@ const Index = () => {
             </span>
           </h1>
           <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto">
-            Премиальная цифровая платформа, которая повышает имидж вашего клуба, углубляет вовлечённость болельщиков 
+            Премиальная цифровая платформа, которая повышает имидж вашего клуба, углубляет вовлечённость болельщиков
             и открывает новые потоки доходов — всё под вашим полным контролем.
           </p>
         </div>
@@ -44,23 +56,25 @@ const Index = () => {
           <PricingCard
             title="Стандарт"
             price="1,000,000"
-            description="Быстрое цифровое присутствие для современных клубов"
+            originalPrice="3,000,000"
+            description="Современный официальный сайт клуба"
             features={[
-              "Сайт клуба или мобильное приложение",
+              "Официальный сайт клуба",
               "Расписание матчей и результаты",
               "Список состава с профилями игроков",
               "Турнирные таблицы и статистика",
               "Протоколы матчей",
               "Админ-панель для управления контентом",
               "Система публикации новостей",
-              "Базовая аналитика и метрики"
+              "Базовая аналитика посещаемости"
             ]}
-            purpose="Быстро запустите цифровое присутствие и дайте болельщикам современный способ следить за ФК Кайсар"
+            purpose="Запустите современный цифровой дом для ФК Кайсар"
           />
 
           <PricingCard
             title="Цифровая Экосистема"
-            price="20,000,000"
+            price="10,000,000"
+            originalPrice="20,000,000"
             description="Полная профессиональная платформа"
             features={[
               "Всё из пакета Стандарт, плюс:",
@@ -80,7 +94,8 @@ const Index = () => {
 
           <PricingCard
             title="Профессиональный"
-            price="35,000,000"
+            price="20,000,000"
+            originalPrice="40,000,000"
             description="Полный контроль + независимая продажа билетов"
             features={[
               "Всё из пакета Цифровая Экосистема, плюс:",
@@ -107,7 +122,7 @@ const Index = () => {
             Готовы возглавить цифровое будущее?
           </h2>
           <p className="text-xl text-muted-foreground">
-            Мы готовы представить рабочий прототип и обсудить детали реализации, 
+            Мы готовы представить рабочий прототип и обсудить детали реализации,
             адаптированные специально для ФК Кайсар.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">

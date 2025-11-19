@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 interface PricingCardProps {
   title: string;
   price: string;
+  originalPrice?: string;
   description: string;
   features: string[];
   purpose: string;
@@ -15,6 +16,7 @@ interface PricingCardProps {
 export const PricingCard = ({
   title,
   price,
+  originalPrice,
   description,
   features,
   purpose,
@@ -40,16 +42,23 @@ export const PricingCard = ({
           Максимальная выгода
         </div>
       )}
-      
+
       <div className="space-y-6">
         <div>
           <h3 className="text-2xl font-bold mb-2">{title}</h3>
           <p className="text-muted-foreground">{description}</p>
         </div>
 
-        <div className="flex items-baseline gap-2">
-          <span className="text-4xl font-bold">{price.toLocaleString()}</span>
-          <span className="text-muted-foreground">KZT</span>
+        <div className="flex flex-col">
+          {originalPrice && (
+            <span className="text-lg text-muted-foreground line-through decoration-red-500/50 decoration-2">
+              {originalPrice} KZT
+            </span>
+          )}
+          <div className="flex items-baseline gap-2">
+            <span className="text-4xl font-bold">{price.toLocaleString()}</span>
+            <span className="text-muted-foreground">KZT</span>
+          </div>
         </div>
 
         <div className="space-y-3">
@@ -76,7 +85,7 @@ export const PricingCard = ({
           </p>
         </div>
 
-        <Button 
+        <Button
           className={cn(
             "w-full",
             highlighted && "bg-primary hover:bg-primary/90",
