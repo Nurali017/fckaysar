@@ -22,15 +22,14 @@ const Index = () => {
               className="w-32 h-32 md:w-40 md:h-40 object-contain drop-shadow-2xl hover:scale-105 transition-transform duration-500"
             />
           </div>
-          <h1 className="text-5xl md:text-7xl font-bold leading-tight">
-            Превратите ФК Кайсар в
-            <span className="block bg-gradient-premium bg-clip-text text-transparent">
-              Цифровую Империю
+          <h1 className="text-4xl md:text-6xl font-bold leading-tight uppercase">
+            СОВРЕМЕННЫЕ ЦИФРОВЫЕ <br />
+            <span className="bg-gradient-premium bg-clip-text text-transparent">
+              ТЕХНОЛОГИИ ДЛЯ ФК КАЙСАР
             </span>
           </h1>
           <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto">
-            Премиальная цифровая платформа, которая повышает имидж вашего клуба, углубляет вовлечённость болельщиков
-            и открывает новые потоки доходов — всё под вашим полным контролем.
+            Поднимаем имидж клуба на новый уровень, внедряя передовые технологии для работы с болельщиками.
           </p>
         </div>
       </section>
@@ -60,33 +59,35 @@ const Index = () => {
             description="Современный официальный сайт клуба"
             features={[
               "Официальный сайт клуба",
-              "Расписание матчей и результаты",
+              "Расписание матчей и результаты (Интеграция с СОТА)",
               "Список состава с профилями игроков",
-              "Турнирные таблицы и статистика",
-              "Протоколы матчей",
+              "Турнирные таблицы и статистика (Интеграция с СОТА)",
+              "Протоколы матчей (Интеграция с СОТА)",
               "Админ-панель для управления контентом",
               "Система публикации новостей",
-              "Базовая аналитика посещаемости"
+              "ЛАЙВ РЕЖИМ МАТЧИ",
+              "МЕДИА И ФОТО",
+              "ОБЗОРЫ И ССЫЛКИ НА ТРАНСЛЯЦИИ"
             ]}
             purpose="Запустите современный цифровой дом для ФК Кайсар"
           />
 
           <PricingCard
-            title="Цифровая Экосистема"
+            title="Digital Ecosystem"
             price="10,000,000"
             originalPrice="20,000,000"
-            description="Полная профессиональная платформа"
+            description="Развитие вовлеченности болельщиков через цифровые технологии"
             features={[
               "Всё из пакета Стандарт, плюс:",
               "Мультисезонная аналитика игроков",
               "Продвинутое отслеживание эффективности",
               "Данные роста и развития игроков",
               "Полные профили персонала и тренеров",
-              "Медиа-разделы (видео, интервью)",
               "Личные кабинеты болельщиков",
               "Мобильное приложение с push-уведомлениями",
               "Системы лояльности и подписок",
-              "Интеграции с CRM и базами данных"
+              "Интеграции с CRM и базами данных",
+              "ОНЛАЙН МАГАЗИН"
             ]}
             purpose="Создайте мирового класса цифровую экосистему, которая глубоко вовлекает фанатов и позиционирует ФК Кайсар как современный профессиональный клуб"
             highlighted
@@ -115,26 +116,7 @@ const Index = () => {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="container mx-auto px-4 py-20">
-        <div className="max-w-4xl mx-auto text-center space-y-8 p-12 rounded-3xl bg-gradient-card backdrop-blur-sm border border-border shadow-card">
-          <h2 className="text-4xl md:text-5xl font-bold">
-            Готовы возглавить цифровое будущее?
-          </h2>
-          <p className="text-xl text-muted-foreground">
-            Мы готовы представить рабочий прототип и обсудить детали реализации,
-            адаптированные специально для ФК Кайсар.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <Button size="lg" className="bg-gradient-premium text-primary-foreground hover:opacity-90 transition-opacity text-lg px-8 py-6">
-              Запланировать презентацию
-            </Button>
-            <Button size="lg" variant="outline" className="text-lg px-8 py-6 border-primary text-primary hover:bg-primary/10">
-              Технические детали
-            </Button>
-          </div>
-        </div>
-      </section>
+
     </div>
   );
 };
