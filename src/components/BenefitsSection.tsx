@@ -4,18 +4,18 @@ export const BenefitsSection = () => {
   const benefits = [
     {
       icon: Users,
-      title: "Deeper Fan Engagement",
-      description: "Connect with your supporters like never before. Give them personalized experiences, exclusive content, and direct communication channels that turn casual followers into passionate advocates."
+      title: "Глубокая вовлечённость болельщиков",
+      description: "Общайтесь со своими сторонниками как никогда раньше. Предоставьте им персонализированный опыт, эксклюзивный контент и прямые каналы связи, которые превратят случайных зрителей в страстных фанатов."
     },
     {
       icon: TrendingUp,
-      title: "New Revenue Streams",
-      description: "Stop paying intermediaries. Own your ticketing, subscriptions, and digital merchandise. Every fan interaction becomes an opportunity to grow revenue while maintaining full financial control."
+      title: "Новые потоки доходов",
+      description: "Перестаньте платить посредникам. Владейте своей билетной системой, подписками и цифровым мерчем. Каждое взаимодействие с болельщиком становится возможностью увеличить доход при полном финансовом контроле."
     },
     {
       icon: Sparkles,
-      title: "Modern Professional Image",
-      description: "Stand out in Kazakhstan football. A world-class digital presence signals ambition, professionalism, and forward-thinking leadership — attracting better sponsors, players, and media attention."
+      title: "Современный профессиональный имидж",
+      description: "Выделитесь в казахстанском футболе. Цифровое присутствие мирового класса сигнализирует об амбициях, профессионализме и передовом мышлении — привлекая лучших спонсоров, игроков и внимание СМИ."
     }
   ];
 
@@ -23,7 +23,7 @@ export const BenefitsSection = () => {
     <section className="container mx-auto px-4 py-20 bg-card/30 backdrop-blur-sm rounded-3xl">
       <div className="max-w-6xl mx-auto">
         <h2 className="text-3xl md:text-4xl font-bold text-center mb-16">
-          Why FC Kaisar Needs This <span className="text-accent">Now</span>
+          Почему ФК Кайсар нужно это <span className="text-accent">сейчас</span>
         </h2>
         
         <div className="grid md:grid-cols-3 gap-8">
