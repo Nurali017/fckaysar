@@ -25,19 +25,22 @@ export const WebsiteHeader = () => {
                             </Button>
                         </SheetTrigger>
                         <SheetContent side="left" className="bg-black/95 border-r-white/10 text-white w-[300px]">
-                            <div className="flex flex-col gap-8 mt-8">
-                                <div className="flex items-center gap-3" onClick={() => { navigate("/"); setIsOpen(false); }}>
-                                    <img src={kaisarLogo} alt="FC Kaisar" className="h-10 w-10 object-contain" />
-                                    <span className="text-xl font-bold tracking-tighter uppercase">FC Kaisar</span>
-                                </div>
-                                <nav className="flex flex-col gap-4">
-                                    {navLinks.map((link) => (
-                                        <a key={link} href="#" className="text-lg font-medium hover:text-red-500 transition-colors" onClick={() => setIsOpen(false)}>
-                                            {link}
-                                        </a>
-                                    ))}
-                                </nav>
+                            <div className="flex items-center gap-3 mt-8 mb-8 cursor-pointer" onClick={() => { navigate("/"); setIsOpen(false); }}>
+                                <img
+                                    src="/images/logo.png"
+                                    alt="FC KAYSAR"
+                                    className="h-10 w-10 object-contain"
+                                />
+                                <span className="font-bold text-xl tracking-tighter text-white">FC KAYSAR</span>
                             </div>
+                            <nav className="flex flex-col gap-4">
+                                {navLinks.map((link) => (
+                                    <a key={link} href="#" className="text-lg font-medium hover:text-red-500 transition-colors" onClick={() => setIsOpen(false)}>
+                                        {link}
+                                    </a>
+                                ))}
+                            </nav>
+
                         </SheetContent>
                     </Sheet>
 
@@ -46,8 +49,8 @@ export const WebsiteHeader = () => {
                         className="flex items-center gap-3 cursor-pointer hover:opacity-80 transition-opacity"
                         title="Презентацияға оралу"
                     >
-                        <img src={kaisarLogo} alt="FC Kaisar" className="h-10 w-10 md:h-12 md:w-12 object-contain" />
-                        <span className="text-xl md:text-2xl font-bold tracking-tighter uppercase text-white hidden sm:block">FC Kaisar</span>
+                        <img src={kaisarLogo} alt="FC KAYSAR" className="h-10 w-10 md:h-12 md:w-12 object-contain" />
+                        <span className="text-xl md:text-2xl font-bold tracking-tighter uppercase text-white hidden sm:block">FC KAYSAR</span>
                     </div>
 
                     <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-gray-300">
@@ -71,6 +74,6 @@ export const WebsiteHeader = () => {
                     </Button>
                 </div>
             </div>
-        </header>
+        </header >
     );
 };

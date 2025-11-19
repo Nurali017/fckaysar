@@ -28,7 +28,7 @@ const MobileAppPrototype = () => {
             </div>
 
             <div className="text-center mb-8 space-y-2">
-                <h1 className="text-3xl font-bold">Kaisar Mobile App</h1>
+                <h1 className="text-3xl font-bold">KAYSAR Mobile App</h1>
                 <p className="text-zinc-400">Интерактивті прототип</p>
             </div>
 

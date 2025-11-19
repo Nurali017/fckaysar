@@ -19,14 +19,14 @@ const Index = () => {
           <div className="flex justify-center mb-6 md:mb-8">
             <img
               src={kaisarLogo}
-              alt="FC Kaisar Logo"
+              alt="FC KAYSAR Logo"
               className="w-24 h-24 md:w-40 md:h-40 object-contain drop-shadow-2xl hover:scale-105 transition-transform duration-500"
             />
           </div>
           <h1 className="text-3xl md:text-6xl font-bold leading-tight uppercase">
-            СОВРЕМЕННЫЕ ЦИФРОВЫЕ <br />
+            WE ARE <span className="text-red-600">KAYSAR</span> <br />
             <span className="bg-gradient-premium bg-clip-text text-transparent">
-              ТЕХНОЛОГИИ ДЛЯ ФК КАЙСАР
+              ТЕХНОЛОГИИ ДЛЯ ФК KAYSAR
             </span>
           </h1>
           <p className="text-lg md:text-2xl text-muted-foreground max-w-3xl mx-auto px-2">
@@ -70,7 +70,7 @@ const Index = () => {
               "МЕДИА И ФОТО",
               "ОБЗОРЫ И ССЫЛКИ НА ТРАНСЛЯЦИИ"
             ]}
-            purpose="Запустите современный цифровой дом для ФК Кайсар"
+            purpose="Запустите современный цифровой дом для ФК KAYSAR"
           />
 
           <PricingCard
@@ -90,7 +90,7 @@ const Index = () => {
               "Интеграции с CRM и базами данных",
               "ОНЛАЙН МАГАЗИН"
             ]}
-            purpose="Создайте мирового класса цифровую экосистему, которая глубоко вовлекает фанатов и позиционирует ФК Кайсар как современный профессиональный клуб"
+            purpose="Создайте мирового класса цифровую экосистему, которая глубоко вовлекает фанатов и позиционирует ФК KAYSAR как современный профессиональный клуб"
             highlighted
           />
 
@@ -111,7 +111,7 @@ const Index = () => {
               "Финансовая отчётность и аналитика",
               "Полное владение платформой"
             ]}
-            purpose="Получите полный финансовый контроль и устраните посреднические комиссии, создавая новые потоки доходов для ФК Кайсар"
+            purpose="Получите полный финансовый контроль и устраните посреднические комиссии, создавая новые потоки доходов для ФК KAYSAR"
             premium
           />
         </div>

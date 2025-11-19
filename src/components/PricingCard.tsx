@@ -29,16 +29,17 @@ export const PricingCard = ({
         "relative p-6 md:p-8 rounded-2xl border backdrop-blur-sm transition-all duration-300 hover:scale-105",
         highlighted && "border-primary shadow-glow bg-gradient-card",
         premium && "border-accent bg-gradient-to-br from-card/80 to-accent/10",
-        !highlighted && !premium && "border-border bg-card/50"
+        !highlighted && !premium && "border-border bg-card/50",
+        "mt-6"
       )}
     >
       {highlighted && (
-        <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-gradient-premium text-primary-foreground text-sm font-semibold rounded-full">
+        <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-gradient-premium text-primary-foreground text-sm font-semibold rounded-full whitespace-nowrap z-10 shadow-lg">
           Самый популярный
         </div>
       )}
       {premium && (
-        <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-accent text-accent-foreground text-sm font-semibold rounded-full">
+        <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-accent text-accent-foreground text-sm font-semibold rounded-full whitespace-nowrap z-10 shadow-lg">
           Максимальная выгода
         </div>
       )}
@@ -81,7 +82,7 @@ export const PricingCard = ({
 
         <div className="pt-4 border-t border-border/50">
           <p className="text-sm text-muted-foreground italic">
-            <span className="font-semibold text-foreground">Цель:</span> {purpose}
+            <span className="font-semibold text-foreground">Цель:</span> {purpose.replace("Кайсар", "KAYSAR")}
           </p>
         </div>
 

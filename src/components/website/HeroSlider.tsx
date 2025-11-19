@@ -24,7 +24,7 @@ export const HeroSlider = () => {
                     <h1 className="text-5xl md:text-9xl font-black italic tracking-tighter text-white leading-none">
                         WE ARE <br />
                         <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-red-800">
-                            KAISAR
+                            KAYSAR
                         </span>
                     </h1>
                     <p className="text-lg md:text-xl text-gray-300 max-w-xl leading-relaxed">

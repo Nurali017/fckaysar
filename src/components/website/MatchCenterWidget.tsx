@@ -6,7 +6,7 @@ import kairatLogo from "@/assets/kairat-logo.png";
 export const MatchCenterWidget = () => {
     return (
         <div className="absolute bottom-0 right-0 md:right-12 md:bottom-12 w-full md:w-auto z-40">
-            <div className="bg-black/90 backdrop-blur-md border border-white/10 p-6 md:rounded-2xl shadow-2xl max-w-md w-full">
+            <div className="bg-black/90 backdrop-blur-md border border-white/10 p-4 md:p-6 md:rounded-2xl shadow-2xl max-w-md w-full">
                 <div className="flex items-center justify-between mb-6 border-b border-white/10 pb-4">
                     <div className="flex items-center gap-2 text-red-500 font-bold uppercase text-sm tracking-wider">
                         <span className="w-2 h-2 bg-red-500 rounded-full animate-pulse" />
@@ -19,8 +19,8 @@ export const MatchCenterWidget = () => {
 
                 <div className="flex items-center justify-between gap-4 md:gap-8 mb-8">
                     <div className="flex flex-col items-center gap-2">
-                        <img src={kaisarLogo} alt="Kaisar" className="w-12 h-12 md:w-16 md:h-16 object-contain drop-shadow-lg" />
-                        <span className="font-bold text-sm md:text-lg">KAISAR</span>
+                        <img src={kaisarLogo} alt="KAYSAR" className="w-12 h-12 md:w-16 md:h-16 object-contain drop-shadow-lg" />
+                        <span className="font-bold text-sm md:text-lg uppercase tracking-wider">KAYSAR</span>
                     </div>
 
                     <div className="flex flex-col items-center gap-1">

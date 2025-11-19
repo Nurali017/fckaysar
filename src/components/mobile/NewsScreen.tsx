@@ -2,7 +2,7 @@ export const NewsScreen = () => {
     const news = [
         {
             id: 1,
-            title: "Кайсар vs Кайрат: Матч алдындағы баспасөз мәслихаты",
+            title: "KAYSAR жаңа маусымға дайындық үстінде",
             date: "Бүгін, 14:00",
             category: "Команда",
             image: "https://picsum.photos/800/600?random=1"

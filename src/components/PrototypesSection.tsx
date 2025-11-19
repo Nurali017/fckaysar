@@ -5,7 +5,7 @@ export const PrototypesSection = () => {
   const navigate = useNavigate();
   const prototypes = [
     {
-      title: "Официальный сайт ФК Кайсар",
+      title: "Официальный сайт ФК KAYSAR",
       description: "Современный дизайн в красно-белых цветах",
       url: "/prototype/website",
       package: "Standard"
@@ -17,7 +17,7 @@ export const PrototypesSection = () => {
       package: "Digital Ecosystem"
     },
     {
-      title: "Мобильное приложение Kaisar",
+      title: "Мобильное приложение KAYSAR",
       description: "Матч-центр игры против Астаны, новости и уведомления для болельщиков",
       url: "/prototype/mobile",
       package: "Digital Ecosystem"
@@ -37,7 +37,7 @@ export const PrototypesSection = () => {
           Визуальные прототипы платформы
         </h2>
         <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-          Примеры интерфейсов, которые получит ФК Кайсар на каждом уровне
+          Примеры интерфейсов, которые получит ФК KAYSAR на каждом уровне
         </p>
       </div>
 

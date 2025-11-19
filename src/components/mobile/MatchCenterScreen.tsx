@@ -33,7 +33,7 @@ export const MatchCenterScreen = () => {
                         <div className="w-16 h-16 bg-white rounded-full p-2 shadow-lg shadow-red-900/20">
                             <img src={kaisarLogo} alt="Kaisar" className="w-full h-full object-contain" />
                         </div>
-                        <span className="font-bold text-sm">Кайсар</span>
+                        <span className="text-sm font-bold">KAYSAR</span>
                     </div>
 
                     <div className="flex flex-col items-center w-1/3">

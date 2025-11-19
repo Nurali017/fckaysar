@@ -56,7 +56,7 @@ const TicketingPrototype = () => {
                     </Button>
 
                     <div className="text-xl font-bold">
-                        <span className="text-red-600">Kaisar</span> Tickets
+                        <span className="text-red-600">KAYSAR</span> Tickets
                     </div>
                 </div>
             </div>
@@ -66,7 +66,7 @@ const TicketingPrototype = () => {
                     <div className="max-w-5xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
                         <div className="text-center space-y-2">
                             <h1 className="text-4xl font-bold">Секторды таңдаңыз</h1>
-                            <p className="text-zinc-400">Кайсар vs Кайрат • 19 Қараша • 19:00</p>
+                            <p className="text-zinc-400">KAYSAR vs Кайрат • 19 Қараша • 19:00</p>
                         </div>
                         <StadiumMap
                             onSectorSelect={handleSectorSelect}
@@ -76,7 +76,7 @@ const TicketingPrototype = () => {
                 )}
 
                 {step === 'seats' && (
-                    <div className="grid lg:grid-cols-3 gap-8 animate-in fade-in slide-in-from-right-4 duration-500 pb-32 lg:pb-0">
+                    <div className="grid lg:grid-cols-3 gap-8 animate-in fade-in slide-in-from-right-4 duration-500 pb-40 lg:pb-0">
                         <div className="lg:col-span-2">
                             <SeatGrid
                                 sectorId={selectedSector!}
