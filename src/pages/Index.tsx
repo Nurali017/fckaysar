@@ -11,14 +11,14 @@ const Index = () => {
       <section className="container mx-auto px-4 py-20 md:py-32">
         <div className="max-w-4xl mx-auto text-center space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
           <h1 className="text-5xl md:text-7xl font-bold leading-tight">
-            Transform FC Kaisar Into a
+            Превратите ФК Кайсар в
             <span className="block bg-gradient-premium bg-clip-text text-transparent">
-              Digital Powerhouse
+              Цифровую Империю
             </span>
           </h1>
           <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto">
-            A premium digital platform that elevates your club's image, deepens fan engagement, 
-            and unlocks new revenue streams — all owned and controlled by you.
+            Премиальная цифровая платформа, которая повышает имидж вашего клуба, углубляет вовлечённость болельщиков 
+            и открывает новые потоки доходов — всё под вашим полным контролем.
           </p>
         </div>
       </section>
@@ -33,68 +33,68 @@ const Index = () => {
       <section className="container mx-auto px-4 py-20">
         <div className="text-center mb-16 space-y-4">
           <h2 className="text-4xl md:text-5xl font-bold">
-            Choose Your Digital Evolution
+            Выберите свою цифровую эволюцию
           </h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Three packages designed to match your ambition and grow with your club
+            Три пакета, созданные для ваших амбиций и роста вместе с клубом
           </p>
         </div>
 
         <div className="grid md:grid-cols-3 gap-8 max-w-7xl mx-auto">
           <PricingCard
-            title="Standard"
+            title="Стандарт"
             price="1,000,000"
-            description="Fast digital presence for modern clubs"
+            description="Быстрое цифровое присутствие для современных клубов"
             features={[
-              "Club website or mobile app",
-              "Match schedule & results",
-              "Squad list with player profiles",
-              "League tables & statistics",
-              "Match protocols",
-              "Admin panel for content",
-              "News publishing system",
-              "Basic analytics & metrics"
+              "Сайт клуба или мобильное приложение",
+              "Расписание матчей и результаты",
+              "Список состава с профилями игроков",
+              "Турнирные таблицы и статистика",
+              "Протоколы матчей",
+              "Админ-панель для управления контентом",
+              "Система публикации новостей",
+              "Базовая аналитика и метрики"
             ]}
-            purpose="Launch your digital presence quickly and give fans a modern way to follow FC Kaisar"
+            purpose="Быстро запустите цифровое присутствие и дайте болельщикам современный способ следить за ФК Кайсар"
           />
 
           <PricingCard
-            title="Digital Ecosystem"
+            title="Цифровая Экосистема"
             price="20,000,000"
-            description="Complete professional platform"
+            description="Полная профессиональная платформа"
             features={[
-              "Everything in Standard, plus:",
-              "Multi-season player analytics",
-              "Advanced performance tracking",
-              "Player growth & development data",
-              "Full staff & coach profiles",
-              "Rich media sections (video, interviews)",
-              "Fan accounts & personalization",
-              "Mobile app with push notifications",
-              "Loyalty & subscription systems",
-              "CRM & database integrations"
+              "Всё из пакета Стандарт, плюс:",
+              "Мультисезонная аналитика игроков",
+              "Продвинутое отслеживание эффективности",
+              "Данные роста и развития игроков",
+              "Полные профили персонала и тренеров",
+              "Медиа-разделы (видео, интервью)",
+              "Личные кабинеты болельщиков",
+              "Мобильное приложение с push-уведомлениями",
+              "Системы лояльности и подписок",
+              "Интеграции с CRM и базами данных"
             ]}
-            purpose="Build a world-class digital ecosystem that engages fans deeply and positions FC Kaisar as a modern, professional club"
+            purpose="Создайте мирового класса цифровую экосистему, которая глубоко вовлекает фанатов и позиционирует ФК Кайсар как современный профессиональный клуб"
             highlighted
           />
 
           <PricingCard
-            title="Professional"
+            title="Профессиональный"
             price="35,000,000"
-            description="Full control + independent ticketing"
+            description="Полный контроль + независимая продажа билетов"
             features={[
-              "Everything in Digital Ecosystem, plus:",
-              "Independent ticket sales platform",
-              "No Ticketon — you own the system",
-              "QR code ticket generation",
-              "Gate validation & scanning",
-              "Complete sales dashboards",
-              "Revenue analytics by match/sector",
-              "Sales via website, app & fan profiles",
-              "Financial reporting & insights",
-              "Full platform ownership"
+              "Всё из пакета Цифровая Экосистема, плюс:",
+              "Независимая платформа продажи билетов",
+              "Без Ticketon — вы владеете системой",
+              "Генерация QR-кодов билетов",
+              "Валидация и сканирование на входе",
+              "Полные дашборды продаж",
+              "Аналитика выручки по матчам/секторам",
+              "Продажи через сайт, приложение и профили",
+              "Финансовая отчётность и аналитика",
+              "Полное владение платформой"
             ]}
-            purpose="Gain complete financial control and eliminate intermediary fees while creating new revenue streams for FC Kaisar"
+            purpose="Получите полный финансовый контроль и устраните посреднические комиссии, создавая новые потоки доходов для ФК Кайсар"
             premium
           />
         </div>
@@ -104,18 +104,18 @@ const Index = () => {
       <section className="container mx-auto px-4 py-20">
         <div className="max-w-4xl mx-auto text-center space-y-8 p-12 rounded-3xl bg-gradient-card backdrop-blur-sm border border-border shadow-card">
           <h2 className="text-4xl md:text-5xl font-bold">
-            Ready to Lead the Digital Future?
+            Готовы возглавить цифровое будущее?
           </h2>
           <p className="text-xl text-muted-foreground">
-            We're ready to present a working prototype and discuss implementation details 
-            tailored specifically for FC Kaisar.
+            Мы готовы представить рабочий прототип и обсудить детали реализации, 
+            адаптированные специально для ФК Кайсар.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Button size="lg" className="bg-gradient-premium text-primary-foreground hover:opacity-90 transition-opacity text-lg px-8 py-6">
-              Schedule a Presentation
+              Запланировать презентацию
             </Button>
             <Button size="lg" variant="outline" className="text-lg px-8 py-6 border-primary text-primary hover:bg-primary/10">
-              View Technical Details
+              Технические детали
             </Button>
           </div>
         </div>

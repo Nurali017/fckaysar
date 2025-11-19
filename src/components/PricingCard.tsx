@@ -32,12 +32,12 @@ export const PricingCard = ({
     >
       {highlighted && (
         <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-gradient-premium text-primary-foreground text-sm font-semibold rounded-full">
-          Most Popular
+          Самый популярный
         </div>
       )}
       {premium && (
         <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-accent text-accent-foreground text-sm font-semibold rounded-full">
-          Maximum Value
+          Максимальная выгода
         </div>
       )}
       
@@ -55,7 +55,7 @@ export const PricingCard = ({
         <div className="space-y-3">
           {features.map((feature, idx) => (
             <div key={idx} className="flex items-start gap-3">
-              {feature.includes("Everything in") ? (
+              {feature.includes("Всё из пакета") ? (
                 <div className="text-sm font-semibold text-accent pt-1">{feature}</div>
               ) : (
                 <>
@@ -72,7 +72,7 @@ export const PricingCard = ({
 
         <div className="pt-4 border-t border-border/50">
           <p className="text-sm text-muted-foreground italic">
-            <span className="font-semibold text-foreground">Purpose:</span> {purpose}
+            <span className="font-semibold text-foreground">Цель:</span> {purpose}
           </p>
         </div>
 
@@ -84,7 +84,7 @@ export const PricingCard = ({
           )}
           size="lg"
         >
-          Choose {title}
+          Выбрать {title}
         </Button>
       </div>
     </div>
