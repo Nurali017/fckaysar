@@ -29,7 +29,7 @@ export const HeroSlider = () => {
                     </h1>
                     <p className="text-lg md:text-xl text-gray-300 max-w-xl leading-relaxed">
                         "Дала Қасқырларының" сандық әлеміне қош келдіңіз.
-                        Қызылорда футболының тарихы, құмарлығы және болашағы.
+                        Қызылорда футболының тарихы, бүгінгісі және болашағы.
                     </p>
 
                     <div className="flex flex-col sm:flex-row gap-4 pt-8">
