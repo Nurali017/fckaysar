@@ -13,22 +13,23 @@ const Index = () => {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="container mx-auto px-4 py-20 md:py-32">
-        <div className="max-w-4xl mx-auto text-center space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
-          <div className="flex justify-center mb-8">
+      {/* Hero Section */}
+      <section className="container mx-auto px-4 py-12 md:py-32">
+        <div className="max-w-4xl mx-auto text-center space-y-6 md:space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
+          <div className="flex justify-center mb-6 md:mb-8">
             <img
               src={kaisarLogo}
               alt="FC Kaisar Logo"
-              className="w-32 h-32 md:w-40 md:h-40 object-contain drop-shadow-2xl hover:scale-105 transition-transform duration-500"
+              className="w-24 h-24 md:w-40 md:h-40 object-contain drop-shadow-2xl hover:scale-105 transition-transform duration-500"
             />
           </div>
-          <h1 className="text-4xl md:text-6xl font-bold leading-tight uppercase">
+          <h1 className="text-3xl md:text-6xl font-bold leading-tight uppercase">
             СОВРЕМЕННЫЕ ЦИФРОВЫЕ <br />
             <span className="bg-gradient-premium bg-clip-text text-transparent">
               ТЕХНОЛОГИИ ДЛЯ ФК КАЙСАР
             </span>
           </h1>
-          <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto">
+          <p className="text-lg md:text-2xl text-muted-foreground max-w-3xl mx-auto px-2">
             Поднимаем имидж клуба на новый уровень, внедряя передовые технологии для работы с болельщиками.
           </p>
         </div>

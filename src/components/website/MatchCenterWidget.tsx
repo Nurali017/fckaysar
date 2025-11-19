@@ -17,23 +17,23 @@ export const MatchCenterWidget = () => {
                     </div>
                 </div>
 
-                <div className="flex items-center justify-between gap-8 mb-8">
+                <div className="flex items-center justify-between gap-4 md:gap-8 mb-8">
                     <div className="flex flex-col items-center gap-2">
-                        <img src={kaisarLogo} alt="Kaisar" className="w-16 h-16 object-contain drop-shadow-lg" />
-                        <span className="font-bold text-lg">KAISAR</span>
+                        <img src={kaisarLogo} alt="Kaisar" className="w-12 h-12 md:w-16 md:h-16 object-contain drop-shadow-lg" />
+                        <span className="font-bold text-sm md:text-lg">KAISAR</span>
                     </div>
 
                     <div className="flex flex-col items-center gap-1">
-                        <span className="text-3xl font-black text-white/20">VS</span>
-                        <span className="text-xs text-gray-400 bg-white/5 px-2 py-1 rounded">
+                        <span className="text-2xl md:text-3xl font-black text-white/20">VS</span>
+                        <span className="text-[10px] md:text-xs text-gray-400 bg-white/5 px-2 py-1 rounded whitespace-nowrap">
                             24 МАМЫР
                         </span>
-                        <span className="text-xl font-bold text-white">18:00</span>
+                        <span className="text-lg md:text-xl font-bold text-white">18:00</span>
                     </div>
 
                     <div className="flex flex-col items-center gap-2">
-                        <img src={kairatLogo} alt="Kairat" className="w-16 h-16 object-contain drop-shadow-lg" />
-                        <span className="font-bold text-lg">KAIRAT</span>
+                        <img src={kairatLogo} alt="Kairat" className="w-12 h-12 md:w-16 md:h-16 object-contain drop-shadow-lg" />
+                        <span className="font-bold text-sm md:text-lg">KAIRAT</span>
                     </div>
                 </div>
 

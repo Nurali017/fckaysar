@@ -26,7 +26,7 @@ export const PricingCard = ({
   return (
     <div
       className={cn(
-        "relative p-8 rounded-2xl border backdrop-blur-sm transition-all duration-300 hover:scale-105",
+        "relative p-6 md:p-8 rounded-2xl border backdrop-blur-sm transition-all duration-300 hover:scale-105",
         highlighted && "border-primary shadow-glow bg-gradient-card",
         premium && "border-accent bg-gradient-to-br from-card/80 to-accent/10",
         !highlighted && !premium && "border-border bg-card/50"

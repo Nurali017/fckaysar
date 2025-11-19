@@ -22,65 +22,67 @@ export const StadiumMap = ({ onSectorSelect, selectedSector }: StadiumMapProps) 
     ];
 
     return (
-        <div className="relative w-full aspect-video bg-zinc-900 rounded-xl overflow-hidden border border-zinc-800 p-8">
-            <svg viewBox="0 0 800 600" className="w-full h-full drop-shadow-2xl">
-                {/* Field */}
-                <rect x="100" y="260" width="600" height="80" fill="#166534" rx="4" />
-                <rect x="100" y="260" width="600" height="80" stroke="white" strokeWidth="2" fill="none" opacity="0.3" rx="4" />
-                <circle cx="400" cy="300" r="10" fill="white" opacity="0.3" />
-                <line x1="400" y1="260" x2="400" y2="340" stroke="white" strokeWidth="2" opacity="0.3" />
+        <div className="relative w-full bg-zinc-900 rounded-xl overflow-hidden border border-zinc-800 p-4 md:p-8">
+            <div className="overflow-x-auto pb-4">
+                <svg viewBox="0 0 800 600" className="w-full min-w-[600px] h-auto drop-shadow-2xl">
+                    {/* Field */}
+                    <rect x="100" y="260" width="600" height="80" fill="#166534" rx="4" />
+                    <rect x="100" y="260" width="600" height="80" stroke="white" strokeWidth="2" fill="none" opacity="0.3" rx="4" />
+                    <circle cx="400" cy="300" r="10" fill="white" opacity="0.3" />
+                    <line x1="400" y1="260" x2="400" y2="340" stroke="white" strokeWidth="2" opacity="0.3" />
 
-                {/* Sectors */}
-                {sectors.map((sector) => {
-                    const isSelected = selectedSector === sector.id;
-                    let fillColor = "#3f3f46"; // zinc-700
-                    if (sector.type === "vip") fillColor = "#fbbf24"; // amber-400
-                    if (sector.type === "fan") fillColor = "#ef4444"; // red-500
-                    if (isSelected) fillColor = "#ffffff";
+                    {/* Sectors */}
+                    {sectors.map((sector) => {
+                        const isSelected = selectedSector === sector.id;
+                        let fillColor = "#3f3f46"; // zinc-700
+                        if (sector.type === "vip") fillColor = "#fbbf24"; // amber-400
+                        if (sector.type === "fan") fillColor = "#ef4444"; // red-500
+                        if (isSelected) fillColor = "#ffffff";
 
-                    return (
-                        <g
-                            key={sector.id}
-                            onClick={() => onSectorSelect(sector.id)}
-                            className="cursor-pointer transition-all duration-300 hover:opacity-80"
-                            style={{ transformOrigin: 'center', transform: isSelected ? 'scale(1.05)' : 'scale(1)' }}
-                        >
-                            <path
-                                d={sector.path}
-                                fill={fillColor}
-                                stroke="black"
-                                strokeWidth="2"
-                                className={isSelected ? "drop-shadow-[0_0_15px_rgba(255,255,255,0.5)]" : ""}
-                            />
-                            <text
-                                x={getCenter(sector.path).x}
-                                y={getCenter(sector.path).y}
-                                textAnchor="middle"
-                                dominantBaseline="middle"
-                                fill="black"
-                                fontSize="12"
-                                fontWeight="bold"
-                                className="pointer-events-none"
+                        return (
+                            <g
+                                key={sector.id}
+                                onClick={() => onSectorSelect(sector.id)}
+                                className="cursor-pointer transition-all duration-300 hover:opacity-80"
+                                style={{ transformOrigin: 'center', transform: isSelected ? 'scale(1.05)' : 'scale(1)' }}
                             >
-                                {sector.id}
-                            </text>
-                        </g>
-                    );
-                })}
-            </svg>
+                                <path
+                                    d={sector.path}
+                                    fill={fillColor}
+                                    stroke="black"
+                                    strokeWidth="2"
+                                    className={isSelected ? "drop-shadow-[0_0_15px_rgba(255,255,255,0.5)]" : ""}
+                                />
+                                <text
+                                    x={getCenter(sector.path).x}
+                                    y={getCenter(sector.path).y}
+                                    textAnchor="middle"
+                                    dominantBaseline="middle"
+                                    fill="black"
+                                    fontSize="12"
+                                    fontWeight="bold"
+                                    className="pointer-events-none"
+                                >
+                                    {sector.id}
+                                </text>
+                            </g>
+                        );
+                    })}
+                </svg>
 
-            <div className="absolute bottom-4 left-4 flex gap-4 text-xs text-zinc-400">
-                <div className="flex items-center gap-2">
-                    <div className="w-3 h-3 bg-zinc-700 rounded-sm"></div>
-                    <span>Стандарт</span>
-                </div>
-                <div className="flex items-center gap-2">
-                    <div className="w-3 h-3 bg-amber-400 rounded-sm"></div>
-                    <span>VIP</span>
-                </div>
-                <div className="flex items-center gap-2">
-                    <div className="w-3 h-3 bg-red-500 rounded-sm"></div>
-                    <span>Фан-сектор</span>
+                <div className="absolute bottom-4 left-4 flex gap-4 text-xs text-zinc-400">
+                    <div className="flex items-center gap-2">
+                        <div className="w-3 h-3 bg-zinc-700 rounded-sm"></div>
+                        <span>Стандарт</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                        <div className="w-3 h-3 bg-amber-400 rounded-sm"></div>
+                        <span>VIP</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                        <div className="w-3 h-3 bg-red-500 rounded-sm"></div>
+                        <span>Фан-сектор</span>
+                    </div>
                 </div>
             </div>
         </div>

@@ -33,7 +33,7 @@ const StatCard = ({ label, value, subValue, icon: Icon, delay = 0, variant = "de
             </div>
 
             <div className="relative z-10">
-                <div className={`font-black text-white tracking-tighter ${variant === 'large' ? 'text-7xl' : 'text-4xl'}`}>
+                <div className={`font-black text-white tracking-tighter ${variant === 'large' ? 'text-5xl md:text-7xl' : 'text-4xl'}`}>
                     {value}
                 </div>
                 {subValue && (

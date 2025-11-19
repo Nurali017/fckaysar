@@ -16,28 +16,28 @@ export const HeroSlider = () => {
             </div>
 
             {/* Content */}
-            <div className="relative container mx-auto px-4 h-full flex flex-col justify-center pt-20">
+            <div className="relative container mx-auto px-4 h-full flex flex-col justify-center pt-20 md:pt-0">
                 <div className="max-w-3xl space-y-6 animate-in fade-in slide-in-from-left duration-1000">
                     <span className="inline-block px-4 py-1 bg-red-600 text-white text-sm font-bold tracking-wider uppercase mb-4">
                         Ресми сайт
                     </span>
-                    <h1 className="text-7xl md:text-9xl font-black italic tracking-tighter text-white leading-none">
+                    <h1 className="text-5xl md:text-9xl font-black italic tracking-tighter text-white leading-none">
                         WE ARE <br />
                         <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-red-800">
                             KAISAR
                         </span>
                     </h1>
-                    <p className="text-xl text-gray-300 max-w-xl leading-relaxed">
+                    <p className="text-lg md:text-xl text-gray-300 max-w-xl leading-relaxed">
                         "Дала Қасқырларының" сандық әлеміне қош келдіңіз.
                         Қызылорда футболының тарихы, құмарлығы және болашағы.
                     </p>
 
-                    <div className="flex gap-4 pt-8">
-                        <Button size="lg" className="bg-red-600 hover:bg-red-700 text-white px-8 h-14 text-lg font-bold uppercase tracking-wide">
+                    <div className="flex flex-col sm:flex-row gap-4 pt-8">
+                        <Button size="lg" className="bg-red-600 hover:bg-red-700 text-white px-8 h-14 text-lg font-bold uppercase tracking-wide w-full sm:w-auto">
                             Абонемент сатып алу
                             <ArrowRight className="ml-2 w-5 h-5" />
                         </Button>
-                        <Button size="lg" variant="outline" className="border-white/30 text-white hover:bg-white/10 px-8 h-14 text-lg font-bold uppercase tracking-wide">
+                        <Button size="lg" variant="outline" className="border-white/30 text-white hover:bg-white/10 px-8 h-14 text-lg font-bold uppercase tracking-wide w-full sm:w-auto">
                             Клуб туралы
                         </Button>
                     </div>

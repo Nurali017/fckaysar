@@ -5,26 +5,26 @@ export const PrototypesSection = () => {
   const navigate = useNavigate();
   const prototypes = [
     {
-      title: "FC Kaisar ресми сайты",
-      description: "Қызыл-ақ түсті заманауи дизайн",
+      title: "Официальный сайт ФК Кайсар",
+      description: "Современный дизайн в красно-белых цветах",
       url: "/prototype/website",
       package: "Standard"
     },
     {
-      title: "Ойыншы профилі: Думан Нәрзілдаев",
-      description: "Жартылай қорғаушының толық статистикасы, жылу карталары және өнер көрсету тарихы",
+      title: "Профиль игрока: Думан Нарзилдаев",
+      description: "Полная статистика полузащитника, тепловые карты и история выступлений",
       url: "/prototype/player",
       package: "Digital Ecosystem"
     },
     {
-      title: "Kaisar мобильді қосымшасы",
-      description: "Астанаға қарсы ойынның матч-орталығы, жаңалықтар және жанкүйерлерге арналған хабарламалар",
+      title: "Мобильное приложение Kaisar",
+      description: "Матч-центр игры против Астаны, новости и уведомления для болельщиков",
       url: "/prototype/mobile",
       package: "Digital Ecosystem"
     },
     {
-      title: "Стадионға билеттер",
-      description: "Стадион схемасынан орындарды таңдау, бір рет басу арқылы сатып алу және QR-билет",
+      title: "Билеты на стадион",
+      description: "Выбор мест на схеме стадиона, покупка в один клик и QR-билет",
       url: "/prototype/ticketing",
       package: "Professional"
     }
@@ -34,14 +34,14 @@ export const PrototypesSection = () => {
     <section className="container mx-auto px-4 py-20">
       <div className="text-center mb-16 space-y-4">
         <h2 className="text-4xl md:text-5xl font-bold">
-          Платформаның Визуалды Прототиптері
+          Визуальные прототипы платформы
         </h2>
         <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-          FC Kaisar әр деңгейде алатын интерфейстердің мысалдары
+          Примеры интерфейсов, которые получит ФК Кайсар на каждом уровне
         </p>
       </div>
 
-      <div className="grid md:grid-cols-2 gap-8 max-w-7xl mx-auto">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 max-w-7xl mx-auto">
         {prototypes.map((prototype, idx) => (
           <Card
             key={idx}
@@ -65,7 +65,7 @@ export const PrototypesSection = () => {
 
               <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors flex items-center justify-center opacity-0 group-hover:opacity-100 z-20">
                 <span className="text-white font-semibold bg-black/50 px-4 py-2 rounded-full backdrop-blur-sm">
-                  Live Демоны ашу
+                  Открыть Live Демо
                 </span>
               </div>
             </div>
@@ -79,7 +79,7 @@ export const PrototypesSection = () => {
 
       <div className="mt-12 text-center">
         <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-          Барлық интерфейстер заманауи UX-стандарттарға сай әзірленген және мобильді құрылғылар мен планшеттерге бейімделген
+          Все интерфейсы разработаны по современным UX-стандартам и адаптированы под мобильные устройства и планшеты
         </p>
       </div>
     </section>

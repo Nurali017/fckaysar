@@ -25,7 +25,7 @@ export const HeatmapWidget = () => {
         <div className="container mx-auto px-4 py-16">
             <h2 className="text-2xl font-bold text-white mb-6">Алаңдағы белсенділік картасы</h2>
 
-            <div className="bg-gradient-to-br from-green-900 to-green-950 rounded-lg p-8 relative overflow-hidden">
+            <div className="bg-gradient-to-br from-green-900 to-green-950 rounded-lg p-4 md:p-8 relative overflow-hidden">
                 {/* Field markings */}
                 <svg className="w-full h-auto max-w-4xl mx-auto" viewBox="0 0 700 1050" fill="none">
                     {/* Outer boundary */}
