@@ -55,7 +55,7 @@ const Index = () => {
         <div className="grid md:grid-cols-3 gap-8 max-w-7xl mx-auto">
           <PricingCard
             title="Стандарт"
-            price="1,000,000"
+            price="2,000,000"
             originalPrice="3,000,000"
             description="Современный официальный сайт клуба"
             features={[
