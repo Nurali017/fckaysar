@@ -23,7 +23,7 @@ const richTextToPlainText = (richText: CMSRichText | undefined): string => {
 
   const extractText = (nodes: CMSRichTextNode[]): string => {
     return nodes
-      .map((node) => {
+      .map(node => {
         if (node.text) return node.text;
         if (node.children) return extractText(node.children);
         return '';
@@ -40,7 +40,7 @@ const richTextToPlainText = (richText: CMSRichText | undefined): string => {
  * Vite proxy handles /api/media → localhost:3000
  */
 const getMediaUrl = (media: CMSMedia | string | undefined): string => {
-  if (!media) return '/placeholder-news.jpg';
+  if (!media) return '/placeholder.svg';
 
   if (typeof media === 'string') {
     return media;
@@ -61,7 +61,7 @@ const transformNews = (cmsNews: CMSNews): NewsItem => ({
   content: richTextToPlainText(cmsNews.content),
   imageUrl: getMediaUrl(cmsNews.featuredImage),
   category: cmsNews.category,
-  tags: cmsNews.tags?.map((t) => t.tag) || [],
+  tags: cmsNews.tags?.map(t => t.tag) || [],
   publishedAt: cmsNews.publishedAt || cmsNews.createdAt,
   featured: cmsNews.featured,
 });
@@ -69,7 +69,9 @@ const transformNews = (cmsNews: CMSNews): NewsItem => ({
 /**
  * Fetch paginated news list
  */
-export const fetchNews = async (params?: CMSQueryParams): Promise<{
+export const fetchNews = async (
+  params?: CMSQueryParams
+): Promise<{
   news: NewsItem[];
   pagination: {
     total: number;
@@ -79,24 +81,21 @@ export const fetchNews = async (params?: CMSQueryParams): Promise<{
     hasPrev: boolean;
   };
 }> => {
-  const response = await cmsApiClient.get<CMSPaginatedResponse<CMSNews>>(
-    `/${COLLECTION}`,
-    {
-      params: {
-        limit: params?.limit || 10,
-        page: params?.page || 1,
-        sort: params?.sort || '-publishedAt',
-        depth: params?.depth || 1,
-        'where[status][equals]': 'published',
-        ...params?.where,
-      },
-    }
-  );
+  const response = await cmsApiClient.get<CMSPaginatedResponse<CMSNews>>(`/${COLLECTION}`, {
+    params: {
+      limit: params?.limit || 10,
+      page: params?.page || 1,
+      sort: params?.sort || '-publishedAt',
+      depth: params?.depth || 1,
+      'where[status][equals]': 'published',
+      ...params?.where,
+    },
+  });
 
   const { docs, totalDocs, page, totalPages, hasNextPage, hasPrevPage } = response.data;
 
   return {
-    news: docs.map((n) => transformNews(n)),
+    news: docs.map(n => transformNews(n)),
     pagination: {
       total: totalDocs,
       page,
@@ -111,37 +110,31 @@ export const fetchNews = async (params?: CMSQueryParams): Promise<{
  * Fetch featured news
  */
 export const fetchFeaturedNews = async (limit = 5): Promise<NewsItem[]> => {
-  const response = await cmsApiClient.get<CMSPaginatedResponse<CMSNews>>(
-    `/${COLLECTION}`,
-    {
-      params: {
-        limit,
-        'where[status][equals]': 'published',
-        'where[featured][equals]': true,
-        sort: '-publishedAt',
-        depth: 1,
-      },
-    }
-  );
+  const response = await cmsApiClient.get<CMSPaginatedResponse<CMSNews>>(`/${COLLECTION}`, {
+    params: {
+      limit,
+      'where[status][equals]': 'published',
+      'where[featured][equals]': true,
+      sort: '-publishedAt',
+      depth: 1,
+    },
+  });
 
-  return response.data.docs.map((n) => transformNews(n));
+  return response.data.docs.map(n => transformNews(n));
 };
 
 /**
  * Fetch single news by slug
  */
 export const fetchNewsBySlug = async (slug: string): Promise<NewsItem | null> => {
-  const response = await cmsApiClient.get<CMSPaginatedResponse<CMSNews>>(
-    `/${COLLECTION}`,
-    {
-      params: {
-        'where[slug][equals]': slug,
-        'where[status][equals]': 'published',
-        depth: 2,
-        limit: 1,
-      },
-    }
-  );
+  const response = await cmsApiClient.get<CMSPaginatedResponse<CMSNews>>(`/${COLLECTION}`, {
+    params: {
+      'where[slug][equals]': slug,
+      'where[status][equals]': 'published',
+      depth: 2,
+      limit: 1,
+    },
+  });
 
   if (response.data.docs.length === 0) return null;
   return transformNews(response.data.docs[0]);
@@ -150,22 +143,16 @@ export const fetchNewsBySlug = async (slug: string): Promise<NewsItem | null> =>
 /**
  * Fetch news by category
  */
-export const fetchNewsByCategory = async (
-  category: string,
-  limit = 10
-): Promise<NewsItem[]> => {
-  const response = await cmsApiClient.get<CMSPaginatedResponse<CMSNews>>(
-    `/${COLLECTION}`,
-    {
-      params: {
-        limit,
-        'where[status][equals]': 'published',
-        'where[category][equals]': category,
-        sort: '-publishedAt',
-        depth: 1,
-      },
-    }
-  );
+export const fetchNewsByCategory = async (category: string, limit = 10): Promise<NewsItem[]> => {
+  const response = await cmsApiClient.get<CMSPaginatedResponse<CMSNews>>(`/${COLLECTION}`, {
+    params: {
+      limit,
+      'where[status][equals]': 'published',
+      'where[category][equals]': category,
+      sort: '-publishedAt',
+      depth: 1,
+    },
+  });
 
-  return response.data.docs.map((n) => transformNews(n));
+  return response.data.docs.map(n => transformNews(n));
 };

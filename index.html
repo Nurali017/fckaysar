@@ -7,14 +7,13 @@
     <meta name="description" content="Официальный сайт футбольного клуба Кайсар. Новости, матчи, команда, статистика и галерея." />
     <meta name="author" content="FC Kaisar" />
     <meta name="theme-color" content="#000000" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
-    <!-- Security: Content Security Policy -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://static.elfsight.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com https://r2cdn.perplexity.ai data:; img-src 'self' data: https: blob:; connect-src 'self' https://kaysar.kz https://sota.id https://core.service.elfsight.com http://localhost:* wss: ws:; frame-ancestors 'none'; base-uri 'self'; form-action 'self';" />
+    <!-- Security: Content Security Policy (frame-ancestors must be in HTTP header, see nginx.conf) -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://static.elfsight.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com https://r2cdn.perplexity.ai data:; img-src 'self' data: https: blob:; connect-src 'self' https://kaysar.kz https://sota.id https://core.service.elfsight.com http://localhost:* wss: ws:; base-uri 'self'; form-action 'self';" />
 
-    <!-- Security: Prevent clickjacking -->
-    <meta http-equiv="X-Frame-Options" content="DENY" />
+    <!-- Note: X-Frame-Options is set via HTTP header in nginx.conf -->
 
     <!-- Security: XSS Protection -->
     <meta http-equiv="X-XSS-Protection" content="1; mode=block" />

@@ -26,6 +26,31 @@ const TeamPage = lazy(() => import('./pages/TeamPage'));
 const PrivacyPage = lazy(() => import('./pages/PrivacyPage'));
 const TermsPage = lazy(() => import('./pages/TermsPage'));
 
+// Новые страницы по образцу ФК Краснодар
+const StadiumPage = lazy(() => import('./pages/StadiumPage'));
+const CityPage = lazy(() => import('./pages/CityPage'));
+
+// Раздел Клуб
+const ClubPage = lazy(() => import('./pages/club/ClubPage'));
+const LeadershipPage = lazy(() => import('./pages/club/LeadershipPage'));
+const HistoryPage = lazy(() => import('./pages/club/HistoryPage'));
+const PartnersPage = lazy(() => import('./pages/club/PartnersPage'));
+const ContactsPage = lazy(() => import('./pages/club/ContactsPage'));
+
+// Раздел Академия (расширенный)
+const AcademyTeamsPage = lazy(() => import('./pages/academy/AcademyTeamsPage'));
+const AcademyCoachesPage = lazy(() => import('./pages/academy/AcademyCoachesPage'));
+const AcademyBranchesPage = lazy(() => import('./pages/academy/AcademyBranchesPage'));
+
+// Раздел Команда
+const TeamStaffPage = lazy(() => import('./pages/team/TeamStaffPage'));
+
+// Раздел Болельщику
+const FansPage = lazy(() => import('./pages/fans/FansPage'));
+const TransportPage = lazy(() => import('./pages/fans/TransportPage'));
+const RulesPage = lazy(() => import('./pages/fans/RulesPage'));
+const FAQPage = lazy(() => import('./pages/fans/FAQPage'));
+
 // Loading fallback component
 const PageLoader = () => (
   <div className="min-h-screen bg-black flex items-center justify-center">
@@ -58,18 +83,50 @@ const App = () => {
             <Suspense fallback={<PageLoader />}>
               <Routes>
                 <Route path="/" element={<Home />} />
+
+                {/* Раздел Клуб */}
+                <Route path="/club" element={<ClubPage />} />
+                <Route path="/club/leadership" element={<LeadershipPage />} />
+                <Route path="/club/history" element={<HistoryPage />} />
+                <Route path="/club/partners" element={<PartnersPage />} />
+                <Route path="/club/contacts" element={<ContactsPage />} />
                 <Route path="/about" element={<AboutPage />} />
+
+                {/* Раздел Команда */}
+                <Route path="/team" element={<TeamPage />} />
+                <Route path="/team/staff" element={<TeamStaffPage />} />
+                <Route path="/statistics" element={<StatsPage />} />
+
+                {/* Раздел Академия */}
+                <Route path="/academy" element={<AcademyPage />} />
+                <Route path="/academy/teams" element={<AcademyTeamsPage />} />
+                <Route path="/academy/coaches" element={<AcademyCoachesPage />} />
+                <Route path="/academy/branches" element={<AcademyBranchesPage />} />
+
+                {/* Стадион и Город */}
+                <Route path="/stadium" element={<StadiumPage />} />
+                <Route path="/city" element={<CityPage />} />
+
+                {/* Матчи */}
                 <Route path="/matches" element={<MatchesPage />} />
                 <Route path="/match/:id" element={<MatchPage />} />
-                <Route path="/statistics" element={<StatsPage />} />
-                <Route path="/academy" element={<AcademyPage />} />
-                <Route path="/shop" element={<ShopPage />} />
+
+                {/* Новости и Галерея */}
                 <Route path="/news" element={<NewsPage />} />
                 <Route path="/news/:slug" element={<NewsDetailPage />} />
                 <Route path="/gallery" element={<GalleryPage />} />
-                <Route path="/team" element={<TeamPage />} />
+
+                {/* Раздел Болельщику */}
+                <Route path="/fans" element={<FansPage />} />
+                <Route path="/fans/transport" element={<TransportPage />} />
+                <Route path="/fans/rules" element={<RulesPage />} />
+                <Route path="/fans/faq" element={<FAQPage />} />
+
+                {/* Магазин и Юридические страницы */}
+                <Route path="/shop" element={<ShopPage />} />
                 <Route path="/privacy" element={<PrivacyPage />} />
                 <Route path="/terms" element={<TermsPage />} />
+
                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                 <Route path="*" element={<NotFound />} />
               </Routes>

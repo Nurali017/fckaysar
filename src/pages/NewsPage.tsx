@@ -107,11 +107,11 @@ const NewsPage = () => {
                     >
                       <div className="relative aspect-video overflow-hidden">
                         <img
-                          src={item.imageUrl || '/placeholder-news.jpg'}
+                          src={item.imageUrl || '/placeholder.svg'}
                           alt={item.title}
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                          onError={(e) => {
-                            e.currentTarget.src = '/placeholder-news.jpg';
+                          onError={e => {
+                            e.currentTarget.src = '/placeholder.svg';
                             e.currentTarget.onerror = null;
                           }}
                         />
@@ -129,9 +129,7 @@ const NewsPage = () => {
                         <h3 className="font-bold text-lg mb-2 group-hover:text-red-400 transition-colors line-clamp-2">
                           {item.title}
                         </h3>
-                        <p className="text-gray-400 text-sm line-clamp-3">
-                          {item.excerpt}
-                        </p>
+                        <p className="text-gray-400 text-sm line-clamp-3">{item.excerpt}</p>
                       </div>
                     </motion.article>
                   </Link>

@@ -1,3 +1,6 @@
+/* Montserrat - профессиональный шрифт для футбольных клубов */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,700;1,800;1,900&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -37,16 +40,20 @@ All colors MUST be HSL.
     --ring: 217 91% 60%;
 
     --radius: 1rem;
-    
+
     /* Premium gradients */
     --gradient-hero: linear-gradient(135deg, hsl(222 47% 11%) 0%, hsl(220 40% 15%) 100%);
-    --gradient-card: linear-gradient(135deg, hsl(220 40% 15% / 0.8) 0%, hsl(220 40% 18% / 0.6) 100%);
+    --gradient-card: linear-gradient(
+      135deg,
+      hsl(220 40% 15% / 0.8) 0%,
+      hsl(220 40% 18% / 0.6) 100%
+    );
     --gradient-premium: linear-gradient(135deg, hsl(217 91% 60%) 0%, hsl(45 93% 58%) 100%);
-    
+
     /* Shadows */
     --shadow-glow: 0 0 40px hsl(217 91% 60% / 0.3);
     --shadow-card: 0 20px 60px -15px hsl(222 47% 11% / 0.5);
-    
+
     /* Animations */
     --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 
@@ -99,8 +106,27 @@ All colors MUST be HSL.
     -webkit-tap-highlight-color: rgba(220, 38, 38, 0.2);
   }
 
-  h1, h2, h3, h4, h5, h6 {
+  /* Типографика в стиле профессиональных футбольных клубов */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     @apply font-bold tracking-tight;
+    font-family: 'Montserrat', system-ui, sans-serif;
+  }
+
+  h1 {
+    @apply text-4xl md:text-6xl lg:text-7xl font-black uppercase tracking-tighter;
+  }
+
+  h2 {
+    @apply text-2xl md:text-4xl lg:text-5xl font-bold uppercase;
+  }
+
+  h3 {
+    @apply text-xl md:text-2xl font-bold uppercase;
   }
 
   /* Better selection colors */
@@ -110,7 +136,9 @@ All colors MUST be HSL.
   }
 
   /* Ensure touch targets are easier to hit */
-  button, a, [role="button"] {
+  button,
+  a,
+  [role='button'] {
     touch-action: manipulation;
   }
 

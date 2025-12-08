@@ -18,14 +18,11 @@ const NewsDetailPage = () => {
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
-    return date.toLocaleDateString(
-      lang === 'kk' ? 'kk-KZ' : lang === 'en' ? 'en-US' : 'ru-RU',
-      {
-        day: 'numeric',
-        month: 'long',
-        year: 'numeric',
-      }
-    );
+    return date.toLocaleDateString(lang === 'kk' ? 'kk-KZ' : lang === 'en' ? 'en-US' : 'ru-RU', {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric',
+    });
   };
 
   const handleShare = async () => {
@@ -86,10 +83,7 @@ const NewsDetailPage = () => {
               </div>
               <h1 className="text-3xl font-bold mb-4">{t('newsDetail.notFound')}</h1>
               <p className="text-gray-400 mb-8">{t('newsDetail.notFoundDesc')}</p>
-              <Button
-                onClick={() => navigate('/')}
-                className="bg-red-600 hover:bg-red-700"
-              >
+              <Button onClick={() => navigate('/')} className="bg-red-600 hover:bg-red-700">
                 <ChevronLeft className="w-4 h-4 mr-2" />
                 {t('newsDetail.backToNews')}
               </Button>
@@ -124,8 +118,8 @@ const NewsDetailPage = () => {
                     src={news.imageUrl}
                     alt={news.title}
                     className="w-full h-full object-cover"
-                    onError={(e) => {
-                      e.currentTarget.src = '/placeholder-news.jpg';
+                    onError={e => {
+                      e.currentTarget.src = '/placeholder.svg';
                       e.currentTarget.onerror = null;
                     }}
                   />

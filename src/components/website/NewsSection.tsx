@@ -40,8 +40,8 @@ const NewsCard = memo(({ news, index, formatDate, readMoreText }: NewsCardProps)
               alt={news.title}
               className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
               loading="lazy"
-              onError={(e) => {
-                e.currentTarget.src = '/placeholder-news.jpg';
+              onError={e => {
+                e.currentTarget.src = '/placeholder.svg';
                 e.currentTarget.onerror = null;
               }}
             />
@@ -51,8 +51,12 @@ const NewsCard = memo(({ news, index, formatDate, readMoreText }: NewsCardProps)
           </div>
         </CardHeader>
         <CardContent className="p-4 sm:p-6">
-          <p className="text-[10px] sm:text-xs text-gray-400 mb-1 sm:mb-2">{formatDate(news.publishedAt)}</p>
-          <h3 className="text-lg sm:text-xl font-bold text-white mb-2 line-clamp-2">{news.title}</h3>
+          <p className="text-[10px] sm:text-xs text-gray-400 mb-1 sm:mb-2">
+            {formatDate(news.publishedAt)}
+          </p>
+          <h3 className="text-lg sm:text-xl font-bold text-white mb-2 line-clamp-2">
+            {news.title}
+          </h3>
           <p className="text-gray-400 text-sm line-clamp-2 sm:line-clamp-3">{news.excerpt}</p>
         </CardContent>
         <CardFooter className="p-4 sm:p-6 pt-0">
@@ -73,11 +77,14 @@ export const NewsSection = () => {
   const newsItems = data?.news || [];
 
   // Memoized date formatter
-  const formatDate = useCallback((dateStr: string) => {
-    const date = new Date(dateStr);
-    const locale = i18n.language === 'kk' ? 'kk-KZ' : i18n.language === 'ru' ? 'ru-RU' : 'en-US';
-    return date.toLocaleDateString(locale, { day: 'numeric', month: 'long', year: 'numeric' });
-  }, [i18n.language]);
+  const formatDate = useCallback(
+    (dateStr: string) => {
+      const date = new Date(dateStr);
+      const locale = i18n.language === 'kk' ? 'kk-KZ' : i18n.language === 'ru' ? 'ru-RU' : 'en-US';
+      return date.toLocaleDateString(locale, { day: 'numeric', month: 'long', year: 'numeric' });
+    },
+    [i18n.language]
+  );
 
   return (
     <section className="container mx-auto px-4 py-12 sm:py-16 md:py-20">
@@ -85,15 +92,16 @@ export const NewsSection = () => {
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 mb-8 sm:mb-12">
         <div>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-2 text-white">
-            {t("news.title")}
+            {t('news.title')}
           </h2>
-          <p className="text-gray-400 text-base sm:text-lg">
-            {t("news.subtitle")}
-          </p>
+          <p className="text-gray-400 text-base sm:text-lg">{t('news.subtitle')}</p>
         </div>
         <Link to="/news">
-          <Button variant="outline" className="hidden md:flex border-white/20 text-white hover:bg-white/10 min-h-[44px]">
-            {t("news.viewAll")}
+          <Button
+            variant="outline"
+            className="hidden md:flex border-white/20 text-white hover:bg-white/10 min-h-[44px]"
+          >
+            {t('news.viewAll')}
             <ArrowRight className="ml-2 w-4 h-4" />
           </Button>
         </Link>
@@ -109,7 +117,7 @@ export const NewsSection = () => {
       {/* Error State */}
       {isError && (
         <div className="text-center py-12 sm:py-20 text-gray-400 text-sm sm:text-base">
-          {t("common.error")}
+          {t('common.error')}
         </div>
       )}
 
@@ -122,7 +130,7 @@ export const NewsSection = () => {
               news={news}
               index={index}
               formatDate={formatDate}
-              readMoreText={t("news.readMore")}
+              readMoreText={t('news.readMore')}
             />
           ))}
         </div>
@@ -130,8 +138,11 @@ export const NewsSection = () => {
 
       <div className="flex justify-center mt-6 sm:mt-8 md:hidden">
         <Link to="/news" className="w-full">
-          <Button variant="outline" className="border-white/20 text-white hover:bg-white/10 w-full min-h-[48px]">
-            {t("news.viewAll")}
+          <Button
+            variant="outline"
+            className="border-white/20 text-white hover:bg-white/10 w-full min-h-[48px]"
+          >
+            {t('news.viewAll')}
             <ArrowRight className="ml-2 w-4 h-4" />
           </Button>
         </Link>
