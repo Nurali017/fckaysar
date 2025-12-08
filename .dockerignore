@@ -61,4 +61,3 @@ scripts/
 # Production files (not needed in build)
 certbot/
 backups/
-nginx/
