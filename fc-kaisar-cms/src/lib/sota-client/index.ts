@@ -326,7 +326,7 @@ class SotaApiClient {
   private client: AxiosInstance
   private token: string | null = null
   private tokenExpiry: number = 0
-  private readonly TOKEN_LIFETIME_MS = 23 * 60 * 60 * 1000 // 23 hours (safe margin)
+  private readonly TOKEN_LIFETIME_MS = 50 * 60 * 1000 // 50 minutes (token lives 1 hour)
 
   constructor() {
     this.client = axios.create({
