@@ -14,7 +14,7 @@ const COLLECTION = 'leadership';
  * Vite proxy handles /api/media → localhost:3000
  */
 const getMediaUrl = (media: CMSMedia | string | undefined): string => {
-  if (!media) return '/images/placeholder-leader.jpg';
+  if (!media) return '/placeholder.svg';
 
   if (typeof media === 'string') {
     return media;
@@ -40,27 +40,24 @@ const transformLeadership = (cmsLeadership: CMSLeadership): LeadershipItem => ({
  */
 export const fetchLeadership = async (): Promise<LeadershipItem[]> => {
   try {
-    const response = await cmsApiClient.get<CMSPaginatedResponse<CMSLeadership>>(
-      `/${COLLECTION}`,
-      {
-        params: {
-          where: {
-            isActive: {
-              equals: true,
-            },
+    const response = await cmsApiClient.get<CMSPaginatedResponse<CMSLeadership>>(`/${COLLECTION}`, {
+      params: {
+        where: {
+          isActive: {
+            equals: true,
           },
-          sort: 'order',
-          limit: 10, // Max 10 leaders
         },
-      }
-    );
+        sort: 'order',
+        limit: 10, // Max 10 leaders
+      },
+    });
 
     if (!response.data?.docs) {
       logger.warn('No leadership data returned from CMS');
       return [];
     }
 
-    return response.data.docs.map((leader) => transformLeadership(leader));
+    return response.data.docs.map(leader => transformLeadership(leader));
   } catch (error) {
     logger.error('Error fetching leadership data:', error);
     throw error;
@@ -72,22 +69,19 @@ export const fetchLeadership = async (): Promise<LeadershipItem[]> => {
  */
 export const fetchLeadershipByKey = async (key: string): Promise<LeadershipItem | null> => {
   try {
-    const response = await cmsApiClient.get<CMSPaginatedResponse<CMSLeadership>>(
-      `/${COLLECTION}`,
-      {
-        params: {
-          where: {
-            key: {
-              equals: key,
-            },
-            isActive: {
-              equals: true,
-            },
+    const response = await cmsApiClient.get<CMSPaginatedResponse<CMSLeadership>>(`/${COLLECTION}`, {
+      params: {
+        where: {
+          key: {
+            equals: key,
           },
-          limit: 1,
+          isActive: {
+            equals: true,
+          },
         },
-      }
-    );
+        limit: 1,
+      },
+    });
 
     if (!response.data?.docs || response.data.docs.length === 0) {
       logger.warn(`No leadership member found with key: ${key}`);
