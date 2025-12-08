@@ -57,3 +57,8 @@ scripts/
 
 # Plans
 .claude/
+
+# Production files (not needed in build)
+certbot/
+backups/
+nginx/
