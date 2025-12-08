@@ -60,7 +60,7 @@ services:
       # SOTA API Configuration
       - SOTA_API_BASE_URL=https://sota.id
       - SOTA_API_EMAIL=${SOTA_API_EMAIL}
-      - SOTA_API_PASSWORD=${SOTA_API_PASSWORD}
+      - SOTA_API_PASSWORD_BASE64=${SOTA_API_PASSWORD_BASE64}
       - FC_KAISAR_TEAM_ID=94
       - SOTA_CURRENT_SEASON_ID=61
       # Sync API
