@@ -99,23 +99,16 @@ jobs:
             # Login to GitHub Container Registry
             echo "${GH_TOKEN}" | docker login ghcr.io -u ${GH_ACTOR} --password-stdin
 
-            # Create docker-compose override for pre-built images
-            cat > docker-compose.override.yml << EOF
-version: '3.8'
-services:
-  frontend:
-    image: ghcr.io/${OWNER_LC}/kaisar-frontend:latest
-    build: !reset null
-  cms:
-    image: ghcr.io/${OWNER_LC}/kaisar-cms:latest
-    build: !reset null
-EOF
+            # Pull latest images from GHCR
+            docker pull ghcr.io/${OWNER_LC}/kaisar-frontend:latest
+            docker pull ghcr.io/${OWNER_LC}/kaisar-cms:latest
 
-            # Pull latest images
-            docker compose -f docker-compose.prod.yml -f docker-compose.override.yml pull
+            # Tag images for local docker-compose
+            docker tag ghcr.io/${OWNER_LC}/kaisar-frontend:latest kaisar-frontend:latest
+            docker tag ghcr.io/${OWNER_LC}/kaisar-cms:latest kaisar-cms:latest
 
-            # Deploy with zero-downtime
-            docker compose -f docker-compose.prod.yml -f docker-compose.override.yml up -d --remove-orphans
+            # Deploy
+            docker compose -f docker-compose.prod.yml up -d --remove-orphans
 
             # Cleanup old images
             docker image prune -af --filter "until=24h"
