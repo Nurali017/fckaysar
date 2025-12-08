@@ -64,7 +64,7 @@ services:
       - FC_KAISAR_TEAM_ID=94
       - SOTA_CURRENT_SEASON_ID=61
       # Sync API
-      - SYNC_API_SECRET=${SYNC_API_SECRET}
+      - SYNC_SECRET=${SYNC_API_SECRET}
       # Translation
       - TRANSLATION_PROVIDER=libretranslate
     volumes:
