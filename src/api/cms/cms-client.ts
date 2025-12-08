@@ -7,9 +7,8 @@ import i18n from '@/i18n/config';
 import { logger } from '@/lib/logger';
 import { env } from '@/lib/env';
 
-// In development, use proxy path. In production, use full CMS URL
-const isDev = import.meta.env.DEV;
-const CMS_BASE_URL = isDev ? '/cms-api' : `${env.VITE_CMS_BASE_URL || 'http://localhost:3000'}/api`;
+// Use /cms-api path in both dev and production (nginx proxies to CMS)
+const CMS_BASE_URL = `${env.VITE_CMS_BASE_URL || ''}/cms-api`;
 
 /**
  * Create axios instance for CMS
