@@ -13,6 +13,8 @@ WORKDIR /app
 COPY package.json package-lock.json* ./
 RUN npm install
 
+# Install sharp for Linux Alpine (musl) - required for Next.js image optimization
+RUN npm install --os=linux --libc=musl --cpu=x64 sharp
 
 # Rebuild the source code only when needed
 FROM base AS builder
