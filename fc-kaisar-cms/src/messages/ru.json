@@ -1,0 +1,15 @@
+{
+    "home": {
+        "title": "FC Kaisar",
+        "subtitle": "Профессиональный футбольный клуб",
+        "latestNews": "Последние новости",
+        "upcomingMatches": "Ближайшие матчи"
+    },
+    "nav": {
+        "home": "Главная",
+        "news": "Новости",
+        "players": "Команда",
+        "matches": "Матчи",
+        "gallery": "Галерея"
+    }
+}

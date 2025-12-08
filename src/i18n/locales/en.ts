@@ -1,0 +1,504 @@
+export default {
+  translation: {
+    nav: {
+      news: "NEWS",
+      team: "TEAM",
+      matches: "MATCHES",
+      statistics: "STATISTICS",
+      about: "ABOUT CLUB",
+      tickets: "TICKETS",
+      shop: "SHOP",
+      academy: "ACADEMY",
+      login: "LOGIN"
+    },
+    hero: {
+      officialSite: "Official Website",
+      title: "WE ARE KAYSAR",
+      newEra: "NEW ERA",
+      teamName: "OF KAYSAR",
+      newOwner: "New Owner • New Coach • New Ambitions",
+      subtitle: 'Welcome to the digital world of "Steppe Wolves". History, present and future of Kyzylorda football.',
+      buyTickets: "Buy Season Ticket",
+      aboutClub: "About Club"
+    },
+    newLeadership: {
+      badge: "Team of Change",
+      title: "New Leadership",
+      description: 'We are starting a new chapter in the history of "Kaisar". Ambitious goals, professional approach and focus on development.',
+      leaders: {
+        owner: {
+          name: "Islamgali Kozbabaev",
+          role: "Club Owner",
+          quote: "\"We will build a club that all of Kyzylorda will be proud of.\"",
+          icon: "briefcase",
+          color: "from-yellow-500 to-amber-700"
+        },
+        head_coach: {
+          name: "Andrey Ferapontov",
+          role: "Head Coach",
+          quote: "\"Youth and ambition are our foundation for future victories.\"",
+          icon: "user",
+          color: "from-red-600 to-red-900"
+        },
+        sporting_director: {
+          name: "Aldan Baltaev",
+          role: "Sporting Director",
+          quote: "\"Loyalty to traditions, vision for the future.\"",
+          icon: "award",
+          color: "from-blue-600 to-blue-900"
+        }
+      },
+      stats: {
+        investment: {
+          value: "12 BLN ₸",
+          label: "Investment in club"
+        },
+        yearOfVictories: {
+          value: "2026",
+          label: "Year of great victories"
+        },
+        youthFocus: {
+          value: "U21",
+          label: "Youth development"
+        }
+      }
+    },
+    news: {
+      title: "NEWS",
+      subtitle: "Stay updated with latest club news",
+      viewAll: "View All",
+      readMore: "Read More",
+      categories: {
+        team: "Team News",
+        interviews: "Interviews",
+        academy: "Academy",
+        tickets: "Tickets"
+      }
+    },
+    matches: {
+      title: "MATCHES",
+      subtitle: "Team match schedule",
+      upcoming: "Upcoming Matches",
+      results: "Results",
+      live: "LIVE",
+      vs: "VS",
+      buyTicket: "Buy Ticket",
+      viewAll: "All Matches",
+      untilSeasonStart: "Until Season Start",
+      nextGame: "Next Game",
+      offseason: "Off-Season",
+      seasonPreparation: "Season Preparation",
+      seasonSummary: "Season Summary",
+      position: "Position in KPL",
+      games: "Games",
+      wins: "Wins",
+      draws: "Draws",
+      losses: "Losses",
+      fullStats: "Full Statistics",
+      firstMatchScheduled: "First match scheduled for March 2026",
+      countdown: {
+        days: "Days",
+        hours: "Hours",
+        minutes: "Mins",
+        seconds: "Secs"
+      }
+    },
+    team: {
+      title: "OUR TEAM",
+      subtitle: "Steppe Wolves Squad",
+      fullRoster: "Full Roster",
+      viewProfile: "View Profile",
+      positions: {
+        goalkeeper: "Goalkeeper",
+        defender: "Defender",
+        midfielder: "Midfielder",
+        forward: "Forward"
+      }
+    },
+    gallery: {
+      title: "GALLERY",
+      subtitle: "Club's best moments",
+      viewAll: "View All"
+    },
+    footer: {
+      description: "Kyzylorda Football Club. Steppe Wolves. Contributing to Kazakhstan football since 1968.",
+      quickLinks: "Quick Links",
+      aboutClub: "About Club",
+      contact: "Contact",
+      clubInfo: "Club Info",
+      links: {
+        news: "News",
+        team: "Team",
+        matches: "Matches",
+        statistics: "Statistics",
+        gallery: "Gallery",
+        shop: "Shop"
+      },
+      club: {
+        history: "History",
+        academy: "Academy",
+        partners: "Partners",
+        press: "Press",
+        contact: "Contact Us"
+      },
+      address: "Kyzylorda, Kazakhstan",
+      privacy: "Privacy Policy",
+      terms: "Terms of Use",
+      rights: "All rights reserved.",
+      copyright: "© 2024 FC Kaisar. All rights reserved."
+    },
+    common: {
+      loading: "Loading...",
+      error: "An error occurred",
+      close: "Close",
+      backToHome: "Back to Home"
+    },
+    shop: {
+      title: "Shop",
+      subtitle: "Official FC Kaisar merchandise and equipment",
+      official: "Official Store",
+      productsCount: "Products",
+      sizes: "Sizes",
+      new: "New",
+      sale: "Sale",
+      outOfStock: "Out of Stock",
+      comingSoon: "Online shopping coming soon!",
+      comingSoonDesc: "We are working on an online ordering system. For now, you can purchase items at our official store at the stadium.",
+      comingSoonBtn: "Coming Soon"
+    },
+    academy: {
+      title: "Academy",
+      comingSoon: "Section under development",
+      description: "We are working on creating the FC Kaisar Academy section. Here you will find information about our football school, coaching staff, and youth development programs.",
+      progress: "Development progress",
+      notify: "Notify me on launch",
+      whatToExpect: "What to expect",
+      feature1Title: "Training Programs",
+      feature1Desc: "Information about training programs for different age groups",
+      feature2Title: "Coaching Staff",
+      feature2Desc: "Profiles of our qualified coaches and their achievements",
+      feature3Title: "Academy Registration",
+      feature3Desc: "Online form for registration and trials"
+    },
+    instagram: {
+      badge: "Social",
+      title: "FOLLOW",
+      titleHighlight: "US",
+      followButton: "Follow on Instagram",
+      setupRequired: "Instagram feed coming soon"
+    },
+    player: {
+      notFound: "Player not found",
+      backToTeam: "Back to team",
+      nationality: "Nationality",
+      age: "Age",
+      years: "years old",
+      height: "Height",
+      weight: "Weight",
+      birthPlace: "Birthplace",
+      contract: "Contract until",
+      noBio: "Biography coming soon.",
+      seasonStats: "2024/25 Season Stats",
+      appearances: "Appearances",
+      goals: "Goals",
+      assists: "Assists",
+      cleanSheets: "Clean Sheets",
+      fullMatches: "Full Matches",
+      yellowCards: "Yellow Cards",
+      redCards: "Red Cards",
+      minutesPlayed: "Minutes",
+      previousClubs: "Previous Clubs",
+      otherPlayers: "Other Players"
+    },
+    playerStats: {
+      seasonStats: "Season Stats",
+      goals: "Goals",
+      assists: "Assists",
+      matches: "Matches",
+      rating: "Rating",
+      perGameAverage: "Per Game Average",
+      goalsPerGame: "Goals per game",
+      assistsPerGame: "Assists per game",
+      minutesPerGame: "Minutes per game",
+      discipline: "Discipline & Defense",
+      yellowCards: "Yellow Cards",
+      redCards: "Red Cards",
+      cleanSheets: "Clean Sheets",
+      cleanSheetRate: "Clean Sheet Rate",
+      goalkeeperStats: "Goalkeeper Stats",
+      avgMinutes: "Avg Minutes",
+      perGame: "per game",
+      season: "season",
+      playerAttributes: "Player Attributes",
+      inForm: "In Form",
+      hotForm: "Hot Form",
+      goodForm: "Good Form",
+      averageForm: "Average Form",
+      coldForm: "Cold Form",
+      formTrend: {
+        up: "Trending up",
+        down: "Trending down",
+        stable: "Stable"
+      },
+      attributes: {
+        shooting: "Shooting",
+        passing: "Passing",
+        defense: "Defense",
+        attack: "Attack",
+        duels: "Duels"
+      },
+      attributeDescriptions: {
+        shooting: "Shot accuracy & goals",
+        passing: "Passes & goal assists",
+        defense: "Tackles & clean sheets",
+        attack: "Goals & assists",
+        duels: "Duels per game"
+      },
+      attributeGuide: {
+        title: "Attributes Guide",
+        shooting: "40% shot accuracy + 60% goals per game",
+        passing: "70% passes + 30% goal assists",
+        defense: "60% tackles + 40% clean sheets",
+        attack: "Goals + assists per game",
+        duels: "Duels per game (max 15)"
+      }
+    },
+    playerHero: {
+      position: "Position",
+      number: "Number",
+      age: "Age",
+      nationality: "Nationality",
+      country: "Kazakhstan"
+    },
+    newsDetail: {
+      backToNews: "Back to News",
+      publishedOn: "Published on",
+      category: "Category",
+      tags: "Tags",
+      relatedNews: "Related News",
+      readMore: "Read More",
+      notFound: "News not found",
+      notFoundDesc: "The article you're looking for doesn't exist or has been removed.",
+      loading: "Loading article...",
+      errorLoading: "Failed to load article. Please try again later.",
+      share: "Share"
+    },
+    stats: {
+      title: "Team Statistics",
+      subtitle: "2024/25 Kazakhstan Premier League",
+      backToHome: "Back to Home",
+      errorLoading: "Unable to load team statistics. Please try again later.",
+      loadingStats: "Loading statistics...",
+      lastUpdated: "Last updated",
+      sections: {
+        keyStats: "Key Statistics",
+        keyStatsSubtitle: "Season overview at a glance",
+        performanceAnalysis: "Performance Analysis",
+        performanceSubtitle: "Match results and goals breakdown",
+        recentForm: "Recent Form",
+        recentFormSubtitle: "Results from the last 5 matches",
+        detailedStats: "Detailed Statistics",
+        detailedStatsSubtitle: "Attack, defense, discipline & attendance breakdown"
+      },
+      categories: {
+        attack: "Attack",
+        defense: "Defense",
+        discipline: "Discipline",
+        attendance: "Attendance"
+      },
+      labels: {
+        wins: "Wins",
+        draws: "Draws",
+        losses: "Losses",
+        points: "Points",
+        goals: "Goals",
+        goalDiff: "Goal Diff",
+        season: "Season",
+        winRate: "Win Rate",
+        matches: "Matches",
+        games: "games",
+        matchResults: "Match Results",
+        goalsAnalysis: "Goals Analysis",
+        seasonTotal: "Season Total",
+        goalDifference: "Goal Difference",
+        goalsScored: "Goals Scored",
+        goalsConceded: "Goals Conceded",
+        goalsPerGame: "Goals/Game",
+        concededPerGame: "Conceded/Game",
+        totalShots: "Total Shots",
+        shotsPerGame: "Shots/Game",
+        assists: "Assists",
+        assistsPerGame: "Assists/Game",
+        corners: "Corners",
+        shotAccuracy: "Shot Accuracy",
+        cleanSheetRate: "Clean Sheet Rate",
+        yellowCards: "Yellow Cards",
+        redCards: "Red Cards",
+        fouls: "Fouls",
+        foulsPerGame: "Fouls/Game",
+        cardsPerGame: "Cards/Game",
+        averageAttendance: "Average Attendance",
+        totalAttendance: "Total Attendance",
+        homeGames: "Home Games",
+        scored: "Scored",
+        conceded: "Conceded"
+      }
+    },
+    match: {
+      backToMatches: "All Matches",
+      share: "Share",
+      home: "Home",
+      away: "Away",
+      notFound: "Match not found",
+      error: "Failed to load match data",
+      noLineup: "Lineups not announced yet",
+      noStats: "Statistics not available",
+      tabs: {
+        overview: "Overview",
+        lineups: "Lineups",
+        stats: "Statistics"
+      },
+      status: {
+        ft: "FULL TIME",
+        live: "LIVE",
+        upcoming: "UPCOMING",
+        finished: "Finished"
+      },
+      stats: {
+        possession: "Possession",
+        shots: "Shots",
+        shotsOnTarget: "On Target",
+        shotsOffTarget: "Off Target",
+        passes: "Passes",
+        fouls: "Fouls",
+        corners: "Corners",
+        offsides: "Offsides",
+        yellowCards: "Yellow",
+        redCards: "Red"
+      },
+      lineup: {
+        formation: "Formation",
+        coach: "Coach",
+        substitutes: "Substitutes",
+        captain: "Captain"
+      },
+      referees: {
+        title: "Referees",
+        main: "Main Referee",
+        assistant1: "Assistant 1",
+        assistant2: "Assistant 2",
+        fourth: "Fourth Official",
+        var: "VAR"
+      },
+      overview: {
+        keyFacts: "Key Facts",
+        date: "Date",
+        tour: "Round",
+        competition: "Competition",
+        status: "Status",
+        quickStats: "Quick Stats"
+      },
+      position: {
+        goalkeeper: "Goalkeeper",
+        fieldPlayer: "Field Player"
+      },
+      player: {
+        number: "Number",
+        position: "Position",
+        captain: "Captain",
+        close: "Close"
+      }
+    },
+    about: {
+      title: "ABOUT CLUB",
+      subtitle: "FC Kaisar - Steppe Wolves",
+      backToHome: "Back to Home",
+      hero: {
+        badge: "Our Story",
+        title: "KAISAR",
+        description: "Kyzylorda Football Club. A team with a special place in Kazakhstan football history."
+      },
+      history: {
+        badge: "History",
+        title: "Our History",
+        description: "FC Kaisar continues the football traditions of Kyzylorda. Founded in 1968, the club has made a significant contribution to the development of Kazakhstan football.",
+        founded: "Founded",
+        foundedYear: "1968",
+        stadium: "Stadium",
+        stadiumName: "Kaisar Arena",
+        capacity: "Capacity",
+        capacityNumber: "8,320",
+        colors: "Team Colors",
+        colorsDesc: "Red and Black"
+      },
+      mission: {
+        badge: "Mission",
+        title: "Our Mission",
+        description: "Develop football in Kyzylorda and the region. Put our city on the map of Kazakhstan through high-level play and nurturing young talents.",
+        vision: "Vision",
+        visionText: "Become one of the best clubs in the Kazakhstan Premier League and represent our country with dignity in international tournaments.",
+        values: "Values",
+        value1: "Professionalism",
+        value2: "Tradition",
+        value3: "Development",
+        value4: "Community"
+      },
+      newEra: {
+        badge: "New Era",
+        title: "New Chapter",
+        description: "2024 marked the beginning of a new chapter in the club's history. New owners, new coach, new ambitions.",
+        point1: "New Leadership",
+        point2: "New Coach",
+        point3: "New Goals"
+      }
+    },
+    privacy: {
+      title: "Privacy Policy",
+      lastUpdated: "Last updated",
+      section1: {
+        title: "1. Information Collection",
+        content: "FC Kaisar collects personal information only when necessary to provide services. We respect your privacy and handle your data with care."
+      },
+      section2: {
+        title: "2. Data Usage",
+        content: "Your personal data is used solely for providing club services, including ticket purchases, newsletter subscriptions, and fan zone access."
+      },
+      section3: {
+        title: "3. Data Protection",
+        content: "We implement appropriate security measures to protect your personal information from unauthorized access, alteration, or disclosure."
+      }
+    },
+    terms: {
+      title: "Terms of Use",
+      lastUpdated: "Last updated",
+      section1: {
+        title: "1. Acceptance of Terms",
+        content: "By accessing and using the FC Kaisar website, you accept and agree to be bound by these terms and conditions."
+      },
+      section2: {
+        title: "2. Use of Website",
+        content: "You agree to use this website only for lawful purposes and in a way that does not infringe the rights of others."
+      },
+      section3: {
+        title: "3. Intellectual Property",
+        content: "All content on this website, including logos, images, and text, is the property of FC Kaisar and protected by copyright laws."
+      }
+    },
+    league: {
+      title: "League Standings",
+      showLess: "Show Less",
+      showAll: "Show All",
+      teams: "Teams",
+      error: "Unable to load league standings. Please try again later.",
+      noData: "No league data available",
+      table: {
+        club: "Club",
+        played: "MP",
+        won: "W",
+        drawn: "D",
+        lost: "L",
+        points: "PTS"
+      }
+    }
+  }
+};

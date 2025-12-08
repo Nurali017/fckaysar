@@ -1,0 +1,174 @@
+# FC Kaisar - Production Docker Compose
+# Domain: kaysar.kz
+# Server: Debian 12, 2 CPU / 2 GB RAM / 40 GB disk
+
+version: '3.8'
+
+services:
+  # ============================================
+  # MongoDB Database
+  # ============================================
+  mongo:
+    image: mongo:7.0
+    container_name: kaisar-mongo
+    restart: unless-stopped
+    command: mongod --wiredTigerCacheSizeGB 0.25
+    volumes:
+      - mongo_data:/data/db
+      - ./backups:/backups
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USER:-admin}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD:?MONGO_ROOT_PASSWORD is required}
+    networks:
+      - kaisar-network
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+        reservations:
+          memory: 256M
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  # ============================================
+  # Payload CMS (Next.js)
+  # ============================================
+  cms:
+    build:
+      context: ./fc-kaisar-cms
+      dockerfile: Dockerfile
+    container_name: kaisar-cms
+    restart: unless-stopped
+    depends_on:
+      mongo:
+        condition: service_healthy
+    environment:
+      - NODE_ENV=production
+      - NODE_OPTIONS=--max-old-space-size=512
+      - DATABASE_URI=mongodb://${MONGO_ROOT_USER:-admin}:${MONGO_ROOT_PASSWORD}@mongo:27017/kaisar?authSource=admin
+      - PAYLOAD_SECRET=${PAYLOAD_SECRET:?PAYLOAD_SECRET is required}
+      - NEXT_PUBLIC_SERVER_URL=https://kaysar.kz
+      # SOTA API Configuration
+      - SOTA_API_BASE_URL=https://sota.id
+      - SOTA_API_EMAIL=${SOTA_API_EMAIL}
+      - SOTA_API_PASSWORD=${SOTA_API_PASSWORD}
+      - FC_KAISAR_TEAM_ID=94
+      - SOTA_CURRENT_SEASON_ID=61
+      # Sync API
+      - SYNC_API_SECRET=${SYNC_API_SECRET}
+      # Translation
+      - TRANSLATION_PROVIDER=libretranslate
+    volumes:
+      - cms_media:/app/media
+    networks:
+      - kaisar-network
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:3000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    deploy:
+      resources:
+        limits:
+          memory: 768M
+        reservations:
+          memory: 384M
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "20m"
+        max-file: "3"
+
+  # ============================================
+  # Frontend (Static Build served by Nginx)
+  # ============================================
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - VITE_CMS_BASE_URL=https://kaysar.kz
+        - VITE_SOTA_API_BASE_URL=
+        - VITE_FC_KAISAR_TEAM_ID=94
+        - VITE_SOTA_CURRENT_SEASON_ID=61
+        - VITE_USE_MOCK_DATA=false
+        - VITE_ENABLE_LIVE_UPDATES=true
+    container_name: kaisar-frontend
+    restart: unless-stopped
+    networks:
+      - kaisar-network
+    deploy:
+      resources:
+        limits:
+          memory: 128M
+        reservations:
+          memory: 64M
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  # ============================================
+  # Nginx Reverse Proxy + SSL
+  # ============================================
+  nginx:
+    image: nginx:1.25-alpine
+    container_name: kaisar-nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+      - ./certbot/www:/var/www/certbot:ro
+      - ./certbot/conf:/etc/letsencrypt:ro
+      - cms_media:/var/www/media:ro
+    depends_on:
+      - frontend
+      - cms
+    networks:
+      - kaisar-network
+    deploy:
+      resources:
+        limits:
+          memory: 64M
+        reservations:
+          memory: 32M
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  # ============================================
+  # Certbot for SSL certificates
+  # ============================================
+  certbot:
+    image: certbot/certbot
+    container_name: kaisar-certbot
+    volumes:
+      - ./certbot/www:/var/www/certbot
+      - ./certbot/conf:/etc/letsencrypt
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+
+networks:
+  kaisar-network:
+    driver: bridge
+
+volumes:
+  mongo_data:
+    driver: local
+  cms_media:
+    driver: local

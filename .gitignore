@@ -12,6 +12,24 @@ dist
 dist-ssr
 *.local
 
+# Environment variables
+.env
+.env.local
+.env.*.local
+.env.development
+.env.production
+
+# CMS
+fc-kaisar-cms/node_modules
+fc-kaisar-cms/.env
+fc-kaisar-cms/.env.local
+fc-kaisar-cms/.next
+fc-kaisar-cms/media
+
+# Production
+backups/
+certbot/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

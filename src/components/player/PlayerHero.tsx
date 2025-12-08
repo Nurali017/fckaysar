@@ -1,6 +1,9 @@
+import { useTranslation } from 'react-i18next';
 import narzildaevPhoto from "@/assets/narzildaev.webp";
 
 export const PlayerHero = () => {
+    const { t } = useTranslation();
+
     return (
         <div className="relative min-h-[500px] h-auto overflow-hidden bg-gradient-to-br from-black via-red-950/30 to-black py-12 md:py-0">
             {/* Background Pattern */}
@@ -33,20 +36,20 @@ export const PlayerHero = () => {
 
                         <div className="grid grid-cols-2 gap-4 text-lg">
                             <div>
-                                <div className="text-gray-400 text-sm">Позиция</div>
-                                <div className="font-bold">Жартылай қорғаушы</div>
+                                <div className="text-gray-400 text-sm">{t('playerHero.position')}</div>
+                                <div className="font-bold">{t('team.positions.midfielder')}</div>
                             </div>
                             <div>
-                                <div className="text-gray-400 text-sm">Нөмірі</div>
+                                <div className="text-gray-400 text-sm">{t('playerHero.number')}</div>
                                 <div className="font-bold text-red-500">#10</div>
                             </div>
                             <div>
-                                <div className="text-gray-400 text-sm">Жасы</div>
+                                <div className="text-gray-400 text-sm">{t('playerHero.age')}</div>
                                 <div className="font-bold">31</div>
                             </div>
                             <div>
-                                <div className="text-gray-400 text-sm">Азаматтығы</div>
-                                <div className="font-bold">Қазақстан</div>
+                                <div className="text-gray-400 text-sm">{t('playerHero.nationality')}</div>
+                                <div className="font-bold">{t('playerHero.country')}</div>
                             </div>
                         </div>
                     </div>

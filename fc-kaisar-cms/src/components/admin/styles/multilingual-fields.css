@@ -1,0 +1,133 @@
+/* Language Tabs */
+.language-tabs {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 12px;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+.language-tab {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  color: #6b7280;
+  transition: all 0.2s;
+  margin-bottom: -2px;
+}
+
+.language-tab:hover {
+  color: #374151;
+  background-color: #f9fafb;
+}
+
+.language-tab.active {
+  color: #2563eb;
+  border-bottom-color: #2563eb;
+}
+
+.language-tab__flag {
+  font-size: 18px;
+}
+
+.language-tab__label {
+  user-select: none;
+}
+
+/* Translation Button */
+.translation-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.translation-button:hover:not(:disabled) {
+  background-color: #2563eb;
+}
+
+.translation-button:disabled {
+  background-color: #9ca3af;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.translation-button__icon {
+  font-size: 14px;
+}
+
+.translation-button__spinner {
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Multilingual Field */
+.multilingual-field {
+  margin-bottom: 20px;
+}
+
+.multilingual-field__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.multilingual-field__error {
+  padding: 8px 12px;
+  background-color: #fee2e2;
+  border: 1px solid #fecaca;
+  border-radius: 6px;
+  color: #991b1b;
+  font-size: 13px;
+  margin-bottom: 12px;
+}
+
+.multilingual-field__input-wrapper {
+  position: relative;
+}
+
+.multilingual-field__locale-indicator {
+  position: absolute;
+  top: -20px;
+  right: 0;
+  font-size: 11px;
+  color: #9ca3af;
+  font-weight: 500;
+}
+
+/* Field Label */
+.field-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.field-label .required {
+  color: #dc2626;
+  margin-left: 2px;
+}

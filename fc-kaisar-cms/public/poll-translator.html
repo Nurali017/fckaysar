@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Poll Translator - FC Kaisar CMS</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      overflow: hidden;
+    }
+
+    .header {
+      background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+      color: white;
+      padding: 30px;
+      text-align: center;
+    }
+
+    .header h1 {
+      font-size: 28px;
+      margin-bottom: 8px;
+    }
+
+    .header p {
+      opacity: 0.9;
+      font-size: 14px;
+    }
+
+    .content {
+      padding: 30px;
+    }
+
+    .field-group {
+      background: #f8f9fa;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .field-group h3 {
+      color: #2a5298;
+      margin-bottom: 15px;
+      font-size: 18px;
+    }
+
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #333;
+      font-size: 14px;
+    }
+
+    input[type="text"], textarea {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 15px;
+      transition: border-color 0.3s;
+      font-family: inherit;
+    }
+
+    input[type="text"]:focus, textarea:focus {
+      outline: none;
+      border-color: #667eea;
+    }
+
+    textarea {
+      min-height: 80px;
+      resize: vertical;
+    }
+
+    .options-list {
+      margin-top: 15px;
+    }
+
+    .option-item {
+      margin-bottom: 12px;
+    }
+
+    .option-item input {
+      width: 100%;
+    }
+
+    .add-option-btn {
+      background: #e0e0e0;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      transition: background 0.3s;
+      margin-top: 10px;
+    }
+
+    .add-option-btn:hover {
+      background: #d0d0d0;
+    }
+
+    .results {
+      background: #f0f7ff;
+      border-radius: 12px;
+      padding: 20px;
+      margin-top: 20px;
+      border-left: 4px solid #2a5298;
+    }
+
+    .results h3 {
+      color: #2a5298;
+      margin-bottom: 15px;
+      font-size: 18px;
+    }
+
+    .result-group {
+      background: white;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+    }
+
+    .result-group h4 {
+      color: #666;
+      font-size: 13px;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .lang-result {
+      display: grid;
+      grid-template-columns: 40px 1fr;
+      gap: 10px;
+      margin-bottom: 8px;
+      align-items: center;
+    }
+
+    .lang-flag {
+      font-size: 24px;
+    }
+
+    .lang-text {
+      background: #f8f9fa;
+      padding: 10px;
+      border-radius: 6px;
+      font-size: 14px;
+      color: #333;
+      word-break: break-word;
+    }
+
+    .translate-btn {
+      width: 100%;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      padding: 16px;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+      margin-top: 20px;
+    }
+
+    .translate-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+    }
+
+    .translate-btn:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 20px;
+      color: #666;
+    }
+
+    .error {
+      background: #fee;
+      color: #c33;
+      padding: 15px;
+      border-radius: 8px;
+      margin-top: 20px;
+      border-left: 4px solid #c33;
+    }
+
+    .copy-btn {
+      background: #28a745;
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      cursor: pointer;
+      margin-left: 10px;
+      transition: background 0.3s;
+    }
+
+    .copy-btn:hover {
+      background: #218838;
+    }
+
+    .instructions {
+      background: #fff3cd;
+      border: 2px solid #ffc107;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 25px;
+    }
+
+    .instructions h3 {
+      color: #856404;
+      margin-bottom: 12px;
+      font-size: 16px;
+    }
+
+    .instructions ol {
+      margin-left: 20px;
+      color: #856404;
+    }
+
+    .instructions li {
+      margin-bottom: 8px;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>🗳️ Poll Translator</h1>
+      <p>Переводите опросы на казахский и английский в один клик</p>
+    </div>
+
+    <div class="content">
+      <div class="instructions">
+        <h3>📋 Как использовать:</h3>
+        <ol>
+          <li>Заполните вопрос и варианты ответов на русском</li>
+          <li>Нажмите "Перевести всё"</li>
+          <li>Скопируйте переведённый текст в Payload CMS</li>
+          <li>Варианты ответов (имена игроков) можно оставить на русском - они одинаковые для всех языков</li>
+        </ol>
+      </div>
+
+      <div class="field-group">
+        <h3>📝 Вопрос опроса</h3>
+        <label>🇷🇺 Русский:</label>
+        <textarea id="question" placeholder="Например: Кто станет лучшим бомбардиром сезона?"></textarea>
+      </div>
+
+      <div class="field-group">
+        <h3>📋 Варианты ответов</h3>
+        <div class="options-list" id="optionsList">
+          <div class="option-item">
+            <label>Вариант 1:</label>
+            <input type="text" class="option-input" placeholder="Например: Динмухаммед Рустемулы">
+          </div>
+          <div class="option-item">
+            <label>Вариант 2:</label>
+            <input type="text" class="option-input" placeholder="Например: Айбол Абикен">
+          </div>
+        </div>
+        <button class="add-option-btn" onclick="addOption()">➕ Добавить вариант</button>
+        <p style="margin-top: 10px; font-size: 13px; color: #666;">💡 Варианты можно не переводить - они будут одинаковые на всех языках</p>
+      </div>
+
+      <button class="translate-btn" onclick="translateAll()" id="translateBtn">
+        ✨ Перевести всё
+      </button>
+
+      <div id="results"></div>
+      <div id="error"></div>
+    </div>
+  </div>
+
+  <script>
+    let optionCount = 2;
+
+    function addOption() {
+      if (optionCount >= 6) {
+        alert('Максимум 6 вариантов ответа');
+        return;
+      }
+
+      optionCount++;
+      const optionsList = document.getElementById('optionsList');
+      const newOption = document.createElement('div');
+      newOption.className = 'option-item';
+      newOption.innerHTML = `
+        <label>Вариант ${optionCount}:</label>
+        <input type="text" class="option-input" placeholder="Например: Ислам Чесноков">
+      `;
+      optionsList.appendChild(newOption);
+    }
+
+    async function translateText(text, targetLang) {
+      const response = await fetch('/api/translate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          text: text,
+          sourceLang: 'ru',
+          targetLang: targetLang
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error(`Translation failed: ${response.statusText}`);
+      }
+
+      const data = await response.json();
+      return data.translatedText;
+    }
+
+    function copyToClipboard(text, btn) {
+      navigator.clipboard.writeText(text).then(() => {
+        const originalText = btn.textContent;
+        btn.textContent = '✓ Скопировано!';
+        btn.style.background = '#218838';
+        setTimeout(() => {
+          btn.textContent = originalText;
+          btn.style.background = '#28a745';
+        }, 2000);
+      });
+    }
+
+    async function translateAll() {
+      const question = document.getElementById('question').value.trim();
+      const optionInputs = document.querySelectorAll('.option-input');
+      const options = Array.from(optionInputs)
+        .map(input => input.value.trim())
+        .filter(val => val !== '');
+
+      // Validation
+      if (!question) {
+        showError('Заполните вопрос опроса!');
+        return;
+      }
+
+      if (options.length < 2) {
+        showError('Добавьте минимум 2 варианта ответа!');
+        return;
+      }
+
+      // Clear previous results
+      document.getElementById('results').innerHTML = '';
+      document.getElementById('error').innerHTML = '';
+
+      // Show loading
+      const btn = document.getElementById('translateBtn');
+      btn.disabled = true;
+      btn.textContent = '⏳ Перевожу...';
+
+      try {
+        // Translate question to KK and EN
+        const [questionKk, questionEn] = await Promise.all([
+          translateText(question, 'kk'),
+          translateText(question, 'en')
+        ]);
+
+        // Display results
+        showResults(question, questionKk, questionEn, options);
+
+      } catch (error) {
+        showError(`Ошибка: ${error.message}`);
+      } finally {
+        btn.disabled = false;
+        btn.textContent = '✨ Перевести всё';
+      }
+    }
+
+    function showResults(questionRu, questionKk, questionEn, options) {
+      const resultsDiv = document.getElementById('results');
+
+      let html = '<div class="results">';
+      html += '<h3>✅ Результаты перевода</h3>';
+
+      // Question results
+      html += '<div class="result-group">';
+      html += '<h4>📝 Вопрос опроса</h4>';
+
+      html += '<div class="lang-result">';
+      html += '<div class="lang-flag">🇷🇺</div>';
+      html += `<div class="lang-text">${questionRu}<button class="copy-btn" onclick="copyToClipboard('${escapeQuotes(questionRu)}', this)">📋 Копировать</button></div>`;
+      html += '</div>';
+
+      html += '<div class="lang-result">';
+      html += '<div class="lang-flag">🇰🇿</div>';
+      html += `<div class="lang-text">${questionKk}<button class="copy-btn" onclick="copyToClipboard('${escapeQuotes(questionKk)}', this)">📋 Копировать</button></div>`;
+      html += '</div>';
+
+      html += '<div class="lang-result">';
+      html += '<div class="lang-flag">🇬🇧</div>';
+      html += `<div class="lang-text">${questionEn}<button class="copy-btn" onclick="copyToClipboard('${escapeQuotes(questionEn)}', this)">📋 Копировать</button></div>`;
+      html += '</div>';
+
+      html += '</div>';
+
+      // Options results
+      if (options.length > 0) {
+        html += '<div class="result-group">';
+        html += '<h4>📋 Варианты ответов (одинаковые на всех языках)</h4>';
+        options.forEach((option, index) => {
+          html += '<div class="lang-result">';
+          html += `<div style="font-weight: 600; color: #666;">${index + 1}.</div>`;
+          html += `<div class="lang-text">${option}<button class="copy-btn" onclick="copyToClipboard('${escapeQuotes(option)}', this)">📋 Копировать</button></div>`;
+          html += '</div>';
+        });
+        html += '</div>';
+      }
+
+      html += '</div>';
+
+      resultsDiv.innerHTML = html;
+    }
+
+    function showError(message) {
+      const errorDiv = document.getElementById('error');
+      errorDiv.innerHTML = `<div class="error">${message}</div>`;
+      setTimeout(() => {
+        errorDiv.innerHTML = '';
+      }, 5000);
+    }
+
+    function escapeQuotes(text) {
+      return text.replace(/'/g, "\\'").replace(/"/g, '&quot;');
+    }
+  </script>
+</body>
+</html>

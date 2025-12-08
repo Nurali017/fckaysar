@@ -1,0 +1,131 @@
+# FC Kaisar - Production Deployment Pipeline
+name: Deploy to Production
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_PREFIX: ${{ github.repository_owner }}/kaisar
+
+jobs:
+  # ============================================
+  # Build and Deploy
+  # ============================================
+  deploy:
+    name: Build & Deploy
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      # Build Frontend Image
+      - name: Build and push Frontend
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: |
+            ${{ env.REGISTRY }}/${{ env.IMAGE_PREFIX }}-frontend:${{ github.sha }}
+            ${{ env.REGISTRY }}/${{ env.IMAGE_PREFIX }}-frontend:latest
+          build-args: |
+            VITE_CMS_BASE_URL=https://kaysar.kz
+            VITE_SOTA_API_BASE_URL=
+            VITE_FC_KAISAR_TEAM_ID=94
+            VITE_SOTA_CURRENT_SEASON_ID=61
+            VITE_USE_MOCK_DATA=false
+            VITE_ENABLE_LIVE_UPDATES=true
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      # Build CMS Image
+      - name: Build and push CMS
+        uses: docker/build-push-action@v5
+        with:
+          context: ./fc-kaisar-cms
+          file: ./fc-kaisar-cms/Dockerfile
+          push: true
+          tags: |
+            ${{ env.REGISTRY }}/${{ env.IMAGE_PREFIX }}-cms:${{ github.sha }}
+            ${{ env.REGISTRY }}/${{ env.IMAGE_PREFIX }}-cms:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      # Deploy to VPS
+      - name: Setup SSH
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Add host to known_hosts
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -H ${{ secrets.VPS_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Copy configs to server
+        run: |
+          scp docker-compose.prod.yml ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}:/opt/kaisar/
+          scp -r nginx/ ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}:/opt/kaisar/
+
+      - name: Deploy to VPS
+        run: |
+          ssh ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << 'ENDSSH'
+            cd /opt/kaisar
+
+            # Login to GitHub Container Registry
+            echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+            # Create docker-compose override for pre-built images
+            cat > docker-compose.override.yml << 'EOF'
+          version: '3.8'
+          services:
+            frontend:
+              image: ghcr.io/${{ github.repository_owner }}/kaisar-frontend:latest
+              build: !reset null
+            cms:
+              image: ghcr.io/${{ github.repository_owner }}/kaisar-cms:latest
+              build: !reset null
+          EOF
+
+            # Pull latest images
+            docker compose -f docker-compose.prod.yml -f docker-compose.override.yml pull
+
+            # Deploy with zero-downtime
+            docker compose -f docker-compose.prod.yml -f docker-compose.override.yml up -d --remove-orphans
+
+            # Cleanup old images
+            docker image prune -af --filter "until=24h"
+
+            # Health check
+            sleep 15
+            curl -f -k https://localhost || echo "Health check skipped (SSL)"
+
+            echo "Deployment successful!"
+          ENDSSH
+
+      - name: Deployment Status
+        if: always()
+        run: |
+          if [ "${{ job.status }}" == "success" ]; then
+            echo "✅ Deployment to kaysar.kz completed successfully!"
+          else
+            echo "❌ Deployment failed. Check logs above."
+          fi

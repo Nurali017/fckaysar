@@ -1,0 +1,18 @@
+# Supported browsers for FC Kaisar project
+# https://browsersl.ist
+
+# Modern browsers only (last 2 versions, >1% usage)
+> 1%
+last 2 versions
+not dead
+
+# Explicitly exclude IE 11 (not supported by React 18, Radix UI)
+not IE 11
+
+# Minimum versions for specific features (backdrop-blur, :has(), etc.)
+chrome >= 87
+firefox >= 78
+safari >= 14
+edge >= 88
+ios_saf >= 14
+and_chr >= 87
