@@ -9,7 +9,6 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_PREFIX: ${{ github.repository_owner }}/kaisar
 
 jobs:
   # ============================================
@@ -36,6 +35,9 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Set lowercase owner name
+        run: echo "OWNER_LC=$(echo '${{ github.repository_owner }}' | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
+
       # Build Frontend Image
       - name: Build and push Frontend
         uses: docker/build-push-action@v5
@@ -44,8 +46,8 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: |
-            ${{ env.REGISTRY }}/${{ env.IMAGE_PREFIX }}-frontend:${{ github.sha }}
-            ${{ env.REGISTRY }}/${{ env.IMAGE_PREFIX }}-frontend:latest
+            ${{ env.REGISTRY }}/${{ env.OWNER_LC }}/kaisar-frontend:${{ github.sha }}
+            ${{ env.REGISTRY }}/${{ env.OWNER_LC }}/kaisar-frontend:latest
           build-args: |
             VITE_CMS_BASE_URL=https://kaysar.kz
             VITE_SOTA_API_BASE_URL=
@@ -64,8 +66,8 @@ jobs:
           file: ./fc-kaisar-cms/Dockerfile
           push: true
           tags: |
-            ${{ env.REGISTRY }}/${{ env.IMAGE_PREFIX }}-cms:${{ github.sha }}
-            ${{ env.REGISTRY }}/${{ env.IMAGE_PREFIX }}-cms:latest
+            ${{ env.REGISTRY }}/${{ env.OWNER_LC }}/kaisar-cms:${{ github.sha }}
+            ${{ env.REGISTRY }}/${{ env.OWNER_LC }}/kaisar-cms:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
@@ -86,24 +88,28 @@ jobs:
           scp -r nginx/ ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}:/opt/kaisar/
 
       - name: Deploy to VPS
+        env:
+          OWNER_LC: ${{ env.OWNER_LC }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_ACTOR: ${{ github.actor }}
         run: |
-          ssh ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << 'ENDSSH'
+          ssh ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << ENDSSH
             cd /opt/kaisar
 
             # Login to GitHub Container Registry
-            echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+            echo "${GH_TOKEN}" | docker login ghcr.io -u ${GH_ACTOR} --password-stdin
 
             # Create docker-compose override for pre-built images
-            cat > docker-compose.override.yml << 'EOF'
-          version: '3.8'
-          services:
-            frontend:
-              image: ghcr.io/${{ github.repository_owner }}/kaisar-frontend:latest
-              build: !reset null
-            cms:
-              image: ghcr.io/${{ github.repository_owner }}/kaisar-cms:latest
-              build: !reset null
-          EOF
+            cat > docker-compose.override.yml << EOF
+version: '3.8'
+services:
+  frontend:
+    image: ghcr.io/${OWNER_LC}/kaisar-frontend:latest
+    build: !reset null
+  cms:
+    image: ghcr.io/${OWNER_LC}/kaisar-cms:latest
+    build: !reset null
+EOF
 
             # Pull latest images
             docker compose -f docker-compose.prod.yml -f docker-compose.override.yml pull
