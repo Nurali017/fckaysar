@@ -20,7 +20,8 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
 # Build arguments for Vite environment variables
-ARG VITE_CMS_BASE_URL=https://kaysar.kz
+# VITE_CMS_BASE_URL not set = use /cms-api (proxied by nginx to CMS)
+ARG VITE_CMS_BASE_URL=
 ARG VITE_SOTA_API_BASE_URL=
 ARG VITE_FC_KAISAR_TEAM_ID=94
 ARG VITE_SOTA_CURRENT_SEASON_ID=61
