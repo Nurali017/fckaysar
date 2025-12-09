@@ -65,7 +65,6 @@ jobs:
             ${{ env.REGISTRY }}/${{ env.OWNER_LC }}/kaisar-frontend:${{ github.sha }}
             ${{ env.REGISTRY }}/${{ env.OWNER_LC }}/kaisar-frontend:latest
           build-args: |
-            VITE_CMS_BASE_URL=https://kaysar.kz
             VITE_SOTA_API_BASE_URL=
             VITE_FC_KAISAR_TEAM_ID=94
             VITE_SOTA_CURRENT_SEASON_ID=61
