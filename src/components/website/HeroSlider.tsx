@@ -5,11 +5,8 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-// Видео стадиона с дрона (Optimized ~9MB)
-const STADIUM_VIDEO = '/videos/stadium/stadium-drone-light.mp4';
-
-// Фото команды (как постер/фоллбэк и для мобильных)
-const TEAM_IMAGE = '/images/stadium/619f33af25c78.jpg';
+// Видео стадиона с дрона (Main ~15MB)
+const STADIUM_VIDEO = '/videos/hero-main.mp4';
 
 export const HeroSlider = () => {
   const { t } = useTranslation();
@@ -52,14 +49,7 @@ export const HeroSlider = () => {
     <div ref={ref} className="relative min-h-screen h-[100dvh] w-full overflow-hidden">
       {/* Background Media */}
       <motion.div style={{ y, scale }} className="absolute inset-0">
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          poster={TEAM_IMAGE}
-          className="w-full h-full object-cover"
-        >
+        <video autoPlay muted loop playsInline className="w-full h-full object-cover">
           <source src={STADIUM_VIDEO} type="video/mp4" />
         </video>
       </motion.div>

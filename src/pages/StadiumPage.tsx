@@ -122,12 +122,11 @@ const StadiumPage = () => {
       {/* Hero Section */}
       <section className="relative h-[clamp(350px,70vh,90vh)] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black z-10" />
-        <div
-          className="absolute inset-0 bg-cover bg-center"
-          style={{
-            backgroundImage: `url('/images/stadium/IMG_9947.JPG')`,
-          }}
-        />
+        <div className="absolute inset-0">
+          <video autoPlay muted loop playsInline className="w-full h-full object-cover">
+            <source src="/videos/hero-main.mp4" type="video/mp4" />
+          </video>
+        </div>
         <div className="relative z-20 text-center px-4">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
