@@ -12,11 +12,43 @@ env:
 
 jobs:
   # ============================================
-  # Build and Deploy
+  # Detect Changes
   # ============================================
-  deploy:
-    name: Build & Deploy
+  changes:
+    name: Detect Changes
     runs-on: ubuntu-latest
+    outputs:
+      frontend: ${{ steps.filter.outputs.frontend }}
+      cms: ${{ steps.filter.outputs.cms }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Check for changes
+        uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            frontend:
+              - 'src/**'
+              - 'public/**'
+              - 'index.html'
+              - 'package.json'
+              - 'vite.config.ts'
+              - 'tailwind.config.js'
+              - 'tsconfig.json'
+              - 'Dockerfile'
+            cms:
+              - 'fc-kaisar-cms/**'
+
+  # ============================================
+  # Build Frontend (parallel)
+  # ============================================
+  build-frontend:
+    name: Build Frontend
+    runs-on: ubuntu-latest
+    needs: changes
+    if: needs.changes.outputs.frontend == 'true' || github.event_name == 'workflow_dispatch'
     permissions:
       contents: read
       packages: write
@@ -24,22 +56,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      # Verify SSH connection FIRST before building anything
-      - name: Setup SSH
-        uses: webfactory/ssh-agent@v0.9.0
-        with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-
-      - name: Add host to known_hosts
-        run: |
-          mkdir -p ~/.ssh
-          ssh-keyscan -H ${{ secrets.VPS_HOST }} >> ~/.ssh/known_hosts
-
-      - name: Verify SSH connection
-        run: |
-          echo "Testing SSH connection to ${{ secrets.VPS_HOST }}..."
-          ssh -o ConnectTimeout=10 ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "echo 'SSH connection successful!' && docker --version"
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -54,7 +70,6 @@ jobs:
       - name: Set lowercase owner name
         run: echo "OWNER_LC=$(echo '${{ github.repository_owner }}' | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
 
-      # Build Frontend Image
       - name: Build and push Frontend
         uses: docker/build-push-action@v5
         with:
@@ -70,10 +85,38 @@ jobs:
             VITE_SOTA_CURRENT_SEASON_ID=61
             VITE_USE_MOCK_DATA=false
             VITE_ENABLE_LIVE_UPDATES=true
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+          cache-from: type=gha,scope=frontend
+          cache-to: type=gha,mode=max,scope=frontend
 
-      # Build CMS Image
+  # ============================================
+  # Build CMS (parallel)
+  # ============================================
+  build-cms:
+    name: Build CMS
+    runs-on: ubuntu-latest
+    needs: changes
+    if: needs.changes.outputs.cms == 'true' || github.event_name == 'workflow_dispatch'
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set lowercase owner name
+        run: echo "OWNER_LC=$(echo '${{ github.repository_owner }}' | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
+
       - name: Build and push CMS
         uses: docker/build-push-action@v5
         with:
@@ -83,10 +126,48 @@ jobs:
           tags: |
             ${{ env.REGISTRY }}/${{ env.OWNER_LC }}/kaisar-cms:${{ github.sha }}
             ${{ env.REGISTRY }}/${{ env.OWNER_LC }}/kaisar-cms:latest
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+          cache-from: type=gha,scope=cms
+          cache-to: type=gha,mode=max,scope=cms
 
-      # Deploy to VPS
+  # ============================================
+  # Deploy to VPS
+  # ============================================
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    needs: [changes, build-frontend, build-cms]
+    # Run deploy if at least one build ran, or if both were skipped (config-only changes)
+    if: |
+      always() &&
+      (needs.build-frontend.result == 'success' || needs.build-frontend.result == 'skipped') &&
+      (needs.build-cms.result == 'success' || needs.build-cms.result == 'skipped') &&
+      !(needs.build-frontend.result == 'skipped' && needs.build-cms.result == 'skipped' && github.event_name != 'workflow_dispatch')
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup SSH
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Add host to known_hosts
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -H ${{ secrets.VPS_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Verify SSH connection
+        run: |
+          echo "Testing SSH connection to ${{ secrets.VPS_HOST }}..."
+          ssh -o ConnectTimeout=10 ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "echo 'SSH connection successful!' && docker --version"
+
+      - name: Set lowercase owner name
+        run: echo "OWNER_LC=$(echo '${{ github.repository_owner }}' | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
+
       - name: Copy configs to server
         run: |
           scp docker-compose.prod.yml ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}:/opt/kaisar/
@@ -97,6 +178,8 @@ jobs:
           OWNER_LC: ${{ env.OWNER_LC }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GH_ACTOR: ${{ github.actor }}
+          FRONTEND_CHANGED: ${{ needs.changes.outputs.frontend }}
+          CMS_CHANGED: ${{ needs.changes.outputs.cms }}
         run: |
           ssh ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << ENDSSH
             cd /opt/kaisar
@@ -104,13 +187,18 @@ jobs:
             # Login to GitHub Container Registry
             echo "${GH_TOKEN}" | docker login ghcr.io -u ${GH_ACTOR} --password-stdin
 
-            # Pull latest images from GHCR
-            docker pull ghcr.io/${OWNER_LC}/kaisar-frontend:latest
-            docker pull ghcr.io/${OWNER_LC}/kaisar-cms:latest
+            # Pull only changed images
+            if [ "${FRONTEND_CHANGED}" == "true" ] || [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+              echo "Pulling frontend image..."
+              docker pull ghcr.io/${OWNER_LC}/kaisar-frontend:latest
+              docker tag ghcr.io/${OWNER_LC}/kaisar-frontend:latest kaisar-frontend:latest
+            fi
 
-            # Tag images for local docker-compose
-            docker tag ghcr.io/${OWNER_LC}/kaisar-frontend:latest kaisar-frontend:latest
-            docker tag ghcr.io/${OWNER_LC}/kaisar-cms:latest kaisar-cms:latest
+            if [ "${CMS_CHANGED}" == "true" ] || [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+              echo "Pulling CMS image..."
+              docker pull ghcr.io/${OWNER_LC}/kaisar-cms:latest
+              docker tag ghcr.io/${OWNER_LC}/kaisar-cms:latest kaisar-cms:latest
+            fi
 
             # Deploy
             docker compose -f docker-compose.prod.yml up -d --remove-orphans
@@ -119,7 +207,7 @@ jobs:
             docker image prune -af --filter "until=24h"
 
             # Health check
-            sleep 15
+            sleep 10
             curl -f -k https://localhost || echo "Health check skipped (SSL)"
 
             echo "Deployment successful!"

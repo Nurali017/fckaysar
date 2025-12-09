@@ -102,7 +102,7 @@ export const HeroSlider = () => {
           variants={containerVariants}
           initial="hidden"
           animate="visible"
-          className="max-w-4xl space-y-4 sm:space-y-6"
+          className="max-w-5xl space-y-4 sm:space-y-6"
         >
           {/* Badge */}
           <motion.span
@@ -115,7 +115,7 @@ export const HeroSlider = () => {
           {/* Main Title - АГРЕССИВНАЯ ТИПОГРАФИКА */}
           <motion.h1
             variants={itemVariants}
-            className="text-[clamp(3rem,10vw,8rem)] font-black italic uppercase leading-[0.85] tracking-[-0.04em]"
+            className="text-[clamp(2.5rem,9vw,7rem)] font-black italic uppercase leading-[0.85] tracking-[-0.04em]"
           >
             <span className="block text-white drop-shadow-2xl">{t('hero.newEra')}</span>
             <span className="block text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-red-600 to-red-800">
