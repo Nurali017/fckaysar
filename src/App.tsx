@@ -44,6 +44,7 @@ const InfrastructurePage = lazy(() => import('./pages/club/InfrastructurePage'))
 const AcademyTeamsPage = lazy(() => import('./pages/academy/AcademyTeamsPage'));
 const AcademyCoachesPage = lazy(() => import('./pages/academy/AcademyCoachesPage'));
 const AcademyBranchesPage = lazy(() => import('./pages/academy/AcademyBranchesPage'));
+const RecommendPlayerPage = lazy(() => import('./pages/academy/RecommendPlayerPage'));
 
 // Раздел Команда
 const TeamStaffPage = lazy(() => import('./pages/team/TeamStaffPage'));
@@ -105,6 +106,7 @@ const App = () => {
                 <Route path="/academy/teams" element={<AcademyTeamsPage />} />
                 <Route path="/academy/coaches" element={<AcademyCoachesPage />} />
                 <Route path="/academy/branches" element={<AcademyBranchesPage />} />
+                <Route path="/academy/recommend" element={<RecommendPlayerPage />} />
 
                 {/* Стадион и Город */}
                 <Route path="/stadium" element={<StadiumPage />} />

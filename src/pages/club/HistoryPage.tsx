@@ -205,7 +205,14 @@ const HistoryPage = () => {
 
       {/* Hero Section */}
       <section className="relative pt-32 pb-20 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-red-900/20 via-black to-black" />
+        <div className="absolute inset-0">
+          <img
+            src="/images/stadium/619f33af25c78.jpg"
+            alt="FC Kaisar History"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/80 to-black" />
+        </div>
         <div className="container mx-auto px-4 relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}

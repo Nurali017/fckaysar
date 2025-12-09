@@ -12,6 +12,7 @@ export * from './gallery-service';
 export * from './polls-service';
 export * from './match-service';
 export * from './leadership-service';
+export * from './player-recommendations-service';
 
 // Types
 export * from './types';

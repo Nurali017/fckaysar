@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button';
-import { Search, Menu, ChevronDown } from 'lucide-react';
+import { Search, Menu, ChevronDown, ChevronRight } from 'lucide-react';
 import kaisarLogo from '@/assets/kaysar-logo-nobg.png';
 import { useNavigate } from 'react-router-dom';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
@@ -149,6 +149,11 @@ export const WebsiteHeader = () => {
         },
         { key: 'coaches', label: t('nav.coaches', 'Тренеры'), path: '/academy/coaches' },
         { key: 'branches', label: t('nav.branches', 'Филиалы'), path: '/academy/branches' },
+        {
+          key: 'recommend',
+          label: t('nav.recommendPlayer', 'Рекомендовать игрока'),
+          path: '/academy/recommend',
+        },
       ],
     },
     {
@@ -184,15 +189,12 @@ export const WebsiteHeader = () => {
     },
   ];
 
-  // Плоский список для мобильного меню
-  const navLinks = [
-    { key: 'club', label: t('nav.club', 'Клуб'), path: '/club' },
-    { key: 'team', label: t('nav.team', 'Команда'), path: '/team' },
-    { key: 'academy', label: t('nav.academy', 'Академия'), path: '/academy' },
-    { key: 'matches', label: t('nav.matches', 'Ойындар'), path: '/matches' },
-    { key: 'news', label: t('nav.news', 'Жаңалықтар'), path: '/news' },
-    { key: 'fans', label: t('nav.fans', 'Жанкүйерге'), path: '/fans' },
-  ];
+  // State для раскрытых подменю в мобильном меню
+  const [expandedMobileMenu, setExpandedMobileMenu] = useState<string | null>(null);
+
+  const toggleMobileSubmenu = (key: string) => {
+    setExpandedMobileMenu(prev => (prev === key ? null : key));
+  };
 
   const handleNavClick = (path: string) => {
     if (path.startsWith('/#')) {
@@ -259,17 +261,44 @@ export const WebsiteHeader = () => {
                 <span className="font-bold text-xl tracking-tighter text-white">FC KAYSAR</span>
               </div>
               <nav className="flex flex-col gap-1">
-                {navLinks.map(link => (
-                  <button
-                    key={link.key}
-                    className="text-lg font-medium hover:text-red-500 transition-colors text-left py-3 min-h-[48px] active:bg-white/5 rounded-lg px-2 -mx-2"
-                    onClick={() => {
-                      handleNavClick(link.path);
-                      setIsOpen(false);
-                    }}
-                  >
-                    {link.label}
-                  </button>
+                {navStructure.map(section => (
+                  <div key={section.key}>
+                    <button
+                      className="w-full text-lg font-medium hover:text-red-500 transition-colors text-left py-3 min-h-[48px] active:bg-white/5 rounded-lg px-2 -mx-2 flex items-center justify-between"
+                      onClick={() => toggleMobileSubmenu(section.key)}
+                    >
+                      <span>{section.label}</span>
+                      <ChevronRight
+                        className={`w-5 h-5 transition-transform duration-200 ${
+                          expandedMobileMenu === section.key ? 'rotate-90 text-red-500' : ''
+                        }`}
+                      />
+                    </button>
+                    {/* Подменю */}
+                    <div
+                      className={`overflow-hidden transition-all duration-200 ${
+                        expandedMobileMenu === section.key
+                          ? 'max-h-[500px] opacity-100'
+                          : 'max-h-0 opacity-0'
+                      }`}
+                    >
+                      <div className="pl-4 border-l-2 border-red-500/30 ml-2 space-y-1 pb-2">
+                        {section.items.map(item => (
+                          <button
+                            key={item.key}
+                            className="w-full text-left py-2.5 px-2 text-gray-400 hover:text-white hover:bg-white/5 rounded-lg transition-colors min-h-[44px] text-sm"
+                            onClick={() => {
+                              handleNavClick(item.path || '');
+                              setIsOpen(false);
+                              setExpandedMobileMenu(null);
+                            }}
+                          >
+                            {item.label}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
                 ))}
               </nav>
 

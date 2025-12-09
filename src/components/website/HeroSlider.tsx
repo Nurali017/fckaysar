@@ -5,8 +5,11 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-// Фото стадиона Кайсар - ночной снимок
-const STADIUM_IMAGE = '/images/stadium/IMG_9742.JPG';
+// Видео стадиона с дрона (Optimized ~9MB)
+const STADIUM_VIDEO = '/videos/stadium/stadium-drone-light.mp4';
+
+// Фото команды (как постер/фоллбэк и для мобильных)
+const TEAM_IMAGE = '/images/stadium/619f33af25c78.jpg';
 
 export const HeroSlider = () => {
   const { t } = useTranslation();
@@ -18,7 +21,8 @@ export const HeroSlider = () => {
   });
 
   const y = useTransform(scrollYProgress, [0, 1], ['0%', '30%']);
-  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+  // Фото остается ярким до середины скролла, потом плавно исчезает
+  const opacity = useTransform(scrollYProgress, [0, 0.5, 1], [1, 0.8, 0]);
   const scale = useTransform(scrollYProgress, [0, 1], [1, 1.1]);
 
   const containerVariants = {
@@ -45,20 +49,36 @@ export const HeroSlider = () => {
   };
 
   return (
-    <div ref={ref} className="relative h-screen w-full overflow-hidden">
-      {/* Stadium Background Image */}
+    <div ref={ref} className="relative min-h-screen h-[100dvh] w-full overflow-hidden">
+      {/* Background Media */}
       <motion.div style={{ y, scale }} className="absolute inset-0">
-        <img src={STADIUM_IMAGE} alt="FC Kaisar Stadium" className="w-full h-full object-cover" />
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          poster={TEAM_IMAGE}
+          className="w-full h-full object-cover"
+        >
+          <source src={STADIUM_VIDEO} type="video/mp4" />
+        </video>
       </motion.div>
 
-      {/* Gradient Overlays - агрессивный стиль */}
+      {/* Gradient Overlays - Victory Style (Акцент на фото) */}
       <motion.div style={{ opacity }} className="absolute inset-0">
-        {/* Left dark gradient for text readability */}
-        <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent" />
-        {/* Bottom fade to next section */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/30" />
-        {/* Red glow behind text area - subtle */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_left,rgba(220,38,38,0.08)_0%,transparent_50%)]" />
+        {/* Very subtle overall tint - чтобы фото было сочным, но не темным */}
+        <div className="absolute inset-0 bg-black/10" />
+
+        {/* Left gradient - строгий фокус ТОЛЬКО под текстом */}
+        {/* "via-transparent" сдвинут ближе к началу, чтобы быстрее открыть фото */}
+        <div className="absolute inset-0 bg-gradient-to-r from-black/95 via-black/40 via-40% to-transparent" />
+
+        {/* Bottom fading - короткий, чтобы не закрывать низ фото */}
+        <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-black/20 to-transparent" />
+
+        {/* Золотистое/Красное торжественное свечение сверху (опционально) */}
+        {/* Добавляет "воздуха" и праздничности */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,215,0,0.05)_0%,transparent_50%)]" />
       </motion.div>
 
       {/* Diagonal Lines Pattern - subtle texture */}

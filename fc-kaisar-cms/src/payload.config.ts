@@ -21,6 +21,7 @@ import { TeamLogos } from './collections/TeamLogos'
 import { Infrastructure } from './collections/Infrastructure'
 import { Achievements } from './collections/Achievements'
 import { Veterans } from './collections/Veterans'
+import { PlayerRecommendations } from './collections/PlayerRecommendations'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -58,6 +59,7 @@ export default buildConfig({
     Infrastructure,
     Achievements,
     Veterans,
+    PlayerRecommendations,
   ],
   localization: {
     locales: [

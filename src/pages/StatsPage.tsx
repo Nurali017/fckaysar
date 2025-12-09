@@ -35,7 +35,7 @@ const StatsPage = () => {
       {/* Hero Section */}
       <section className="relative pt-24 pb-12 bg-gradient-to-b from-red-900/20 via-red-900/5 to-black overflow-hidden">
         {/* Background glow */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[400px] bg-red-500/10 rounded-full blur-[120px] pointer-events-none" />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[min(600px,100vw)] h-[min(400px,60vh)] bg-red-500/10 rounded-full blur-[120px] pointer-events-none" />
 
         <div className="container mx-auto px-4 relative z-10">
           {/* Back link */}
@@ -57,12 +57,13 @@ const StatsPage = () => {
               <div className="flex items-center gap-4 mb-2">
                 <BarChart3 className="w-10 h-10 text-red-500" />
                 <h1 className="text-4xl md:text-5xl lg:text-6xl font-black uppercase italic tracking-tighter">
-                  {t('stats.title').split(' ')[0]} <span className="text-red-500">{t('stats.title').split(' ').slice(1).join(' ')}</span>
+                  {t('stats.title').split(' ')[0]}{' '}
+                  <span className="text-red-500">
+                    {t('stats.title').split(' ').slice(1).join(' ')}
+                  </span>
                 </h1>
               </div>
-              <p className="text-gray-400 text-lg md:text-xl">
-                {t('stats.subtitle')}
-              </p>
+              <p className="text-gray-400 text-lg md:text-xl">{t('stats.subtitle')}</p>
             </motion.div>
 
             {/* Season Progress Ring */}
@@ -93,9 +94,7 @@ const StatsPage = () => {
         {error && (
           <Alert className="bg-red-500/10 border-red-500/20">
             <AlertCircle className="h-4 w-4 text-red-500" />
-            <AlertDescription className="text-white">
-              {t('stats.errorLoading')}
-            </AlertDescription>
+            <AlertDescription className="text-white">{t('stats.errorLoading')}</AlertDescription>
           </Alert>
         )}
 
@@ -171,7 +170,8 @@ const StatsPage = () => {
                 viewport={{ once: true }}
                 className="text-center text-gray-500 text-sm"
               >
-                {t('stats.lastUpdated')}: {new Date(stats.raw.lastUpdated).toLocaleDateString('ru-RU', {
+                {t('stats.lastUpdated')}:{' '}
+                {new Date(stats.raw.lastUpdated).toLocaleDateString('ru-RU', {
                   year: 'numeric',
                   month: 'long',
                   day: 'numeric',
@@ -197,12 +197,8 @@ interface SectionHeaderProps {
 
 const SectionHeader = ({ title, subtitle }: SectionHeaderProps) => (
   <div className="mb-6">
-    <h2 className="text-2xl md:text-3xl font-black text-white uppercase tracking-tight">
-      {title}
-    </h2>
-    {subtitle && (
-      <p className="text-gray-400 mt-1">{subtitle}</p>
-    )}
+    <h2 className="text-2xl md:text-3xl font-black text-white uppercase tracking-tight">{title}</h2>
+    {subtitle && <p className="text-gray-400 mt-1">{subtitle}</p>}
   </div>
 );
 

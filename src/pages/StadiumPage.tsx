@@ -20,6 +20,7 @@ const StadiumPage = () => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
   const stadiumPhotos = [
+    '/images/stadium/619f33af25c78.jpg',
     '/images/stadium/IMG_9947.JPG',
     '/images/stadium/IMG_9742.JPG',
     '/images/stadium/IMG_9743.JPG',
@@ -119,7 +120,7 @@ const StadiumPage = () => {
   return (
     <PageWrapper>
       {/* Hero Section */}
-      <section className="relative h-[70vh] min-h-[500px] flex items-center justify-center overflow-hidden">
+      <section className="relative h-[clamp(350px,70vh,90vh)] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black z-10" />
         <div
           className="absolute inset-0 bg-cover bg-center"

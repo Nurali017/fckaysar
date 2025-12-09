@@ -82,6 +82,7 @@ export interface Config {
     infrastructure: Infrastructure
     achievements: Achievement
     veterans: Veteran
+    'player-recommendations': PlayerRecommendation
     'payload-kv': PayloadKv
     'payload-locked-documents': PayloadLockedDocument
     'payload-preferences': PayloadPreference
@@ -104,6 +105,7 @@ export interface Config {
     infrastructure: InfrastructureSelect<false> | InfrastructureSelect<true>
     achievements: AchievementsSelect<false> | AchievementsSelect<true>
     veterans: VeteransSelect<false> | VeteransSelect<true>
+    'player-recommendations': PlayerRecommendationsSelect<false> | PlayerRecommendationsSelect<true>
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>
     'payload-locked-documents':
       | PayloadLockedDocumentsSelect<false>
@@ -880,6 +882,44 @@ export interface Veteran {
   createdAt: string
 }
 /**
+ * Рекомендации игроков от тренеров, агентов и болельщиков
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "player-recommendations".
+ */
+export interface PlayerRecommendation {
+  id: string
+  playerFullName: string
+  birthYear: number
+  position: 'goalkeeper' | 'defender' | 'midfielder' | 'forward'
+  currentClub?: string | null
+  city: string
+  /**
+   * Телефон или email
+   */
+  playerContact: string
+  recommenderName: string
+  recommenderRelation: 'coach' | 'agent' | 'family' | 'fan' | 'self'
+  recommenderEmail: string
+  recommenderPhone?: string | null
+  /**
+   * YouTube, Instagram, TikTok и т.д.
+   */
+  videoUrl?: string | null
+  /**
+   * Опишите почему рекомендуете этого игрока
+   */
+  comment: string
+  consentGiven: boolean
+  status?: ('new' | 'reviewing' | 'invited' | 'rejected' | 'archived') | null
+  /**
+   * Внутренние заметки (не видны пользователям)
+   */
+  adminNotes?: string | null
+  updatedAt: string
+  createdAt: string
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
@@ -962,6 +1002,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'veterans'
         value: string | Veteran
+      } | null)
+    | ({
+        relationTo: 'player-recommendations'
+        value: string | PlayerRecommendation
       } | null)
   globalSlug?: string | null
   user: {
@@ -1534,6 +1578,29 @@ export interface VeteransSelect<T extends boolean = true> {
       }
   isLegend?: T
   order?: T
+  updatedAt?: T
+  createdAt?: T
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "player-recommendations_select".
+ */
+export interface PlayerRecommendationsSelect<T extends boolean = true> {
+  playerFullName?: T
+  birthYear?: T
+  position?: T
+  currentClub?: T
+  city?: T
+  playerContact?: T
+  recommenderName?: T
+  recommenderRelation?: T
+  recommenderEmail?: T
+  recommenderPhone?: T
+  videoUrl?: T
+  comment?: T
+  consentGiven?: T
+  status?: T
+  adminNotes?: T
   updatedAt?: T
   createdAt?: T
 }
