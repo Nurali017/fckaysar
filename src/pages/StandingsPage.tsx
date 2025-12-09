@@ -134,14 +134,14 @@ const StandingsPage = () => {
             animate={{ opacity: 1, y: 0 }}
             className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden"
           >
-            <div className="hidden md:block overflow-x-auto">
+            <div className="overflow-x-auto">
               <table className="w-full">
                 <thead>
                   <tr className="border-b border-white/10 bg-white/5">
                     <th className="px-4 py-4 text-left text-xs font-bold text-gray-400 uppercase w-12">
                       {l.position}
                     </th>
-                    <th className="px-4 py-4 text-left text-xs font-bold text-gray-400 uppercase">
+                    <th className="px-4 py-4 text-left text-xs font-bold text-gray-400 uppercase min-w-[200px]">
                       {l.team}
                     </th>
                     <th className="px-4 py-4 text-center text-xs font-bold text-gray-400 uppercase w-12">
@@ -230,70 +230,6 @@ const StandingsPage = () => {
                   ))}
                 </tbody>
               </table>
-            </div>
-            <div className="md:hidden divide-y divide-white/10">
-              {standings.map((team, index) => (
-                <motion.div
-                  key={team.teamId}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.03 }}
-                  className={`p-4 ${team.isKaisar ? 'bg-red-500/10' : ''}`}
-                >
-                  <div className="flex items-center justify-between mb-3">
-                    <div className="flex items-center gap-3">
-                      <span
-                        className={`inline-flex items-center justify-center w-8 h-8 rounded-full text-sm font-bold ${team.rank <= 3 ? 'bg-yellow-500/20 text-yellow-500' : team.rank >= standings.length - 1 ? 'bg-red-500/20 text-red-500' : 'bg-white/10 text-gray-400'}`}
-                      >
-                        {team.rank}
-                      </span>
-                      <img
-                        src={team.logo}
-                        alt={team.teamName}
-                        className="w-8 h-8 object-contain"
-                        onError={e => (e.currentTarget.src = '/images/teams/placeholder-team.svg')}
-                      />
-                      <span
-                        className={`font-bold text-sm ${team.isKaisar ? 'text-red-500' : 'text-white'}`}
-                      >
-                        {team.teamName}
-                      </span>
-                    </div>
-                    <span
-                      className={`inline-flex items-center justify-center w-10 h-10 rounded-lg text-lg font-black ${team.isKaisar ? 'bg-red-500 text-white' : 'bg-white/10 text-white'}`}
-                    >
-                      {team.points}
-                    </span>
-                  </div>
-                  <div className="grid grid-cols-5 gap-2 text-center text-xs">
-                    <div>
-                      <p className="text-gray-500 mb-1">{l.played}</p>
-                      <p className="text-white font-medium">{team.played}</p>
-                    </div>
-                    <div>
-                      <p className="text-gray-500 mb-1">{l.won}</p>
-                      <p className="text-green-500 font-medium">{team.won}</p>
-                    </div>
-                    <div>
-                      <p className="text-gray-500 mb-1">{l.drawn}</p>
-                      <p className="text-white font-medium">{team.drawn}</p>
-                    </div>
-                    <div>
-                      <p className="text-gray-500 mb-1">{l.lost}</p>
-                      <p className="text-red-500 font-medium">{team.lost}</p>
-                    </div>
-                    <div>
-                      <p className="text-gray-500 mb-1">{l.gd}</p>
-                      <p
-                        className={`font-medium ${team.goalDifference > 0 ? 'text-green-500' : team.goalDifference < 0 ? 'text-red-500' : 'text-gray-400'}`}
-                      >
-                        {team.goalDifference > 0 ? '+' : ''}
-                        {team.goalDifference}
-                      </p>
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
             </div>
           </motion.div>
         )}

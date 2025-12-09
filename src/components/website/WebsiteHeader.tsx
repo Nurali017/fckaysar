@@ -184,7 +184,6 @@ export const WebsiteHeader = () => {
         { key: 'stadium', label: t('nav.stadium', 'Стадион'), path: '/stadium' },
         { key: 'city', label: t('nav.city', 'Кызылорда'), path: '/city' },
         { key: 'rules', label: t('nav.rules', 'Правила'), path: '/fans/rules' },
-        { key: 'faq', label: t('nav.faq', 'FAQ'), path: '/fans/faq' },
       ],
     },
   ];

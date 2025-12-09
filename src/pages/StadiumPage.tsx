@@ -12,6 +12,12 @@ import {
   Droplets,
   Camera,
 } from 'lucide-react';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion';
 import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
 
@@ -20,7 +26,6 @@ const StadiumPage = () => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
   const stadiumPhotos = [
-    '/images/stadium/619f33af25c78.jpg',
     '/images/stadium/IMG_9947.JPG',
     '/images/stadium/IMG_9742.JPG',
     '/images/stadium/IMG_9743.JPG',
@@ -114,6 +119,49 @@ const StadiumPage = () => {
       icon: Droplets,
       title: t('stadium.wateringPerrot', 'Полив Perrot'),
       description: t('stadium.wateringDesc', 'Немецкая система полива'),
+    },
+  ];
+
+  const faqItems = [
+    {
+      value: 'item-1',
+      question: t('stadium.faq.tickets.q', 'Как купить билеты?'),
+      answer: t(
+        'stadium.faq.tickets.a',
+        'Билеты можно купить онлайн на нашем сайте или в кассах стадиона в день матча. Продажа открывается за 3 дня до игры.'
+      ),
+    },
+    {
+      value: 'item-2',
+      question: t('stadium.faq.parking.q', 'Есть ли парковка на стадионе?'),
+      answer: t(
+        'stadium.faq.parking.a',
+        'Да, стадион располагает парковкой на 700 мест. Доступна с 6 улиц. Рекомендуем приезжать за час до матча, чтобы занять удобное место.'
+      ),
+    },
+    {
+      value: 'item-3',
+      question: t('stadium.faq.food.q', 'Можно ли проносить еду и напитки?'),
+      answer: t(
+        'stadium.faq.food.a',
+        'Пронос своей еды и напитков запрещен в целях безопасности. На территории стадиона работают фудкорты с широким выбором еды и напитков.'
+      ),
+    },
+    {
+      value: 'item-4',
+      question: t('stadium.faq.kids.q', 'Нужен ли билет для ребенка?'),
+      answer: t(
+        'stadium.faq.kids.a',
+        'Детям до 7 лет вход бесплатный без предоставления отдельного места (на руках у родителей). Для детей старше 7 лет необходимо приобретать детский билет.'
+      ),
+    },
+    {
+      value: 'item-5',
+      question: t('stadium.faq.items.q', 'Что запрещено проносить на стадион?'),
+      answer: t(
+        'stadium.faq.items.a',
+        'Запрещено проносить оружие, пиротехнику, стеклянную тару, алкоголь, профессиональную фото-видео технику без аккредитации.'
+      ),
     },
   ];
 
@@ -324,6 +372,40 @@ const StadiumPage = () => {
               )}
             </p>
           </motion.div>
+        </div>
+      </section>
+
+      {/* FAQ Section */}
+      <section className="py-20 bg-black">
+        <div className="container mx-auto px-4">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-4xl md:text-5xl font-bold uppercase mb-4">
+              {t('stadium.faqTitle', 'Часто задаваемые вопросы')}
+            </h2>
+            <p className="text-gray-400 text-lg max-w-2xl mx-auto">
+              {t('stadium.faqSubtitle', 'Ответы на популярные вопросы болельщиков')}
+            </p>
+          </motion.div>
+
+          <div className="max-w-3xl mx-auto">
+            <Accordion type="single" collapsible className="w-full">
+              {faqItems.map(item => (
+                <AccordionItem key={item.value} value={item.value} className="border-white/10">
+                  <AccordionTrigger className="text-xl font-bold hover:text-red-500 hover:no-underline text-left">
+                    {item.question}
+                  </AccordionTrigger>
+                  <AccordionContent className="text-gray-400 text-lg">
+                    {item.answer}
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
+          </div>
         </div>
       </section>
 
