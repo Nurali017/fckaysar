@@ -1,6 +1,5 @@
 import { useState } from 'react';
-import { WebsiteHeader } from '@/components/website/WebsiteHeader';
-import { Footer } from '@/components/website/Footer';
+import { PageWrapper } from '@/components/website/PageWrapper';
 import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Alert, AlertDescription } from '@/components/ui/alert';
@@ -40,10 +39,8 @@ const GalleryPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-black text-white font-sans" onKeyDown={handleKeyDown} tabIndex={0}>
-      <WebsiteHeader />
-
-      <main className="pt-20">
+    <PageWrapper>
+      <main className="pt-20" onKeyDown={handleKeyDown} tabIndex={0}>
         {/* Hero Section */}
         <section className="relative py-16 md:py-24 overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-b from-red-900/30 via-black to-black" />
@@ -150,7 +147,10 @@ const GalleryPage = () => {
                   {/* Navigation buttons */}
                   {selectedIndex > 0 && (
                     <button
-                      onClick={(e) => { e.stopPropagation(); goPrev(); }}
+                      onClick={e => {
+                        e.stopPropagation();
+                        goPrev();
+                      }}
                       className="absolute left-4 top-1/2 -translate-y-1/2 p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors"
                     >
                       <ChevronLeft className="w-6 h-6" />
@@ -158,7 +158,10 @@ const GalleryPage = () => {
                   )}
                   {selectedIndex < gallery.length - 1 && (
                     <button
-                      onClick={(e) => { e.stopPropagation(); goNext(); }}
+                      onClick={e => {
+                        e.stopPropagation();
+                        goNext();
+                      }}
                       className="absolute right-4 top-1/2 -translate-y-1/2 p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors"
                     >
                       <ChevronRight className="w-6 h-6" />
@@ -183,9 +186,7 @@ const GalleryPage = () => {
           </DialogContent>
         </Dialog>
       </main>
-
-      <Footer />
-    </div>
+    </PageWrapper>
   );
 };
 

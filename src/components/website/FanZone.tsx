@@ -60,7 +60,7 @@ export const FanZone = () => {
     if (polls.length === 0) return;
 
     const loadedVotes: Record<string, number | null> = {};
-    polls.forEach((poll) => {
+    polls.forEach(poll => {
       if (hasVotedInPoll(poll.id)) {
         loadedVotes[poll.id] = getPollVote(poll.id);
       }
@@ -74,7 +74,7 @@ export const FanZone = () => {
 
     // Save vote locally first
     savePollVote(pollId, optionIndex);
-    setVotedPolls((prev) => ({ ...prev, [pollId]: optionIndex }));
+    setVotedPolls(prev => ({ ...prev, [pollId]: optionIndex }));
 
     // Submit to CMS
     try {
@@ -106,10 +106,15 @@ export const FanZone = () => {
   }
 
   return (
-    <section className="py-12 sm:py-16 md:py-20 bg-black relative overflow-hidden">
-      {/* Background Elements */}
-      <div className="absolute top-0 right-0 w-64 sm:w-96 h-64 sm:h-96 bg-red-600/10 rounded-full blur-3xl" />
-      <div className="absolute bottom-0 left-0 w-64 sm:w-96 h-64 sm:h-96 bg-blue-600/10 rounded-full blur-3xl" />
+    <section className="py-12 sm:py-16 md:py-20 bg-zinc-900/60 relative overflow-hidden">
+      {/* Dots Pattern Background - subtle */}
+      <div className="absolute inset-0 bg-dots-pattern bg-dots-20 opacity-30" />
+
+      {/* Center Spotlight - very subtle */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(220,38,38,0.04)_0%,transparent_60%)]" />
+
+      {/* Top Border Line - softer */}
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/5 to-transparent" />
 
       <div className="container mx-auto px-4 relative z-10">
         <div className="text-center mb-8 sm:mb-12 md:mb-16">
@@ -144,12 +149,16 @@ export const FanZone = () => {
                 className="bg-zinc-900/50 border border-white/10 rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 backdrop-blur-sm"
               >
                 <div className="flex items-start sm:items-center gap-3 sm:gap-4 mb-4 sm:mb-6">
-                  <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full ${colors.iconBg} flex items-center justify-center flex-shrink-0`}>
+                  <div
+                    className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full ${colors.iconBg} flex items-center justify-center flex-shrink-0`}
+                  >
                     <Icon className={`w-5 h-5 sm:w-6 sm:h-6 ${colors.iconColor}`} />
                   </div>
                   <div className="min-w-0">
                     <h3 className="text-lg sm:text-xl font-bold text-white">{poll.question}</h3>
-                    {poll.description && <p className="text-gray-400 text-xs sm:text-sm">{poll.description}</p>}
+                    {poll.description && (
+                      <p className="text-gray-400 text-xs sm:text-sm">{poll.description}</p>
+                    )}
                   </div>
                 </div>
 
@@ -185,7 +194,11 @@ export const FanZone = () => {
 
                         <div className="relative flex justify-between items-center">
                           <div className="flex items-center gap-2 min-w-0">
-                            {isSelected && <CheckCircle2 className={`w-4 h-4 sm:w-5 sm:h-5 ${colors.iconColor} flex-shrink-0`} />}
+                            {isSelected && (
+                              <CheckCircle2
+                                className={`w-4 h-4 sm:w-5 sm:h-5 ${colors.iconColor} flex-shrink-0`}
+                              />
+                            )}
                             <span
                               className={`font-medium text-sm sm:text-base truncate ${
                                 voted
@@ -200,7 +213,9 @@ export const FanZone = () => {
                           </div>
 
                           {voted ? (
-                            <span className={`font-bold text-sm sm:text-base flex-shrink-0 ml-2 ${isSelected ? 'text-white' : 'text-gray-500'}`}>
+                            <span
+                              className={`font-bold text-sm sm:text-base flex-shrink-0 ml-2 ${isSelected ? 'text-white' : 'text-gray-500'}`}
+                            >
                               {percentage}%
                             </span>
                           ) : (

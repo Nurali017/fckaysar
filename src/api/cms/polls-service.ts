@@ -3,18 +3,14 @@
  */
 
 import cmsApiClient from './cms-client';
-import type {
-  CMSPoll,
-  CMSPaginatedResponse,
-  PollItem,
-  PollOptionItem,
-} from './types';
+import type { CMSPoll, CMSPaginatedResponse, PollItem, PollOptionItem } from './types';
 import { env } from '@/lib/env';
 
 const COLLECTION = 'polls';
-// In development, use proxy path. In production, use full CMS URL
-const isDev = import.meta.env.DEV;
-const CMS_BASE_URL = isDev ? '/cms-api' : `${env.VITE_CMS_BASE_URL || 'http://localhost:3000'}/api`;
+// If CMS base URL is set (direct access), use /api path
+// If not set (going through Vite proxy), use /cms-api which gets rewritten to /api
+const cmsBaseUrl = env.VITE_CMS_BASE_URL;
+const CMS_BASE_URL = cmsBaseUrl ? `${cmsBaseUrl}/api` : '/cms-api';
 
 /**
  * Get localized text with fallback to Russian
@@ -58,37 +54,31 @@ const transformPoll = (cmsPoll: CMSPoll, lang: string = 'ru'): PollItem => {
  * Fetch all active polls
  */
 export const fetchActivePolls = async (limit = 10, lang = 'ru'): Promise<PollItem[]> => {
-  const response = await cmsApiClient.get<CMSPaginatedResponse<CMSPoll>>(
-    `/${COLLECTION}`,
-    {
-      params: {
-        limit,
-        'where[status][equals]': 'active',
-        sort: '-createdAt',
-        depth: 1,
-      },
-    }
-  );
+  const response = await cmsApiClient.get<CMSPaginatedResponse<CMSPoll>>(`/${COLLECTION}`, {
+    params: {
+      limit,
+      'where[status][equals]': 'active',
+      sort: '-createdAt',
+      depth: 1,
+    },
+  });
 
-  return response.data.docs.map((poll) => transformPoll(poll, lang));
+  return response.data.docs.map(poll => transformPoll(poll, lang));
 };
 
 /**
  * Fetch featured poll (for homepage)
  */
 export const fetchFeaturedPoll = async (lang = 'ru'): Promise<PollItem | null> => {
-  const response = await cmsApiClient.get<CMSPaginatedResponse<CMSPoll>>(
-    `/${COLLECTION}`,
-    {
-      params: {
-        limit: 1,
-        'where[status][equals]': 'active',
-        'where[featured][equals]': true,
-        sort: '-createdAt',
-        depth: 1,
-      },
-    }
-  );
+  const response = await cmsApiClient.get<CMSPaginatedResponse<CMSPoll>>(`/${COLLECTION}`, {
+    params: {
+      limit: 1,
+      'where[status][equals]': 'active',
+      'where[featured][equals]': true,
+      sort: '-createdAt',
+      depth: 1,
+    },
+  });
 
   if (response.data.docs.length === 0) return null;
   return transformPoll(response.data.docs[0], lang);

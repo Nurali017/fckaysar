@@ -13,9 +13,9 @@ import { getTeamLogo, FC_KAISAR_TEAM_ID } from '@/data/teamLogos';
 import { env } from '@/lib/env';
 
 // In development, use relative paths (Vite proxy handles them)
-// In production, use full CMS URL
+// In production, use full CMS URL from env
 const isDev = import.meta.env.DEV;
-const CMS_MEDIA_URL = isDev ? '' : (env.VITE_CMS_BASE_URL || 'http://localhost:3000');
+const CMS_MEDIA_URL = isDev ? '' : env.VITE_CMS_BASE_URL;
 
 /**
  * CMS Match response type
@@ -61,10 +61,14 @@ interface CMSMatchesResponse {
  */
 const getDateLocale = (lang: string) => {
   switch (lang) {
-    case 'kk': return kk;
-    case 'ru': return ru;
-    case 'en': return enUS;
-    default: return ru;
+    case 'kk':
+      return kk;
+    case 'ru':
+      return ru;
+    case 'en':
+      return enUS;
+    default:
+      return ru;
   }
 };
 
@@ -115,9 +119,12 @@ const transformCMSMatch = (match: CMSMatch, locale: string): Match => {
   // Get time display based on status
   const getTimeDisplay = () => {
     switch (status) {
-      case 'finished': return 'FT';
-      case 'live': return 'LIVE';
-      default: return 'TBD';
+      case 'finished':
+        return 'FT';
+      case 'live':
+        return 'LIVE';
+      default:
+        return 'TBD';
     }
   };
 

@@ -16,11 +16,18 @@ const envSchema = z.object({
   VITE_SOTA_CURRENT_SEASON_ID: z.string().regex(/^\d+$/, 'Season ID must be numeric').default('61'),
 
   // CMS Configuration
-  VITE_CMS_BASE_URL: z.string().url().optional().default('http://localhost:3000'),
+  // Empty string = use Vite proxy (/cms-api), URL = direct connection
+  VITE_CMS_BASE_URL: z.string().optional().default(''),
 
   // Feature Flags
-  VITE_USE_MOCK_DATA: z.string().transform(val => val === 'true').default('false'),
-  VITE_ENABLE_LIVE_UPDATES: z.string().transform(val => val === 'true').default('true'),
+  VITE_USE_MOCK_DATA: z
+    .string()
+    .transform(val => val === 'true')
+    .default('false'),
+  VITE_ENABLE_LIVE_UPDATES: z
+    .string()
+    .transform(val => val === 'true')
+    .default('true'),
 
   // Contact Information
   VITE_FC_KAISAR_PHONE: z.string().optional().default('+7 (7242) 26-00-00'),

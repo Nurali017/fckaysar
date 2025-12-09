@@ -87,65 +87,73 @@ export const NewsSection = () => {
   );
 
   return (
-    <section className="container mx-auto px-4 py-12 sm:py-16 md:py-20">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 mb-8 sm:mb-12">
-        <div>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-2 text-white">
-            {t('news.title')}
-          </h2>
-          <p className="text-gray-400 text-base sm:text-lg">{t('news.subtitle')}</p>
-        </div>
-        <Link to="/news">
-          <Button
-            variant="outline"
-            className="hidden md:flex border-white/20 text-white hover:bg-white/10 min-h-[44px]"
-          >
-            {t('news.viewAll')}
-            <ArrowRight className="ml-2 w-4 h-4" />
-          </Button>
-        </Link>
-      </div>
+    <section className="relative py-12 sm:py-16 md:py-20 bg-zinc-900/80 overflow-hidden">
+      {/* Top Border Line */}
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
 
-      {/* Loading State */}
-      {isLoading && (
-        <div className="flex justify-center items-center py-12 sm:py-20">
-          <Loader2 className="w-6 h-6 sm:w-8 sm:h-8 animate-spin text-red-500" />
-        </div>
-      )}
+      {/* Corner Glow - very subtle */}
+      <div className="absolute top-0 right-0 w-64 h-64 bg-[radial-gradient(circle_at_top_right,rgba(220,38,38,0.04),transparent_70%)]" />
 
-      {/* Error State */}
-      {isError && (
-        <div className="text-center py-12 sm:py-20 text-gray-400 text-sm sm:text-base">
-          {t('common.error')}
+      <div className="container mx-auto px-4">
+        {/* Header */}
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 mb-8 sm:mb-12">
+          <div>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-2 text-white">
+              {t('news.title')}
+            </h2>
+            <p className="text-gray-400 text-base sm:text-lg">{t('news.subtitle')}</p>
+          </div>
+          <Link to="/news">
+            <Button
+              variant="outline"
+              className="hidden md:flex border-white/20 text-white hover:bg-white/10 min-h-[44px]"
+            >
+              {t('news.viewAll')}
+              <ArrowRight className="ml-2 w-4 h-4" />
+            </Button>
+          </Link>
         </div>
-      )}
 
-      {/* News Grid */}
-      {!isLoading && !isError && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-          {newsItems.map((news, index) => (
-            <NewsCard
-              key={news.id}
-              news={news}
-              index={index}
-              formatDate={formatDate}
-              readMoreText={t('news.readMore')}
-            />
-          ))}
+        {/* Loading State */}
+        {isLoading && (
+          <div className="flex justify-center items-center py-12 sm:py-20">
+            <Loader2 className="w-6 h-6 sm:w-8 sm:h-8 animate-spin text-red-500" />
+          </div>
+        )}
+
+        {/* Error State */}
+        {isError && (
+          <div className="text-center py-12 sm:py-20 text-gray-400 text-sm sm:text-base">
+            {t('common.error')}
+          </div>
+        )}
+
+        {/* News Grid */}
+        {!isLoading && !isError && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+            {newsItems.map((news, index) => (
+              <NewsCard
+                key={news.id}
+                news={news}
+                index={index}
+                formatDate={formatDate}
+                readMoreText={t('news.readMore')}
+              />
+            ))}
+          </div>
+        )}
+
+        <div className="flex justify-center mt-6 sm:mt-8 md:hidden">
+          <Link to="/news" className="w-full">
+            <Button
+              variant="outline"
+              className="border-white/20 text-white hover:bg-white/10 w-full min-h-[48px]"
+            >
+              {t('news.viewAll')}
+              <ArrowRight className="ml-2 w-4 h-4" />
+            </Button>
+          </Link>
         </div>
-      )}
-
-      <div className="flex justify-center mt-6 sm:mt-8 md:hidden">
-        <Link to="/news" className="w-full">
-          <Button
-            variant="outline"
-            className="border-white/20 text-white hover:bg-white/10 w-full min-h-[48px]"
-          >
-            {t('news.viewAll')}
-            <ArrowRight className="ml-2 w-4 h-4" />
-          </Button>
-        </Link>
       </div>
     </section>
   );

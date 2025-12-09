@@ -59,256 +59,269 @@ export type SupportedTimezones =
   | 'Pacific/Guam'
   | 'Pacific/Noumea'
   | 'Pacific/Auckland'
-  | 'Pacific/Fiji';
+  | 'Pacific/Fiji'
 
 export interface Config {
   auth: {
-    users: UserAuthOperations;
-  };
-  blocks: {};
+    users: UserAuthOperations
+  }
+  blocks: {}
   collections: {
-    users: User;
-    media: Media;
-    news: News;
-    players: Player;
-    matches: Match;
-    gallery: Gallery;
-    polls: Poll;
-    'league-table': LeagueTable;
-    'team-stats': TeamStat;
-    seasons: Season;
-    leadership: Leadership;
-    'team-logos': TeamLogo;
-    'payload-kv': PayloadKv;
-    'payload-locked-documents': PayloadLockedDocument;
-    'payload-preferences': PayloadPreference;
-    'payload-migrations': PayloadMigration;
-  };
-  collectionsJoins: {};
+    users: User
+    media: Media
+    news: News
+    players: Player
+    matches: Match
+    gallery: Gallery
+    polls: Poll
+    'league-table': LeagueTable
+    'team-stats': TeamStat
+    seasons: Season
+    leadership: Leadership
+    'team-logos': TeamLogo
+    infrastructure: Infrastructure
+    achievements: Achievement
+    veterans: Veteran
+    'payload-kv': PayloadKv
+    'payload-locked-documents': PayloadLockedDocument
+    'payload-preferences': PayloadPreference
+    'payload-migrations': PayloadMigration
+  }
+  collectionsJoins: {}
   collectionsSelect: {
-    users: UsersSelect<false> | UsersSelect<true>;
-    media: MediaSelect<false> | MediaSelect<true>;
-    news: NewsSelect<false> | NewsSelect<true>;
-    players: PlayersSelect<false> | PlayersSelect<true>;
-    matches: MatchesSelect<false> | MatchesSelect<true>;
-    gallery: GallerySelect<false> | GallerySelect<true>;
-    polls: PollsSelect<false> | PollsSelect<true>;
-    'league-table': LeagueTableSelect<false> | LeagueTableSelect<true>;
-    'team-stats': TeamStatsSelect<false> | TeamStatsSelect<true>;
-    seasons: SeasonsSelect<false> | SeasonsSelect<true>;
-    leadership: LeadershipSelect<false> | LeadershipSelect<true>;
-    'team-logos': TeamLogosSelect<false> | TeamLogosSelect<true>;
-    'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
-    'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
-    'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
-    'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
-  };
+    users: UsersSelect<false> | UsersSelect<true>
+    media: MediaSelect<false> | MediaSelect<true>
+    news: NewsSelect<false> | NewsSelect<true>
+    players: PlayersSelect<false> | PlayersSelect<true>
+    matches: MatchesSelect<false> | MatchesSelect<true>
+    gallery: GallerySelect<false> | GallerySelect<true>
+    polls: PollsSelect<false> | PollsSelect<true>
+    'league-table': LeagueTableSelect<false> | LeagueTableSelect<true>
+    'team-stats': TeamStatsSelect<false> | TeamStatsSelect<true>
+    seasons: SeasonsSelect<false> | SeasonsSelect<true>
+    leadership: LeadershipSelect<false> | LeadershipSelect<true>
+    'team-logos': TeamLogosSelect<false> | TeamLogosSelect<true>
+    infrastructure: InfrastructureSelect<false> | InfrastructureSelect<true>
+    achievements: AchievementsSelect<false> | AchievementsSelect<true>
+    veterans: VeteransSelect<false> | VeteransSelect<true>
+    'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>
+    'payload-locked-documents':
+      | PayloadLockedDocumentsSelect<false>
+      | PayloadLockedDocumentsSelect<true>
+    'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>
+    'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>
+  }
   db: {
-    defaultIDType: string;
-  };
-  fallbackLocale: ('false' | 'none' | 'null') | false | null | ('ru' | 'kk' | 'en') | ('ru' | 'kk' | 'en')[];
-  globals: {};
-  globalsSelect: {};
-  locale: 'ru' | 'kk' | 'en';
+    defaultIDType: string
+  }
+  fallbackLocale:
+    | ('false' | 'none' | 'null')
+    | false
+    | null
+    | ('ru' | 'kk' | 'en')
+    | ('ru' | 'kk' | 'en')[]
+  globals: {}
+  globalsSelect: {}
+  locale: 'ru' | 'kk' | 'en'
   user: User & {
-    collection: 'users';
-  };
+    collection: 'users'
+  }
   jobs: {
-    tasks: unknown;
-    workflows: unknown;
-  };
+    tasks: unknown
+    workflows: unknown
+  }
 }
 export interface UserAuthOperations {
   forgotPassword: {
-    email: string;
-    password: string;
-  };
+    email: string
+    password: string
+  }
   login: {
-    email: string;
-    password: string;
-  };
+    email: string
+    password: string
+  }
   registerFirstUser: {
-    email: string;
-    password: string;
-  };
+    email: string
+    password: string
+  }
   unlock: {
-    email: string;
-    password: string;
-  };
+    email: string
+    password: string
+  }
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users".
  */
 export interface User {
-  id: string;
-  updatedAt: string;
-  createdAt: string;
-  email: string;
-  resetPasswordToken?: string | null;
-  resetPasswordExpiration?: string | null;
-  salt?: string | null;
-  hash?: string | null;
-  loginAttempts?: number | null;
-  lockUntil?: string | null;
+  id: string
+  updatedAt: string
+  createdAt: string
+  email: string
+  resetPasswordToken?: string | null
+  resetPasswordExpiration?: string | null
+  salt?: string | null
+  hash?: string | null
+  loginAttempts?: number | null
+  lockUntil?: string | null
   sessions?:
     | {
-        id: string;
-        createdAt?: string | null;
-        expiresAt: string;
+        id: string
+        createdAt?: string | null
+        expiresAt: string
       }[]
-    | null;
-  password?: string | null;
+    | null
+  password?: string | null
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "media".
  */
 export interface Media {
-  id: string;
-  alt: string;
-  updatedAt: string;
-  createdAt: string;
-  url?: string | null;
-  thumbnailURL?: string | null;
-  filename?: string | null;
-  mimeType?: string | null;
-  filesize?: number | null;
-  width?: number | null;
-  height?: number | null;
-  focalX?: number | null;
-  focalY?: number | null;
+  id: string
+  alt: string
+  updatedAt: string
+  createdAt: string
+  url?: string | null
+  thumbnailURL?: string | null
+  filename?: string | null
+  mimeType?: string | null
+  filesize?: number | null
+  width?: number | null
+  height?: number | null
+  focalX?: number | null
+  focalY?: number | null
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "news".
  */
 export interface News {
-  id: string;
-  title: string;
+  id: string
+  title: string
   /**
    * Уникальный URL для статьи на каждом языке
    */
-  slug: string;
-  excerpt: string;
+  slug: string
+  excerpt: string
   content: {
     root: {
-      type: string;
+      type: string
       children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  };
-  featuredImage: string | Media;
-  gallery?: (string | Media)[] | null;
-  category: 'news' | 'match-report' | 'transfers' | 'interview';
+        type: any
+        version: number
+        [k: string]: unknown
+      }[]
+      direction: ('ltr' | 'rtl') | null
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | ''
+      indent: number
+      version: number
+    }
+    [k: string]: unknown
+  }
+  featuredImage: string | Media
+  gallery?: (string | Media)[] | null
+  category: 'news' | 'match-report' | 'transfers' | 'interview'
   tags?:
     | {
-        tag?: string | null;
-        id?: string | null;
+        tag?: string | null
+        id?: string | null
       }[]
-    | null;
-  publishedAt?: string | null;
-  status: 'draft' | 'published' | 'archived';
-  featured?: boolean | null;
-  updatedAt: string;
-  createdAt: string;
+    | null
+  publishedAt?: string | null
+  status: 'draft' | 'published' | 'archived'
+  featured?: boolean | null
+  updatedAt: string
+  createdAt: string
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "players".
  */
 export interface Player {
-  id: string;
+  id: string
   /**
    * UUID игрока из SOTA API (заполняется автоматически)
    */
-  sotaId?: string | null;
+  sotaId?: string | null
   /**
    * ID команды в SOTA API
    */
-  teamId?: number | null;
-  firstName: string;
-  lastName: string;
-  slug: string;
-  jerseyNumber?: number | null;
-  photo?: (string | null) | Media;
-  actionPhotos?: (string | Media)[] | null;
-  dateOfBirth?: string | null;
-  height?: number | null;
-  weight?: number | null;
-  displayName: string;
-  position?: ('goalkeeper' | 'defender' | 'midfielder' | 'forward') | null;
-  nationality?: string | null;
+  teamId?: number | null
+  firstName: string
+  lastName: string
+  slug: string
+  jerseyNumber?: number | null
+  photo?: (string | null) | Media
+  actionPhotos?: (string | Media)[] | null
+  dateOfBirth?: string | null
+  height?: number | null
+  weight?: number | null
+  displayName: string
+  position?: ('goalkeeper' | 'defender' | 'midfielder' | 'forward') | null
+  nationality?: string | null
   biography?: {
     root: {
-      type: string;
+      type: string
       children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
+        type: any
+        version: number
+        [k: string]: unknown
+      }[]
+      direction: ('ltr' | 'rtl') | null
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | ''
+      indent: number
+      version: number
+    }
+    [k: string]: unknown
+  } | null
   statistics?:
     | {
-        season?: string | null;
-        appearances?: number | null;
-        goals?: number | null;
-        assists?: number | null;
-        yellowCards?: number | null;
-        redCards?: number | null;
-        id?: string | null;
+        season?: string | null
+        appearances?: number | null
+        goals?: number | null
+        assists?: number | null
+        yellowCards?: number | null
+        redCards?: number | null
+        id?: string | null
       }[]
-    | null;
+    | null
   socialMedia?: {
-    instagram?: string | null;
-    facebook?: string | null;
-  };
-  status?: ('active' | 'injured' | 'loaned' | 'left') | null;
+    instagram?: string | null
+    facebook?: string | null
+  }
+  status?: ('active' | 'injured' | 'loaned' | 'left') | null
   /**
    * Отображается на главной странице сайта. Только один игрок может быть главным.
    */
-  isHero?: boolean | null;
+  isHero?: boolean | null
   /**
    * Автоматически агрегируется из матчей
    */
   currentSeasonStats?: {
-    seasonId?: number | null;
-    seasonName?: string | null;
-    appearances?: number | null;
-    goals?: number | null;
-    assists?: number | null;
-    yellowCards?: number | null;
-    redCards?: number | null;
-    minutesPlayed?: number | null;
-    shots?: number | null;
-    shotsOnGoal?: number | null;
-    passes?: number | null;
-    duels?: number | null;
-    tackles?: number | null;
-    avgMinutesPlayed?: number | null;
-    cleanSheets?: number | null;
-  };
+    seasonId?: number | null
+    seasonName?: string | null
+    appearances?: number | null
+    goals?: number | null
+    assists?: number | null
+    yellowCards?: number | null
+    redCards?: number | null
+    minutesPlayed?: number | null
+    shots?: number | null
+    shotsOnGoal?: number | null
+    passes?: number | null
+    duels?: number | null
+    tackles?: number | null
+    avgMinutesPlayed?: number | null
+    cleanSheets?: number | null
+  }
   /**
    * Определяется автоматически из SOTA API
    */
-  isGoalkeeper?: boolean | null;
-  lastSyncAt?: string | null;
-  updatedAt: string;
-  createdAt: string;
+  isGoalkeeper?: boolean | null
+  lastSyncAt?: string | null
+  updatedAt: string
+  createdAt: string
 }
 /**
  * Match data synced from SOTA API
@@ -317,181 +330,181 @@ export interface Player {
  * via the `definition` "matches".
  */
 export interface Match {
-  id: string;
+  id: string
   /**
    * UUID матча из SOTA API
    */
-  sotaId: string;
-  seasonId?: number | null;
-  tour?: number | null;
+  sotaId: string
+  seasonId?: number | null
+  tour?: number | null
   homeTeam?: {
-    id?: number | null;
-    name?: string | null;
-    shortName?: string | null;
-    logo?: string | null;
-    score?: number | null;
-    brandColor?: string | null;
-  };
+    id?: number | null
+    name?: string | null
+    shortName?: string | null
+    logo?: string | null
+    score?: number | null
+    brandColor?: string | null
+  }
   awayTeam?: {
-    id?: number | null;
-    name?: string | null;
-    shortName?: string | null;
-    logo?: string | null;
-    score?: number | null;
-    brandColor?: string | null;
-  };
-  matchDate?: string | null;
-  venue?: string | null;
-  competition?: string | null;
-  visitors?: number | null;
-  status?: ('scheduled' | 'live' | 'finished') | null;
-  hasStats?: boolean | null;
+    id?: number | null
+    name?: string | null
+    shortName?: string | null
+    logo?: string | null
+    score?: number | null
+    brandColor?: string | null
+  }
+  matchDate?: string | null
+  venue?: string | null
+  competition?: string | null
+  visitors?: number | null
+  status?: ('scheduled' | 'live' | 'finished') | null
+  hasStats?: boolean | null
   teamStats?: {
     home?: {
-      possession?: number | null;
-      shots?: number | null;
-      shotsOnGoal?: number | null;
-      shotsOffGoal?: number | null;
-      passes?: number | null;
-      fouls?: number | null;
-      corners?: number | null;
-      offsides?: number | null;
-      yellowCards?: number | null;
-      redCards?: number | null;
-    };
+      possession?: number | null
+      shots?: number | null
+      shotsOnGoal?: number | null
+      shotsOffGoal?: number | null
+      passes?: number | null
+      fouls?: number | null
+      corners?: number | null
+      offsides?: number | null
+      yellowCards?: number | null
+      redCards?: number | null
+    }
     away?: {
-      possession?: number | null;
-      shots?: number | null;
-      shotsOnGoal?: number | null;
-      shotsOffGoal?: number | null;
-      passes?: number | null;
-      fouls?: number | null;
-      corners?: number | null;
-      offsides?: number | null;
-      yellowCards?: number | null;
-      redCards?: number | null;
-    };
-  };
+      possession?: number | null
+      shots?: number | null
+      shotsOnGoal?: number | null
+      shotsOffGoal?: number | null
+      passes?: number | null
+      fouls?: number | null
+      corners?: number | null
+      offsides?: number | null
+      yellowCards?: number | null
+      redCards?: number | null
+    }
+  }
   referees?: {
-    main?: string | null;
-    firstAssistant?: string | null;
-    secondAssistant?: string | null;
-    fourthReferee?: string | null;
-    var?: string | null;
-    varAssistant?: string | null;
-  };
+    main?: string | null
+    firstAssistant?: string | null
+    secondAssistant?: string | null
+    fourthReferee?: string | null
+    var?: string | null
+    varAssistant?: string | null
+  }
   homeLineup?:
     | {
-        playerId?: string | null;
-        number?: number | null;
-        fullName?: string | null;
-        lastName?: string | null;
-        isGk?: boolean | null;
-        isCaptain?: boolean | null;
-        photo?: string | null;
-        id?: string | null;
+        playerId?: string | null
+        number?: number | null
+        fullName?: string | null
+        lastName?: string | null
+        isGk?: boolean | null
+        isCaptain?: boolean | null
+        photo?: string | null
+        id?: string | null
       }[]
-    | null;
+    | null
   awayLineup?:
     | {
-        playerId?: string | null;
-        number?: number | null;
-        fullName?: string | null;
-        lastName?: string | null;
-        isGk?: boolean | null;
-        isCaptain?: boolean | null;
-        photo?: string | null;
-        id?: string | null;
+        playerId?: string | null
+        number?: number | null
+        fullName?: string | null
+        lastName?: string | null
+        isGk?: boolean | null
+        isCaptain?: boolean | null
+        photo?: string | null
+        id?: string | null
       }[]
-    | null;
+    | null
   homeCoach?: {
-    name?: string | null;
-    photo?: string | null;
-  };
+    name?: string | null
+    photo?: string | null
+  }
   awayCoach?: {
-    name?: string | null;
-    photo?: string | null;
-  };
+    name?: string | null
+    photo?: string | null
+  }
   homePlayers?:
     | {
-        playerId?: string | null;
-        name?: string | null;
-        number?: number | null;
-        shots?: number | null;
-        shotsOnGoal?: number | null;
-        passes?: number | null;
-        fouls?: number | null;
-        yellowCards?: number | null;
-        redCards?: number | null;
-        duels?: number | null;
-        tackles?: number | null;
-        offsides?: number | null;
-        corners?: number | null;
-        id?: string | null;
+        playerId?: string | null
+        name?: string | null
+        number?: number | null
+        shots?: number | null
+        shotsOnGoal?: number | null
+        passes?: number | null
+        fouls?: number | null
+        yellowCards?: number | null
+        redCards?: number | null
+        duels?: number | null
+        tackles?: number | null
+        offsides?: number | null
+        corners?: number | null
+        id?: string | null
       }[]
-    | null;
+    | null
   awayPlayers?:
     | {
-        playerId?: string | null;
-        name?: string | null;
-        number?: number | null;
-        shots?: number | null;
-        shotsOnGoal?: number | null;
-        passes?: number | null;
-        fouls?: number | null;
-        yellowCards?: number | null;
-        redCards?: number | null;
-        duels?: number | null;
-        tackles?: number | null;
-        offsides?: number | null;
-        corners?: number | null;
-        id?: string | null;
+        playerId?: string | null
+        name?: string | null
+        number?: number | null
+        shots?: number | null
+        shotsOnGoal?: number | null
+        passes?: number | null
+        fouls?: number | null
+        yellowCards?: number | null
+        redCards?: number | null
+        duels?: number | null
+        tackles?: number | null
+        offsides?: number | null
+        corners?: number | null
+        id?: string | null
       }[]
-    | null;
-  lastSyncAt?: string | null;
-  highlights?: (string | null) | Media;
-  gallery?: (string | Media)[] | null;
-  ticketLink?: string | null;
+    | null
+  lastSyncAt?: string | null
+  highlights?: (string | null) | Media
+  gallery?: (string | Media)[] | null
+  ticketLink?: string | null
   matchReport?: {
     root: {
-      type: string;
+      type: string
       children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  updatedAt: string;
-  createdAt: string;
+        type: any
+        version: number
+        [k: string]: unknown
+      }[]
+      direction: ('ltr' | 'rtl') | null
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | ''
+      indent: number
+      version: number
+    }
+    [k: string]: unknown
+  } | null
+  updatedAt: string
+  createdAt: string
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "gallery".
  */
 export interface Gallery {
-  id: string;
-  title: string;
-  description?: string | null;
-  media: (string | Media)[];
-  type?: ('photo' | 'video') | null;
-  category?: ('match' | 'training' | 'event') | null;
-  relatedMatch?: (string | null) | Match;
-  uploadDate?: string | null;
-  featured?: boolean | null;
+  id: string
+  title: string
+  description?: string | null
+  media: (string | Media)[]
+  type?: ('photo' | 'video') | null
+  category?: ('match' | 'training' | 'event') | null
+  relatedMatch?: (string | null) | Match
+  uploadDate?: string | null
+  featured?: boolean | null
   tags?:
     | {
-        tag?: string | null;
-        id?: string | null;
+        tag?: string | null
+        id?: string | null
       }[]
-    | null;
-  updatedAt: string;
-  createdAt: string;
+    | null
+  updatedAt: string
+  createdAt: string
 }
 /**
  * 🗳️ Создавайте опросы для фанатов. Минимум 2 варианта ответа, максимум 6.
@@ -500,19 +513,19 @@ export interface Gallery {
  * via the `definition` "polls".
  */
 export interface Poll {
-  id: string;
+  id: string
   /**
    * 📝 Используйте Poll Translator для удобного перевода: http://localhost:3000/poll-translator.html
    */
-  question: string;
+  question: string
   /**
    * Автоматически создается из вопроса. Можно оставить пустым.
    */
-  slug?: string | null;
+  slug?: string | null
   /**
    * 📝 Заполните на русском, затем переключите язык и используйте Translation API
    */
-  description?: string | null;
+  description?: string | null
   /**
    * 📝 Добавьте от 2 до 6 вариантов ответа. Заполните текст на всех языках!
    */
@@ -520,35 +533,35 @@ export interface Poll {
     /**
      * Текст варианта ответа (одинаковый на всех языках)
      */
-    optionText: string;
+    optionText: string
     /**
      * Обновляется автоматически при голосовании
      */
-    votes?: number | null;
-    id?: string | null;
-  }[];
+    votes?: number | null
+    id?: string | null
+  }[]
   /**
    * Общее количество проголосовавших
    */
-  totalVotes?: number | null;
+  totalVotes?: number | null
   /**
    * Только "Активен" опросы показываются на сайте
    */
-  status: 'active' | 'closed' | 'draft';
+  status: 'active' | 'closed' | 'draft'
   /**
    * Показывать в топе опросов на главной странице
    */
-  featured?: boolean | null;
+  featured?: boolean | null
   /**
    * Когда опрос станет доступен
    */
-  startDate?: string | null;
+  startDate?: string | null
   /**
    * Когда опрос автоматически закроется
    */
-  endDate?: string | null;
-  updatedAt: string;
-  createdAt: string;
+  endDate?: string | null
+  updatedAt: string
+  createdAt: string
 }
 /**
  * Турнирная таблица - синхронизируется из SOTA API
@@ -557,40 +570,40 @@ export interface Poll {
  * via the `definition` "league-table".
  */
 export interface LeagueTable {
-  id: string;
+  id: string
   /**
    * Уникальный ID команды из SOTA API
    */
-  teamId: number;
-  teamName: string;
+  teamId: number
+  teamName: string
   /**
    * URL логотипа команды из SOTA API
    */
-  teamLogo?: string | null;
-  position: number;
-  played: number;
-  won: number;
-  drawn: number;
-  lost: number;
-  goalsFor: number;
-  goalsAgainst: number;
-  goalDifference: number;
-  points: number;
+  teamLogo?: string | null
+  position: number
+  played: number
+  won: number
+  drawn: number
+  lost: number
+  goalsFor: number
+  goalsAgainst: number
+  goalDifference: number
+  points: number
   /**
    * ID сезона из SOTA API (61 = 2025)
    */
-  seasonId: number;
+  seasonId: number
   /**
    * ID турнира из SOTA API (7 = Premier League)
    */
-  tournamentId?: number | null;
-  lastSyncAt?: string | null;
+  tournamentId?: number | null
+  lastSyncAt?: string | null
   /**
    * Отметка для команды FC Kaisar (teamId = 94)
    */
-  isKaisar?: boolean | null;
-  updatedAt: string;
-  createdAt: string;
+  isKaisar?: boolean | null
+  updatedAt: string
+  createdAt: string
 }
 /**
  * Статистика команды - синхронизируется из SOTA API
@@ -599,52 +612,52 @@ export interface LeagueTable {
  * via the `definition` "team-stats".
  */
 export interface TeamStat {
-  id: string;
-  teamId: number;
-  seasonId: number;
-  gamesPlayed?: number | null;
-  gamesTotal?: number | null;
-  points?: number | null;
-  wins?: number | null;
-  draws?: number | null;
-  losses?: number | null;
-  goals?: number | null;
-  goalsConceded?: number | null;
-  goalsDifference?: number | null;
+  id: string
+  teamId: number
+  seasonId: number
+  gamesPlayed?: number | null
+  gamesTotal?: number | null
+  points?: number | null
+  wins?: number | null
+  draws?: number | null
+  losses?: number | null
+  goals?: number | null
+  goalsConceded?: number | null
+  goalsDifference?: number | null
   attackStats?: {
-    shots?: number | null;
-    shotsOnGoal?: number | null;
-    xg?: number | null;
-    assists?: number | null;
-    corners?: number | null;
-    crosses?: number | null;
-    penalties?: number | null;
-    keyPasses?: number | null;
-  };
+    shots?: number | null
+    shotsOnGoal?: number | null
+    xg?: number | null
+    assists?: number | null
+    corners?: number | null
+    crosses?: number | null
+    penalties?: number | null
+    keyPasses?: number | null
+  }
   possessionStats?: {
-    possession?: number | null;
-    passes?: number | null;
-    passAccuracy?: number | null;
-  };
+    possession?: number | null
+    passes?: number | null
+    passAccuracy?: number | null
+  }
   defenseStats?: {
-    duels?: number | null;
-    tackles?: number | null;
-    interceptions?: number | null;
-    offsides?: number | null;
-  };
+    duels?: number | null
+    tackles?: number | null
+    interceptions?: number | null
+    offsides?: number | null
+  }
   disciplineStats?: {
-    fouls?: number | null;
-    yellowCards?: number | null;
-    secondYellowCards?: number | null;
-    redCards?: number | null;
-  };
+    fouls?: number | null
+    yellowCards?: number | null
+    secondYellowCards?: number | null
+    redCards?: number | null
+  }
   attendanceStats?: {
-    averageVisitors?: number | null;
-    totalVisitors?: number | null;
-  };
-  lastSyncAt?: string | null;
-  updatedAt: string;
-  createdAt: string;
+    averageVisitors?: number | null
+    totalVisitors?: number | null
+  }
+  lastSyncAt?: string | null
+  updatedAt: string
+  createdAt: string
 }
 /**
  * Football seasons with dates for offseason management
@@ -653,45 +666,45 @@ export interface TeamStat {
  * via the `definition` "seasons".
  */
 export interface Season {
-  id: string;
+  id: string
   /**
    * Season ID from SOTA API (e.g., 61 for 2024/2025)
    */
-  sotaId: number;
+  sotaId: number
   /**
    * Display name (e.g., "2024/2025")
    */
-  name: string;
+  name: string
   /**
    * When the season starts
    */
-  startDate: string;
+  startDate: string
   /**
    * When the season ends
    */
-  endDate: string;
+  endDate: string
   /**
    * Automatically set based on current date
    */
-  isCurrent?: boolean | null;
+  isCurrent?: boolean | null
   /**
    * Automatically set - the upcoming season after current
    */
-  isNext?: boolean | null;
+  isNext?: boolean | null
   /**
    * Tournament ID from SOTA API (e.g., 7 for KPL)
    */
-  tournamentId?: number | null;
+  tournamentId?: number | null
   /**
    * Tournament name (e.g., "Kazakhstan Premier League")
    */
-  tournamentName?: string | null;
+  tournamentName?: string | null
   /**
    * Last sync timestamp from SOTA API
    */
-  lastSyncAt?: string | null;
-  updatedAt: string;
-  createdAt: string;
+  lastSyncAt?: string | null
+  updatedAt: string
+  createdAt: string
 }
 /**
  * Manage leadership team photos (names and text are in i18n)
@@ -700,25 +713,25 @@ export interface Season {
  * via the `definition` "leadership".
  */
 export interface Leadership {
-  id: string;
+  id: string
   /**
    * Unique identifier matching i18n keys (e.g., owner → newLeadership.leaders.owner)
    */
-  key: 'owner' | 'head_coach' | 'sporting_director';
+  key: 'owner' | 'head_coach' | 'sporting_director'
   /**
    * Leadership photo (recommended: 800x1000px, portrait orientation)
    */
-  photo: string | Media;
+  photo: string | Media
   /**
    * Display order (1 = first, 2 = second, etc.)
    */
-  order: number;
+  order: number
   /**
    * Uncheck to temporarily hide this person from the website
    */
-  isActive?: boolean | null;
-  updatedAt: string;
-  createdAt: string;
+  isActive?: boolean | null
+  updatedAt: string
+  createdAt: string
 }
 /**
  * Логотипы команд KPL - загружены локально
@@ -727,634 +740,850 @@ export interface Leadership {
  * via the `definition` "team-logos".
  */
 export interface TeamLogo {
-  id: string;
+  id: string
   /**
    * Уникальный ID команды из SOTA API
    */
-  teamId: number;
-  teamName: string;
+  teamId: number
+  teamName: string
   /**
    * Локальный файл логотипа команды
    */
-  logo: string | Media;
-  updatedAt: string;
-  createdAt: string;
+  logo: string | Media
+  updatedAt: string
+  createdAt: string
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "infrastructure".
+ */
+export interface Infrastructure {
+  id: string
+  name: string
+  type: 'stadium' | 'training_base' | 'academy' | 'office'
+  status?: ('active' | 'construction' | 'planned') | null
+  description?: {
+    root: {
+      type: string
+      children: {
+        type: any
+        version: number
+        [k: string]: unknown
+      }[]
+      direction: ('ltr' | 'rtl') | null
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | ''
+      indent: number
+      version: number
+    }
+    [k: string]: unknown
+  } | null
+  shortDescription?: string | null
+  mainImage?: (string | null) | Media
+  gallery?: (string | Media)[] | null
+  features?:
+    | {
+        title?: string | null
+        description?: string | null
+        id?: string | null
+      }[]
+    | null
+  address?: string | null
+  coordinates?: {
+    lat?: number | null
+    lng?: number | null
+  }
+  capacity?: number | null
+  uefaCategory?: ('1' | '2' | '3' | '4') | null
+  fieldType?: string | null
+  lightingLux?: number | null
+  parkingSpaces?: number | null
+  fieldsCount?: number | null
+  yearBuilt?: number | null
+  order?: number | null
+  updatedAt: string
+  createdAt: string
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "achievements".
+ */
+export interface Achievement {
+  id: string
+  title: string
+  type: 'championship' | 'cup' | 'eurocup' | 'award' | 'other'
+  year: number
+  place?: ('1' | '2' | '3' | 'finalist' | 'semifinalist' | 'participant') | null
+  competition?: string | null
+  description?: {
+    root: {
+      type: string
+      children: {
+        type: any
+        version: number
+        [k: string]: unknown
+      }[]
+      direction: ('ltr' | 'rtl') | null
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | ''
+      indent: number
+      version: number
+    }
+    [k: string]: unknown
+  } | null
+  image?: (string | null) | Media
+  order?: number | null
+  updatedAt: string
+  createdAt: string
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "veterans".
+ */
+export interface Veteran {
+  id: string
+  firstName: string
+  lastName: string
+  displayName: string
+  position?: ('goalkeeper' | 'defender' | 'midfielder' | 'forward' | 'coach') | null
+  /**
+   * Например: 1998-2010
+   */
+  yearsInClub?: string | null
+  jerseyNumber?: number | null
+  photo?: (string | null) | Media
+  achievements?: string | null
+  biography?: {
+    root: {
+      type: string
+      children: {
+        type: any
+        version: number
+        [k: string]: unknown
+      }[]
+      direction: ('ltr' | 'rtl') | null
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | ''
+      indent: number
+      version: number
+    }
+    [k: string]: unknown
+  } | null
+  statistics?: {
+    matches?: number | null
+    goals?: number | null
+    assists?: number | null
+  }
+  /**
+   * Отмечает игрока как легенду клуба
+   */
+  isLegend?: boolean | null
+  order?: number | null
+  updatedAt: string
+  createdAt: string
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
-  id: string;
-  key: string;
+  id: string
+  key: string
   data:
     | {
-        [k: string]: unknown;
+        [k: string]: unknown
       }
     | unknown[]
     | string
     | number
     | boolean
-    | null;
+    | null
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
-  id: string;
+  id: string
   document?:
     | ({
-        relationTo: 'users';
-        value: string | User;
+        relationTo: 'users'
+        value: string | User
       } | null)
     | ({
-        relationTo: 'media';
-        value: string | Media;
+        relationTo: 'media'
+        value: string | Media
       } | null)
     | ({
-        relationTo: 'news';
-        value: string | News;
+        relationTo: 'news'
+        value: string | News
       } | null)
     | ({
-        relationTo: 'players';
-        value: string | Player;
+        relationTo: 'players'
+        value: string | Player
       } | null)
     | ({
-        relationTo: 'matches';
-        value: string | Match;
+        relationTo: 'matches'
+        value: string | Match
       } | null)
     | ({
-        relationTo: 'gallery';
-        value: string | Gallery;
+        relationTo: 'gallery'
+        value: string | Gallery
       } | null)
     | ({
-        relationTo: 'polls';
-        value: string | Poll;
+        relationTo: 'polls'
+        value: string | Poll
       } | null)
     | ({
-        relationTo: 'league-table';
-        value: string | LeagueTable;
+        relationTo: 'league-table'
+        value: string | LeagueTable
       } | null)
     | ({
-        relationTo: 'team-stats';
-        value: string | TeamStat;
+        relationTo: 'team-stats'
+        value: string | TeamStat
       } | null)
     | ({
-        relationTo: 'seasons';
-        value: string | Season;
+        relationTo: 'seasons'
+        value: string | Season
       } | null)
     | ({
-        relationTo: 'leadership';
-        value: string | Leadership;
+        relationTo: 'leadership'
+        value: string | Leadership
       } | null)
     | ({
-        relationTo: 'team-logos';
-        value: string | TeamLogo;
-      } | null);
-  globalSlug?: string | null;
+        relationTo: 'team-logos'
+        value: string | TeamLogo
+      } | null)
+    | ({
+        relationTo: 'infrastructure'
+        value: string | Infrastructure
+      } | null)
+    | ({
+        relationTo: 'achievements'
+        value: string | Achievement
+      } | null)
+    | ({
+        relationTo: 'veterans'
+        value: string | Veteran
+      } | null)
+  globalSlug?: string | null
   user: {
-    relationTo: 'users';
-    value: string | User;
-  };
-  updatedAt: string;
-  createdAt: string;
+    relationTo: 'users'
+    value: string | User
+  }
+  updatedAt: string
+  createdAt: string
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-preferences".
  */
 export interface PayloadPreference {
-  id: string;
+  id: string
   user: {
-    relationTo: 'users';
-    value: string | User;
-  };
-  key?: string | null;
+    relationTo: 'users'
+    value: string | User
+  }
+  key?: string | null
   value?:
     | {
-        [k: string]: unknown;
+        [k: string]: unknown
       }
     | unknown[]
     | string
     | number
     | boolean
-    | null;
-  updatedAt: string;
-  createdAt: string;
+    | null
+  updatedAt: string
+  createdAt: string
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-migrations".
  */
 export interface PayloadMigration {
-  id: string;
-  name?: string | null;
-  batch?: number | null;
-  updatedAt: string;
-  createdAt: string;
+  id: string
+  name?: string | null
+  batch?: number | null
+  updatedAt: string
+  createdAt: string
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users_select".
  */
 export interface UsersSelect<T extends boolean = true> {
-  updatedAt?: T;
-  createdAt?: T;
-  email?: T;
-  resetPasswordToken?: T;
-  resetPasswordExpiration?: T;
-  salt?: T;
-  hash?: T;
-  loginAttempts?: T;
-  lockUntil?: T;
+  updatedAt?: T
+  createdAt?: T
+  email?: T
+  resetPasswordToken?: T
+  resetPasswordExpiration?: T
+  salt?: T
+  hash?: T
+  loginAttempts?: T
+  lockUntil?: T
   sessions?:
     | T
     | {
-        id?: T;
-        createdAt?: T;
-        expiresAt?: T;
-      };
+        id?: T
+        createdAt?: T
+        expiresAt?: T
+      }
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "media_select".
  */
 export interface MediaSelect<T extends boolean = true> {
-  alt?: T;
-  updatedAt?: T;
-  createdAt?: T;
-  url?: T;
-  thumbnailURL?: T;
-  filename?: T;
-  mimeType?: T;
-  filesize?: T;
-  width?: T;
-  height?: T;
-  focalX?: T;
-  focalY?: T;
+  alt?: T
+  updatedAt?: T
+  createdAt?: T
+  url?: T
+  thumbnailURL?: T
+  filename?: T
+  mimeType?: T
+  filesize?: T
+  width?: T
+  height?: T
+  focalX?: T
+  focalY?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "news_select".
  */
 export interface NewsSelect<T extends boolean = true> {
-  title?: T;
-  slug?: T;
-  excerpt?: T;
-  content?: T;
-  featuredImage?: T;
-  gallery?: T;
-  category?: T;
+  title?: T
+  slug?: T
+  excerpt?: T
+  content?: T
+  featuredImage?: T
+  gallery?: T
+  category?: T
   tags?:
     | T
     | {
-        tag?: T;
-        id?: T;
-      };
-  publishedAt?: T;
-  status?: T;
-  featured?: T;
-  updatedAt?: T;
-  createdAt?: T;
+        tag?: T
+        id?: T
+      }
+  publishedAt?: T
+  status?: T
+  featured?: T
+  updatedAt?: T
+  createdAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "players_select".
  */
 export interface PlayersSelect<T extends boolean = true> {
-  sotaId?: T;
-  teamId?: T;
-  firstName?: T;
-  lastName?: T;
-  slug?: T;
-  jerseyNumber?: T;
-  photo?: T;
-  actionPhotos?: T;
-  dateOfBirth?: T;
-  height?: T;
-  weight?: T;
-  displayName?: T;
-  position?: T;
-  nationality?: T;
-  biography?: T;
+  sotaId?: T
+  teamId?: T
+  firstName?: T
+  lastName?: T
+  slug?: T
+  jerseyNumber?: T
+  photo?: T
+  actionPhotos?: T
+  dateOfBirth?: T
+  height?: T
+  weight?: T
+  displayName?: T
+  position?: T
+  nationality?: T
+  biography?: T
   statistics?:
     | T
     | {
-        season?: T;
-        appearances?: T;
-        goals?: T;
-        assists?: T;
-        yellowCards?: T;
-        redCards?: T;
-        id?: T;
-      };
+        season?: T
+        appearances?: T
+        goals?: T
+        assists?: T
+        yellowCards?: T
+        redCards?: T
+        id?: T
+      }
   socialMedia?:
     | T
     | {
-        instagram?: T;
-        facebook?: T;
-      };
-  status?: T;
-  isHero?: T;
+        instagram?: T
+        facebook?: T
+      }
+  status?: T
+  isHero?: T
   currentSeasonStats?:
     | T
     | {
-        seasonId?: T;
-        seasonName?: T;
-        appearances?: T;
-        goals?: T;
-        assists?: T;
-        yellowCards?: T;
-        redCards?: T;
-        minutesPlayed?: T;
-        shots?: T;
-        shotsOnGoal?: T;
-        passes?: T;
-        duels?: T;
-        tackles?: T;
-        avgMinutesPlayed?: T;
-        cleanSheets?: T;
-      };
-  isGoalkeeper?: T;
-  lastSyncAt?: T;
-  updatedAt?: T;
-  createdAt?: T;
+        seasonId?: T
+        seasonName?: T
+        appearances?: T
+        goals?: T
+        assists?: T
+        yellowCards?: T
+        redCards?: T
+        minutesPlayed?: T
+        shots?: T
+        shotsOnGoal?: T
+        passes?: T
+        duels?: T
+        tackles?: T
+        avgMinutesPlayed?: T
+        cleanSheets?: T
+      }
+  isGoalkeeper?: T
+  lastSyncAt?: T
+  updatedAt?: T
+  createdAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "matches_select".
  */
 export interface MatchesSelect<T extends boolean = true> {
-  sotaId?: T;
-  seasonId?: T;
-  tour?: T;
+  sotaId?: T
+  seasonId?: T
+  tour?: T
   homeTeam?:
     | T
     | {
-        id?: T;
-        name?: T;
-        shortName?: T;
-        logo?: T;
-        score?: T;
-        brandColor?: T;
-      };
+        id?: T
+        name?: T
+        shortName?: T
+        logo?: T
+        score?: T
+        brandColor?: T
+      }
   awayTeam?:
     | T
     | {
-        id?: T;
-        name?: T;
-        shortName?: T;
-        logo?: T;
-        score?: T;
-        brandColor?: T;
-      };
-  matchDate?: T;
-  venue?: T;
-  competition?: T;
-  visitors?: T;
-  status?: T;
-  hasStats?: T;
+        id?: T
+        name?: T
+        shortName?: T
+        logo?: T
+        score?: T
+        brandColor?: T
+      }
+  matchDate?: T
+  venue?: T
+  competition?: T
+  visitors?: T
+  status?: T
+  hasStats?: T
   teamStats?:
     | T
     | {
         home?:
           | T
           | {
-              possession?: T;
-              shots?: T;
-              shotsOnGoal?: T;
-              shotsOffGoal?: T;
-              passes?: T;
-              fouls?: T;
-              corners?: T;
-              offsides?: T;
-              yellowCards?: T;
-              redCards?: T;
-            };
+              possession?: T
+              shots?: T
+              shotsOnGoal?: T
+              shotsOffGoal?: T
+              passes?: T
+              fouls?: T
+              corners?: T
+              offsides?: T
+              yellowCards?: T
+              redCards?: T
+            }
         away?:
           | T
           | {
-              possession?: T;
-              shots?: T;
-              shotsOnGoal?: T;
-              shotsOffGoal?: T;
-              passes?: T;
-              fouls?: T;
-              corners?: T;
-              offsides?: T;
-              yellowCards?: T;
-              redCards?: T;
-            };
-      };
+              possession?: T
+              shots?: T
+              shotsOnGoal?: T
+              shotsOffGoal?: T
+              passes?: T
+              fouls?: T
+              corners?: T
+              offsides?: T
+              yellowCards?: T
+              redCards?: T
+            }
+      }
   referees?:
     | T
     | {
-        main?: T;
-        firstAssistant?: T;
-        secondAssistant?: T;
-        fourthReferee?: T;
-        var?: T;
-        varAssistant?: T;
-      };
+        main?: T
+        firstAssistant?: T
+        secondAssistant?: T
+        fourthReferee?: T
+        var?: T
+        varAssistant?: T
+      }
   homeLineup?:
     | T
     | {
-        playerId?: T;
-        number?: T;
-        fullName?: T;
-        lastName?: T;
-        isGk?: T;
-        isCaptain?: T;
-        photo?: T;
-        id?: T;
-      };
+        playerId?: T
+        number?: T
+        fullName?: T
+        lastName?: T
+        isGk?: T
+        isCaptain?: T
+        photo?: T
+        id?: T
+      }
   awayLineup?:
     | T
     | {
-        playerId?: T;
-        number?: T;
-        fullName?: T;
-        lastName?: T;
-        isGk?: T;
-        isCaptain?: T;
-        photo?: T;
-        id?: T;
-      };
+        playerId?: T
+        number?: T
+        fullName?: T
+        lastName?: T
+        isGk?: T
+        isCaptain?: T
+        photo?: T
+        id?: T
+      }
   homeCoach?:
     | T
     | {
-        name?: T;
-        photo?: T;
-      };
+        name?: T
+        photo?: T
+      }
   awayCoach?:
     | T
     | {
-        name?: T;
-        photo?: T;
-      };
+        name?: T
+        photo?: T
+      }
   homePlayers?:
     | T
     | {
-        playerId?: T;
-        name?: T;
-        number?: T;
-        shots?: T;
-        shotsOnGoal?: T;
-        passes?: T;
-        fouls?: T;
-        yellowCards?: T;
-        redCards?: T;
-        duels?: T;
-        tackles?: T;
-        offsides?: T;
-        corners?: T;
-        id?: T;
-      };
+        playerId?: T
+        name?: T
+        number?: T
+        shots?: T
+        shotsOnGoal?: T
+        passes?: T
+        fouls?: T
+        yellowCards?: T
+        redCards?: T
+        duels?: T
+        tackles?: T
+        offsides?: T
+        corners?: T
+        id?: T
+      }
   awayPlayers?:
     | T
     | {
-        playerId?: T;
-        name?: T;
-        number?: T;
-        shots?: T;
-        shotsOnGoal?: T;
-        passes?: T;
-        fouls?: T;
-        yellowCards?: T;
-        redCards?: T;
-        duels?: T;
-        tackles?: T;
-        offsides?: T;
-        corners?: T;
-        id?: T;
-      };
-  lastSyncAt?: T;
-  highlights?: T;
-  gallery?: T;
-  ticketLink?: T;
-  matchReport?: T;
-  updatedAt?: T;
-  createdAt?: T;
+        playerId?: T
+        name?: T
+        number?: T
+        shots?: T
+        shotsOnGoal?: T
+        passes?: T
+        fouls?: T
+        yellowCards?: T
+        redCards?: T
+        duels?: T
+        tackles?: T
+        offsides?: T
+        corners?: T
+        id?: T
+      }
+  lastSyncAt?: T
+  highlights?: T
+  gallery?: T
+  ticketLink?: T
+  matchReport?: T
+  updatedAt?: T
+  createdAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "gallery_select".
  */
 export interface GallerySelect<T extends boolean = true> {
-  title?: T;
-  description?: T;
-  media?: T;
-  type?: T;
-  category?: T;
-  relatedMatch?: T;
-  uploadDate?: T;
-  featured?: T;
+  title?: T
+  description?: T
+  media?: T
+  type?: T
+  category?: T
+  relatedMatch?: T
+  uploadDate?: T
+  featured?: T
   tags?:
     | T
     | {
-        tag?: T;
-        id?: T;
-      };
-  updatedAt?: T;
-  createdAt?: T;
+        tag?: T
+        id?: T
+      }
+  updatedAt?: T
+  createdAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "polls_select".
  */
 export interface PollsSelect<T extends boolean = true> {
-  question?: T;
-  slug?: T;
-  description?: T;
+  question?: T
+  slug?: T
+  description?: T
   options?:
     | T
     | {
-        optionText?: T;
-        votes?: T;
-        id?: T;
-      };
-  totalVotes?: T;
-  status?: T;
-  featured?: T;
-  startDate?: T;
-  endDate?: T;
-  updatedAt?: T;
-  createdAt?: T;
+        optionText?: T
+        votes?: T
+        id?: T
+      }
+  totalVotes?: T
+  status?: T
+  featured?: T
+  startDate?: T
+  endDate?: T
+  updatedAt?: T
+  createdAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "league-table_select".
  */
 export interface LeagueTableSelect<T extends boolean = true> {
-  teamId?: T;
-  teamName?: T;
-  teamLogo?: T;
-  position?: T;
-  played?: T;
-  won?: T;
-  drawn?: T;
-  lost?: T;
-  goalsFor?: T;
-  goalsAgainst?: T;
-  goalDifference?: T;
-  points?: T;
-  seasonId?: T;
-  tournamentId?: T;
-  lastSyncAt?: T;
-  isKaisar?: T;
-  updatedAt?: T;
-  createdAt?: T;
+  teamId?: T
+  teamName?: T
+  teamLogo?: T
+  position?: T
+  played?: T
+  won?: T
+  drawn?: T
+  lost?: T
+  goalsFor?: T
+  goalsAgainst?: T
+  goalDifference?: T
+  points?: T
+  seasonId?: T
+  tournamentId?: T
+  lastSyncAt?: T
+  isKaisar?: T
+  updatedAt?: T
+  createdAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "team-stats_select".
  */
 export interface TeamStatsSelect<T extends boolean = true> {
-  teamId?: T;
-  seasonId?: T;
-  gamesPlayed?: T;
-  gamesTotal?: T;
-  points?: T;
-  wins?: T;
-  draws?: T;
-  losses?: T;
-  goals?: T;
-  goalsConceded?: T;
-  goalsDifference?: T;
+  teamId?: T
+  seasonId?: T
+  gamesPlayed?: T
+  gamesTotal?: T
+  points?: T
+  wins?: T
+  draws?: T
+  losses?: T
+  goals?: T
+  goalsConceded?: T
+  goalsDifference?: T
   attackStats?:
     | T
     | {
-        shots?: T;
-        shotsOnGoal?: T;
-        xg?: T;
-        assists?: T;
-        corners?: T;
-        crosses?: T;
-        penalties?: T;
-        keyPasses?: T;
-      };
+        shots?: T
+        shotsOnGoal?: T
+        xg?: T
+        assists?: T
+        corners?: T
+        crosses?: T
+        penalties?: T
+        keyPasses?: T
+      }
   possessionStats?:
     | T
     | {
-        possession?: T;
-        passes?: T;
-        passAccuracy?: T;
-      };
+        possession?: T
+        passes?: T
+        passAccuracy?: T
+      }
   defenseStats?:
     | T
     | {
-        duels?: T;
-        tackles?: T;
-        interceptions?: T;
-        offsides?: T;
-      };
+        duels?: T
+        tackles?: T
+        interceptions?: T
+        offsides?: T
+      }
   disciplineStats?:
     | T
     | {
-        fouls?: T;
-        yellowCards?: T;
-        secondYellowCards?: T;
-        redCards?: T;
-      };
+        fouls?: T
+        yellowCards?: T
+        secondYellowCards?: T
+        redCards?: T
+      }
   attendanceStats?:
     | T
     | {
-        averageVisitors?: T;
-        totalVisitors?: T;
-      };
-  lastSyncAt?: T;
-  updatedAt?: T;
-  createdAt?: T;
+        averageVisitors?: T
+        totalVisitors?: T
+      }
+  lastSyncAt?: T
+  updatedAt?: T
+  createdAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "seasons_select".
  */
 export interface SeasonsSelect<T extends boolean = true> {
-  sotaId?: T;
-  name?: T;
-  startDate?: T;
-  endDate?: T;
-  isCurrent?: T;
-  isNext?: T;
-  tournamentId?: T;
-  tournamentName?: T;
-  lastSyncAt?: T;
-  updatedAt?: T;
-  createdAt?: T;
+  sotaId?: T
+  name?: T
+  startDate?: T
+  endDate?: T
+  isCurrent?: T
+  isNext?: T
+  tournamentId?: T
+  tournamentName?: T
+  lastSyncAt?: T
+  updatedAt?: T
+  createdAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "leadership_select".
  */
 export interface LeadershipSelect<T extends boolean = true> {
-  key?: T;
-  photo?: T;
-  order?: T;
-  isActive?: T;
-  updatedAt?: T;
-  createdAt?: T;
+  key?: T
+  photo?: T
+  order?: T
+  isActive?: T
+  updatedAt?: T
+  createdAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "team-logos_select".
  */
 export interface TeamLogosSelect<T extends boolean = true> {
-  teamId?: T;
-  teamName?: T;
-  logo?: T;
-  updatedAt?: T;
-  createdAt?: T;
+  teamId?: T
+  teamName?: T
+  logo?: T
+  updatedAt?: T
+  createdAt?: T
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "infrastructure_select".
+ */
+export interface InfrastructureSelect<T extends boolean = true> {
+  name?: T
+  type?: T
+  status?: T
+  description?: T
+  shortDescription?: T
+  mainImage?: T
+  gallery?: T
+  features?:
+    | T
+    | {
+        title?: T
+        description?: T
+        id?: T
+      }
+  address?: T
+  coordinates?:
+    | T
+    | {
+        lat?: T
+        lng?: T
+      }
+  capacity?: T
+  uefaCategory?: T
+  fieldType?: T
+  lightingLux?: T
+  parkingSpaces?: T
+  fieldsCount?: T
+  yearBuilt?: T
+  order?: T
+  updatedAt?: T
+  createdAt?: T
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "achievements_select".
+ */
+export interface AchievementsSelect<T extends boolean = true> {
+  title?: T
+  type?: T
+  year?: T
+  place?: T
+  competition?: T
+  description?: T
+  image?: T
+  order?: T
+  updatedAt?: T
+  createdAt?: T
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "veterans_select".
+ */
+export interface VeteransSelect<T extends boolean = true> {
+  firstName?: T
+  lastName?: T
+  displayName?: T
+  position?: T
+  yearsInClub?: T
+  jerseyNumber?: T
+  photo?: T
+  achievements?: T
+  biography?: T
+  statistics?:
+    | T
+    | {
+        matches?: T
+        goals?: T
+        assists?: T
+      }
+  isLegend?: T
+  order?: T
+  updatedAt?: T
+  createdAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv_select".
  */
 export interface PayloadKvSelect<T extends boolean = true> {
-  key?: T;
-  data?: T;
+  key?: T
+  data?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents_select".
  */
 export interface PayloadLockedDocumentsSelect<T extends boolean = true> {
-  document?: T;
-  globalSlug?: T;
-  user?: T;
-  updatedAt?: T;
-  createdAt?: T;
+  document?: T
+  globalSlug?: T
+  user?: T
+  updatedAt?: T
+  createdAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-preferences_select".
  */
 export interface PayloadPreferencesSelect<T extends boolean = true> {
-  user?: T;
-  key?: T;
-  value?: T;
-  updatedAt?: T;
-  createdAt?: T;
+  user?: T
+  key?: T
+  value?: T
+  updatedAt?: T
+  createdAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-migrations_select".
  */
 export interface PayloadMigrationsSelect<T extends boolean = true> {
-  name?: T;
-  batch?: T;
-  updatedAt?: T;
-  createdAt?: T;
+  name?: T
+  batch?: T
+  updatedAt?: T
+  createdAt?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "auth".
  */
 export interface Auth {
-  [k: string]: unknown;
+  [k: string]: unknown
 }
-
 
 declare module 'payload' {
   export interface GeneratedTypes extends Config {}

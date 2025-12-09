@@ -2,8 +2,7 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Calendar, ChevronLeft, Filter, Trophy } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { WebsiteHeader } from '@/components/website/WebsiteHeader';
-import { Footer } from '@/components/website/Footer';
+import { PageWrapper } from '@/components/website/PageWrapper';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Button } from '@/components/ui/button';
 import { useTeamMatches } from '@/hooks/api/useGames';
@@ -23,9 +22,7 @@ const MatchesPage = () => {
   });
 
   return (
-    <div className="min-h-screen bg-black text-white">
-      <WebsiteHeader />
-
+    <PageWrapper>
       {/* Hero Section */}
       <section className="relative pt-24 pb-12 bg-gradient-to-b from-red-900/20 to-black">
         <div className="container mx-auto px-4">
@@ -46,7 +43,7 @@ const MatchesPage = () => {
 
           {/* Filter Tabs */}
           <div className="flex gap-2 flex-wrap">
-            {(['all', 'finished', 'upcoming'] as FilterType[]).map((type) => (
+            {(['all', 'finished', 'upcoming'] as FilterType[]).map(type => (
               <Button
                 key={type}
                 variant={filter === type ? 'default' : 'outline'}
@@ -69,7 +66,7 @@ const MatchesPage = () => {
       <section className="container mx-auto px-4 py-12">
         {isLoading ? (
           <div className="space-y-4">
-            {[1, 2, 3, 4, 5].map((i) => (
+            {[1, 2, 3, 4, 5].map(i => (
               <Skeleton key={i} className="h-24 w-full bg-white/10 rounded-xl" />
             ))}
           </div>
@@ -86,9 +83,7 @@ const MatchesPage = () => {
           </div>
         )}
       </section>
-
-      <Footer />
-    </div>
+    </PageWrapper>
   );
 };
 
@@ -104,9 +99,10 @@ interface Match {
 }
 
 const MatchCard = ({ match, index }: { match: Match; index: number }) => {
-  const isKaysarHome = match.homeTeam.name.includes('Кайсар') ||
-                       match.homeTeam.name.includes('Kaysar') ||
-                       match.homeTeam.name.includes('Kaisar');
+  const isKaysarHome =
+    match.homeTeam.name.includes('Кайсар') ||
+    match.homeTeam.name.includes('Kaysar') ||
+    match.homeTeam.name.includes('Kaisar');
 
   const isFinished = match.status === 'finished';
   const homeScore = match.homeTeam.score ?? 0;
@@ -151,11 +147,13 @@ const MatchCard = ({ match, index }: { match: Match; index: number }) => {
                 src={match.homeTeam.logo}
                 alt={match.homeTeam.name}
                 className="w-10 h-10 md:w-12 md:h-12 object-contain"
-                onError={(e) => (e.currentTarget.src = '/images/teams/placeholder-team.svg')}
+                onError={e => (e.currentTarget.src = '/images/teams/placeholder-team.svg')}
               />
-              <span className={`font-bold text-sm md:text-base truncate ${
-                isKaysarHome ? 'text-red-500' : 'text-white'
-              }`}>
+              <span
+                className={`font-bold text-sm md:text-base truncate ${
+                  isKaysarHome ? 'text-red-500' : 'text-white'
+                }`}
+              >
                 {match.homeTeam.name}
               </span>
             </div>
@@ -164,17 +162,27 @@ const MatchCard = ({ match, index }: { match: Match; index: number }) => {
             <div className="flex-shrink-0 text-center px-4">
               {isFinished ? (
                 <div className="flex items-center gap-2">
-                  <span className={`text-2xl md:text-3xl font-black ${
-                    isKaysarHome && result === 'win' ? 'text-green-500' :
-                    isKaysarHome && result === 'loss' ? 'text-red-500' : 'text-white'
-                  }`}>
+                  <span
+                    className={`text-2xl md:text-3xl font-black ${
+                      isKaysarHome && result === 'win'
+                        ? 'text-green-500'
+                        : isKaysarHome && result === 'loss'
+                          ? 'text-red-500'
+                          : 'text-white'
+                    }`}
+                  >
                     {homeScore}
                   </span>
                   <span className="text-gray-500">:</span>
-                  <span className={`text-2xl md:text-3xl font-black ${
-                    !isKaysarHome && result === 'win' ? 'text-green-500' :
-                    !isKaysarHome && result === 'loss' ? 'text-red-500' : 'text-white'
-                  }`}>
+                  <span
+                    className={`text-2xl md:text-3xl font-black ${
+                      !isKaysarHome && result === 'win'
+                        ? 'text-green-500'
+                        : !isKaysarHome && result === 'loss'
+                          ? 'text-red-500'
+                          : 'text-white'
+                    }`}
+                  >
                     {awayScore}
                   </span>
                 </div>
@@ -185,16 +193,18 @@ const MatchCard = ({ match, index }: { match: Match; index: number }) => {
 
             {/* Away Team */}
             <div className="flex items-center gap-3 flex-1 justify-end">
-              <span className={`font-bold text-sm md:text-base truncate text-right ${
-                !isKaysarHome ? 'text-red-500' : 'text-white'
-              }`}>
+              <span
+                className={`font-bold text-sm md:text-base truncate text-right ${
+                  !isKaysarHome ? 'text-red-500' : 'text-white'
+                }`}
+              >
                 {match.awayTeam.name}
               </span>
               <img
                 src={match.awayTeam.logo}
                 alt={match.awayTeam.name}
                 className="w-10 h-10 md:w-12 md:h-12 object-contain"
-                onError={(e) => (e.currentTarget.src = '/images/teams/placeholder-team.svg')}
+                onError={e => (e.currentTarget.src = '/images/teams/placeholder-team.svg')}
               />
             </div>
           </div>
@@ -202,11 +212,15 @@ const MatchCard = ({ match, index }: { match: Match; index: number }) => {
           {/* Status Badge */}
           <div className="md:w-24 flex-shrink-0 text-right">
             {isFinished ? (
-              <span className={`text-xs font-bold px-2 py-1 rounded ${
-                result === 'win' ? 'bg-green-500/20 text-green-500' :
-                result === 'loss' ? 'bg-red-500/20 text-red-500' :
-                'bg-gray-500/20 text-gray-400'
-              }`}>
+              <span
+                className={`text-xs font-bold px-2 py-1 rounded ${
+                  result === 'win'
+                    ? 'bg-green-500/20 text-green-500'
+                    : result === 'loss'
+                      ? 'bg-red-500/20 text-red-500'
+                      : 'bg-gray-500/20 text-gray-400'
+                }`}
+              >
                 {result === 'win' ? 'WIN' : result === 'loss' ? 'LOSS' : 'DRAW'}
               </span>
             ) : (

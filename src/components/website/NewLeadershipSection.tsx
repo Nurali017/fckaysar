@@ -71,10 +71,25 @@ export const NewLeadershipSection = () => {
   }
 
   return (
-    <section className="py-24 bg-black relative overflow-hidden">
-      {/* Background Accents */}
-      <div className="absolute top-0 right-0 w-1/2 h-1/2 bg-red-900/10 blur-[120px] rounded-full" />
-      <div className="absolute bottom-0 left-0 w-1/2 h-1/2 bg-blue-900/10 blur-[120px] rounded-full" />
+    <section className="py-24 relative overflow-hidden">
+      {/* Blurred Stadium Background */}
+      <div className="absolute inset-0">
+        <img
+          src="/images/stadium/stadium-field.jpg"
+          alt=""
+          className="w-full h-full object-cover blur-[8px] scale-105"
+        />
+        <div className="absolute inset-0 bg-zinc-900/85" />
+      </div>
+
+      {/* Left Accent Line - softer */}
+      <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-red-600/70 via-red-500/40 to-transparent" />
+
+      {/* Diagonal Lines Pattern - very subtle */}
+      <div className="absolute inset-0 bg-diagonal-lines opacity-15" />
+
+      {/* Grid Pattern - subtle */}
+      <div className="absolute inset-0 bg-grid-subtle bg-grid-60 opacity-25" />
 
       <div className="container mx-auto px-4 relative z-10">
         <motion.div

@@ -106,27 +106,31 @@ All colors MUST be HSL.
     -webkit-tap-highlight-color: rgba(220, 38, 38, 0.2);
   }
 
-  /* Типографика в стиле профессиональных футбольных клубов */
+  /* Типографика - АГРЕССИВНЫЙ СПОРТИВНЫЙ СТИЛЬ */
   h1,
   h2,
   h3,
   h4,
   h5,
   h6 {
-    @apply font-bold tracking-tight;
+    @apply font-black tracking-tight;
     font-family: 'Montserrat', system-ui, sans-serif;
   }
 
   h1 {
-    @apply text-4xl md:text-6xl lg:text-7xl font-black uppercase tracking-tighter;
+    @apply text-5xl md:text-7xl lg:text-8xl font-black uppercase italic;
+    letter-spacing: -0.04em;
+    line-height: 0.9;
   }
 
   h2 {
-    @apply text-2xl md:text-4xl lg:text-5xl font-bold uppercase;
+    @apply text-3xl md:text-4xl lg:text-5xl font-black uppercase italic;
+    letter-spacing: -0.02em;
   }
 
   h3 {
     @apply text-xl md:text-2xl font-bold uppercase;
+    letter-spacing: 0.05em;
   }
 
   /* Better selection colors */
@@ -154,5 +158,45 @@ All colors MUST be HSL.
   /* Improved focus styles for accessibility */
   :focus-visible {
     @apply outline-none ring-2 ring-red-500 ring-offset-2 ring-offset-black;
+  }
+}
+
+@layer utilities {
+  /* Gradient text - агрессивный красный */
+  .gradient-text-red {
+    @apply text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-red-600 to-red-700;
+  }
+
+  /* Red glow shadow */
+  .shadow-red-glow {
+    box-shadow: 0 0 60px -15px rgba(220, 38, 38, 0.4);
+  }
+
+  /* Aggressive card shadow */
+  .shadow-aggressive {
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+  }
+
+  /* Section accent line - left */
+  .accent-line-left::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: linear-gradient(to bottom, #dc2626, transparent);
+  }
+
+  /* Corner glow effect */
+  .corner-glow-tr::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle at top right, rgba(220, 38, 38, 0.1), transparent 70%);
+    pointer-events: none;
   }
 }

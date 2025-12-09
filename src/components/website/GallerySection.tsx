@@ -92,11 +92,14 @@ export const GallerySection = () => {
   }, [selectedIndex, handleKeyDown]);
 
   // Memoized date formatter
-  const formatDate = useCallback((dateStr: string) => {
-    const date = new Date(dateStr);
-    const locale = i18n.language === 'kk' ? 'kk-KZ' : i18n.language === 'ru' ? 'ru-RU' : 'en-US';
-    return date.toLocaleDateString(locale, { day: 'numeric', month: 'long' });
-  }, [i18n.language]);
+  const formatDate = useCallback(
+    (dateStr: string) => {
+      const date = new Date(dateStr);
+      const locale = i18n.language === 'kk' ? 'kk-KZ' : i18n.language === 'ru' ? 'ru-RU' : 'en-US';
+      return date.toLocaleDateString(locale, { day: 'numeric', month: 'long' });
+    },
+    [i18n.language]
+  );
 
   // Don't render if error or no data
   if (isError || (!isLoading && galleryItems.length === 0)) {
@@ -104,62 +107,76 @@ export const GallerySection = () => {
   }
 
   return (
-    <section className="container mx-auto px-4 py-12 sm:py-16 md:py-20">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 mb-8 sm:mb-12">
-        <div>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-2 text-white">
-            {t("gallery.title")}
-          </h2>
-          <p className="text-gray-400 text-base sm:text-lg">
-            {t("gallery.subtitle")}
-          </p>
-        </div>
-        <Link to="/gallery">
-          <Button variant="outline" className="hidden md:flex border-white/20 text-white hover:bg-white/10 min-h-[44px]">
-            {t("gallery.viewAll")}
-            <ArrowRight className="ml-2 w-4 h-4" />
-          </Button>
-        </Link>
-      </div>
+    <section className="relative py-12 sm:py-16 md:py-20 bg-zinc-900/60 overflow-hidden">
+      {/* Top Border Line - softer */}
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/5 to-transparent" />
+      {/* Bottom Border Line - softer */}
+      <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-white/5 to-transparent" />
 
-      {/* Loading State */}
-      {isLoading && (
-        <div className="flex justify-center items-center py-12 sm:py-20">
-          <Loader2 className="w-6 h-6 sm:w-8 sm:h-8 animate-spin text-red-500" />
-        </div>
-      )}
+      {/* Vignette Effect - very subtle */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_60%,rgba(0,0,0,0.15)_100%)]" />
 
-      {/* Error State */}
-      {isError && (
-        <div className="text-center py-12 sm:py-20 text-gray-400 text-sm sm:text-base">
-          {t("common.error")}
+      <div className="container mx-auto px-4 relative z-10">
+        {/* Header */}
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 mb-8 sm:mb-12">
+          <div>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-2 text-white">
+              {t('gallery.title')}
+            </h2>
+            <p className="text-gray-400 text-base sm:text-lg">{t('gallery.subtitle')}</p>
+          </div>
+          <Link to="/gallery">
+            <Button
+              variant="outline"
+              className="hidden md:flex border-white/20 text-white hover:bg-white/10 min-h-[44px]"
+            >
+              {t('gallery.viewAll')}
+              <ArrowRight className="ml-2 w-4 h-4" />
+            </Button>
+          </Link>
         </div>
-      )}
 
-      {/* Gallery Grid */}
-      {!isLoading && !isError && (
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 sm:gap-3 md:gap-4">
-          {galleryItems.map((item, index) => (
-            <GalleryItem
-              key={item.id}
-              item={item}
-              index={index}
-              formatDate={formatDate}
-              onSelect={handleSelect}
-            />
-          ))}
+        {/* Loading State */}
+        {isLoading && (
+          <div className="flex justify-center items-center py-12 sm:py-20">
+            <Loader2 className="w-6 h-6 sm:w-8 sm:h-8 animate-spin text-red-500" />
+          </div>
+        )}
+
+        {/* Error State */}
+        {isError && (
+          <div className="text-center py-12 sm:py-20 text-gray-400 text-sm sm:text-base">
+            {t('common.error')}
+          </div>
+        )}
+
+        {/* Gallery Grid */}
+        {!isLoading && !isError && (
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 sm:gap-3 md:gap-4">
+            {galleryItems.map((item, index) => (
+              <GalleryItem
+                key={item.id}
+                item={item}
+                index={index}
+                formatDate={formatDate}
+                onSelect={handleSelect}
+              />
+            ))}
+          </div>
+        )}
+
+        {/* Mobile View All Button */}
+        <div className="flex justify-center mt-6 sm:mt-8 md:hidden">
+          <Link to="/gallery" className="w-full">
+            <Button
+              variant="outline"
+              className="border-white/20 text-white hover:bg-white/10 w-full min-h-[48px]"
+            >
+              {t('gallery.viewAll')}
+              <ArrowRight className="ml-2 w-4 h-4" />
+            </Button>
+          </Link>
         </div>
-      )}
-
-      {/* Mobile View All Button */}
-      <div className="flex justify-center mt-6 sm:mt-8 md:hidden">
-        <Link to="/gallery" className="w-full">
-          <Button variant="outline" className="border-white/20 text-white hover:bg-white/10 w-full min-h-[48px]">
-            {t("gallery.viewAll")}
-            <ArrowRight className="ml-2 w-4 h-4" />
-          </Button>
-        </Link>
       </div>
 
       {/* Lightbox Modal */}
@@ -187,7 +204,10 @@ export const GallerySection = () => {
 
             {/* Previous Button */}
             <button
-              onClick={(e) => { e.stopPropagation(); goToPrevious(); }}
+              onClick={e => {
+                e.stopPropagation();
+                goToPrevious();
+              }}
               className="absolute left-2 sm:left-4 z-10 p-2 sm:p-3 rounded-full bg-white/10 hover:bg-white/20 transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center"
             >
               <ChevronLeft className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
@@ -201,7 +221,7 @@ export const GallerySection = () => {
               exit={{ opacity: 0, scale: 0.9 }}
               transition={{ duration: 0.2 }}
               className="max-w-5xl max-h-[85vh] px-4 sm:px-8 md:px-12 lg:px-16"
-              onClick={(e) => e.stopPropagation()}
+              onClick={e => e.stopPropagation()}
             >
               <img
                 src={galleryItems[selectedIndex].images[0]}
@@ -210,7 +230,9 @@ export const GallerySection = () => {
               />
               {/* Image Info */}
               <div className="mt-3 sm:mt-4 text-center">
-                <p className="text-white font-bold text-base sm:text-lg">{galleryItems[selectedIndex].title}</p>
+                <p className="text-white font-bold text-base sm:text-lg">
+                  {galleryItems[selectedIndex].title}
+                </p>
                 <p className="text-gray-400 text-xs sm:text-sm mt-1">
                   {formatDate(galleryItems[selectedIndex].uploadDate)}
                 </p>
@@ -219,7 +241,10 @@ export const GallerySection = () => {
 
             {/* Next Button */}
             <button
-              onClick={(e) => { e.stopPropagation(); goToNext(); }}
+              onClick={e => {
+                e.stopPropagation();
+                goToNext();
+              }}
               className="absolute right-2 sm:right-4 z-10 p-2 sm:p-3 rounded-full bg-white/10 hover:bg-white/20 transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center"
             >
               <ChevronRight className="w-6 h-6 sm:w-8 sm:h-8 text-white" />

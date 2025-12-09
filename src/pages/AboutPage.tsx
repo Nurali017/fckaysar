@@ -1,5 +1,4 @@
-import { WebsiteHeader } from '@/components/website/WebsiteHeader';
-import { Footer } from '@/components/website/Footer';
+import { PageWrapper } from '@/components/website/PageWrapper';
 import { useTranslation } from 'react-i18next';
 import { FadeInWhenVisible } from '@/components/animations/FadeInWhenVisible';
 import { ArrowLeft, Calendar, MapPin, Users, Trophy, Target, Heart } from 'lucide-react';
@@ -12,9 +11,7 @@ const AboutPage = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-black text-white font-sans">
-      <WebsiteHeader />
-
+    <PageWrapper>
       {/* Hero Section */}
       <section className="relative min-h-[60vh] flex items-center justify-center overflow-hidden pt-20">
         <div className="absolute inset-0 bg-gradient-to-b from-red-900/20 via-black to-black" />
@@ -128,9 +125,7 @@ const AboutPage = () => {
               <div className="bg-black/50 p-8 rounded-2xl border border-white/10 mb-12">
                 <Target className="h-12 w-12 text-red-500 mx-auto mb-4" />
                 <h3 className="text-2xl font-bold mb-4">{t('about.mission.vision')}</h3>
-                <p className="text-gray-400 text-lg">
-                  {t('about.mission.visionText')}
-                </p>
+                <p className="text-gray-400 text-lg">{t('about.mission.visionText')}</p>
               </div>
 
               {/* Values */}
@@ -138,7 +133,10 @@ const AboutPage = () => {
                 <h3 className="text-2xl font-bold mb-8">{t('about.mission.values')}</h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
                   {['value1', 'value2', 'value3', 'value4'].map((value, idx) => (
-                    <div key={value} className="bg-black/50 p-6 rounded-xl border border-white/10 hover:border-red-600/50 transition-all">
+                    <div
+                      key={value}
+                      className="bg-black/50 p-6 rounded-xl border border-white/10 hover:border-red-600/50 transition-all"
+                    >
                       <div className="text-3xl font-black text-red-500 mb-2">0{idx + 1}</div>
                       <p className="font-bold">{t(`about.mission.${value}`)}</p>
                     </div>
@@ -170,8 +168,11 @@ const AboutPage = () => {
               </div>
 
               <div className="grid md:grid-cols-3 gap-6">
-                {['point1', 'point2', 'point3'].map((point) => (
-                  <div key={point} className="bg-gradient-to-br from-red-600/10 to-transparent p-8 rounded-2xl border border-white/10 text-center hover:border-red-600/50 transition-all">
+                {['point1', 'point2', 'point3'].map(point => (
+                  <div
+                    key={point}
+                    className="bg-gradient-to-br from-red-600/10 to-transparent p-8 rounded-2xl border border-white/10 text-center hover:border-red-600/50 transition-all"
+                  >
                     <Trophy className="h-12 w-12 text-red-500 mx-auto mb-4" />
                     <h3 className="text-xl font-bold">{t(`about.newEra.${point}`)}</h3>
                   </div>
@@ -213,9 +214,7 @@ const AboutPage = () => {
           </FadeInWhenVisible>
         </div>
       </section>
-
-      <Footer />
-    </div>
+    </PageWrapper>
   );
 };
 

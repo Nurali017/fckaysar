@@ -20,9 +20,9 @@ import type {
 } from '@/api/types/match-details-types';
 
 // In development, use relative paths (Vite proxy handles them)
-// In production, use full CMS URL
+// In production, use full CMS URL from env
 const isDev = import.meta.env.DEV;
-const CMS_MEDIA_URL = isDev ? '' : (env.VITE_CMS_BASE_URL || 'http://localhost:3000');
+const CMS_MEDIA_URL = isDev ? '' : env.VITE_CMS_BASE_URL;
 
 /**
  * Convert relative logo path to full URL
@@ -168,10 +168,14 @@ interface CMSMatchDetailResponse {
  */
 const getDateLocale = (lang: string) => {
   switch (lang) {
-    case 'kk': return kk;
-    case 'ru': return ru;
-    case 'en': return enUS;
-    default: return ru;
+    case 'kk':
+      return kk;
+    case 'ru':
+      return ru;
+    case 'en':
+      return enUS;
+    default:
+      return ru;
   }
 };
 
@@ -183,7 +187,7 @@ const transformLineup = (
 ): LineupPlayer[] => {
   if (!cmsLineup) return [];
 
-  return cmsLineup.map((player) => ({
+  return cmsLineup.map(player => ({
     id: player.playerId,
     number: player.number,
     full_name: player.fullName,
@@ -260,7 +264,7 @@ const transformPlayerStats = (
 ): MatchPlayer[] | undefined => {
   const result: MatchPlayer[] = [];
 
-  homePlayers?.forEach((player) => {
+  homePlayers?.forEach(player => {
     result.push({
       id: player.playerId,
       team: homeTeamName || '',
@@ -283,7 +287,7 @@ const transformPlayerStats = (
     });
   });
 
-  awayPlayers?.forEach((player) => {
+  awayPlayers?.forEach(player => {
     result.push({
       id: player.playerId,
       team: awayTeamName || '',
@@ -322,60 +326,65 @@ const transformCMSMatchDetail = (
 
     // Validate date
     if (!isValid(gameDate)) {
-      logger.warn('[Match] Invalid date in CMS data, using fallback', { date: data.date, matchId: data.id });
+      logger.warn('[Match] Invalid date in CMS data, using fallback', {
+        date: data.date,
+        matchId: data.id,
+      });
     }
 
     const status: 'upcoming' | 'live' | 'finished' =
       data.status === 'scheduled' ? 'upcoming' : data.status;
 
-  // Build lineup if available
-  let lineup: PreGameLineupResponse | undefined;
-  if (data.homeLineup || data.awayLineup) {
-    lineup = {
-      date: data.date,
-      referees: transformReferees(data.referees) || {
-        main: '',
-        '1st_assistant': '',
-        '2nd_assistant': '',
-        '4th_referee': '',
-        video_assistant_1: '',
-        video_assistant_main: '',
-        match_inspector: '',
-      },
-      home_team: {
-        id: String(data.homeTeam.id ?? ''),
-        name: data.homeTeam.name,
-        short_name: data.homeTeam.shortName || data.homeTeam.name?.slice(0, 3).toUpperCase() || '',
-        bas_logo_path: getFullLogoUrl(data.homeTeam.logo) || null,
-        brand_color: data.homeTeam.brandColor || '#dc2626',
-        coach: data.homeCoach
-          ? {
-              first_name: data.homeCoach.name.split(' ')[0] || '',
-              last_name: [data.homeCoach.name.split(' ').slice(1).join(' ') || ''],
-            }
-          : { first_name: '', last_name: [''] },
-        first_assistant: { first_name: '', last_name: '' },
-        second_assistant: { first_name: '', last_name: '' },
-        lineup: transformLineup(data.homeLineup),
-      },
-      away_team: {
-        id: String(data.awayTeam.id ?? ''),
-        name: data.awayTeam.name,
-        short_name: data.awayTeam.shortName || data.awayTeam.name?.slice(0, 3).toUpperCase() || '',
-        bas_logo_path: getFullLogoUrl(data.awayTeam.logo) || null,
-        brand_color: data.awayTeam.brandColor || '#3b82f6',
-        coach: data.awayCoach
-          ? {
-              first_name: data.awayCoach.name.split(' ')[0] || '',
-              last_name: [data.awayCoach.name.split(' ').slice(1).join(' ') || ''],
-            }
-          : { first_name: '', last_name: [''] },
-        first_assistant: { first_name: '', last_name: '' },
-        second_assistant: { first_name: '', last_name: '' },
-        lineup: transformLineup(data.awayLineup),
-      },
-    };
-  }
+    // Build lineup if available
+    let lineup: PreGameLineupResponse | undefined;
+    if (data.homeLineup || data.awayLineup) {
+      lineup = {
+        date: data.date,
+        referees: transformReferees(data.referees) || {
+          main: '',
+          '1st_assistant': '',
+          '2nd_assistant': '',
+          '4th_referee': '',
+          video_assistant_1: '',
+          video_assistant_main: '',
+          match_inspector: '',
+        },
+        home_team: {
+          id: String(data.homeTeam.id ?? ''),
+          name: data.homeTeam.name,
+          short_name:
+            data.homeTeam.shortName || data.homeTeam.name?.slice(0, 3).toUpperCase() || '',
+          bas_logo_path: getFullLogoUrl(data.homeTeam.logo) || null,
+          brand_color: data.homeTeam.brandColor || '#dc2626',
+          coach: data.homeCoach
+            ? {
+                first_name: data.homeCoach.name.split(' ')[0] || '',
+                last_name: [data.homeCoach.name.split(' ').slice(1).join(' ') || ''],
+              }
+            : { first_name: '', last_name: [''] },
+          first_assistant: { first_name: '', last_name: '' },
+          second_assistant: { first_name: '', last_name: '' },
+          lineup: transformLineup(data.homeLineup),
+        },
+        away_team: {
+          id: String(data.awayTeam.id ?? ''),
+          name: data.awayTeam.name,
+          short_name:
+            data.awayTeam.shortName || data.awayTeam.name?.slice(0, 3).toUpperCase() || '',
+          bas_logo_path: getFullLogoUrl(data.awayTeam.logo) || null,
+          brand_color: data.awayTeam.brandColor || '#3b82f6',
+          coach: data.awayCoach
+            ? {
+                first_name: data.awayCoach.name.split(' ')[0] || '',
+                last_name: [data.awayCoach.name.split(' ').slice(1).join(' ') || ''],
+              }
+            : { first_name: '', last_name: [''] },
+          first_assistant: { first_name: '', last_name: '' },
+          second_assistant: { first_name: '', last_name: '' },
+          lineup: transformLineup(data.awayLineup),
+        },
+      };
+    }
 
     // Format date safely
     const formattedDate = isValid(gameDate)
@@ -426,7 +435,9 @@ const transformCMSMatchDetail = (
 /**
  * Fetch match details from CMS
  */
-const fetchMatchDetails = async (matchId: string): Promise<CMSMatchDetailResponse['data'] | null> => {
+const fetchMatchDetails = async (
+  matchId: string
+): Promise<CMSMatchDetailResponse['data'] | null> => {
   try {
     const response = await cmsClient.get<CMSMatchDetailResponse>(`/matches/${matchId}`);
 

@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom';
-import { WebsiteHeader } from '@/components/website/WebsiteHeader';
-import { Footer } from '@/components/website/Footer';
+import { PageWrapper } from '@/components/website/PageWrapper';
 import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Alert, AlertDescription } from '@/components/ui/alert';
@@ -25,9 +24,7 @@ const NewsPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-black text-white font-sans">
-      <WebsiteHeader />
-
+    <PageWrapper>
       <main className="pt-20">
         {/* Hero Section */}
         <section className="relative py-16 md:py-24 overflow-hidden">
@@ -139,9 +136,7 @@ const NewsPage = () => {
           </div>
         </section>
       </main>
-
-      <Footer />
-    </div>
+    </PageWrapper>
   );
 };
 

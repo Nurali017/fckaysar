@@ -62,6 +62,18 @@ export default {
         'gradient-hero': 'var(--gradient-hero)',
         'gradient-card': 'var(--gradient-card)',
         'gradient-premium': 'var(--gradient-premium)',
+        // Aggressive patterns
+        'diagonal-lines':
+          'repeating-linear-gradient(-45deg, transparent, transparent 80px, rgba(220,38,38,0.02) 80px, rgba(220,38,38,0.02) 82px)',
+        'grid-subtle':
+          'linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px)',
+        'dots-pattern': 'radial-gradient(circle, rgba(255,255,255,0.03) 1px, transparent 1px)',
+        'noise-texture':
+          "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E\")",
+      },
+      backgroundSize: {
+        'grid-60': '60px 60px',
+        'dots-20': '20px 20px',
       },
       boxShadow: {
         glow: 'var(--shadow-glow)',

@@ -25,6 +25,8 @@ const GalleryPage = lazy(() => import('./pages/GalleryPage'));
 const TeamPage = lazy(() => import('./pages/TeamPage'));
 const PrivacyPage = lazy(() => import('./pages/PrivacyPage'));
 const TermsPage = lazy(() => import('./pages/TermsPage'));
+const StandingsPage = lazy(() => import('./pages/StandingsPage'));
+const MediaPage = lazy(() => import('./pages/MediaPage'));
 
 // Новые страницы по образцу ФК Краснодар
 const StadiumPage = lazy(() => import('./pages/StadiumPage'));
@@ -36,6 +38,7 @@ const LeadershipPage = lazy(() => import('./pages/club/LeadershipPage'));
 const HistoryPage = lazy(() => import('./pages/club/HistoryPage'));
 const PartnersPage = lazy(() => import('./pages/club/PartnersPage'));
 const ContactsPage = lazy(() => import('./pages/club/ContactsPage'));
+const InfrastructurePage = lazy(() => import('./pages/club/InfrastructurePage'));
 
 // Раздел Академия (расширенный)
 const AcademyTeamsPage = lazy(() => import('./pages/academy/AcademyTeamsPage'));
@@ -47,7 +50,6 @@ const TeamStaffPage = lazy(() => import('./pages/team/TeamStaffPage'));
 
 // Раздел Болельщику
 const FansPage = lazy(() => import('./pages/fans/FansPage'));
-const TransportPage = lazy(() => import('./pages/fans/TransportPage'));
 const RulesPage = lazy(() => import('./pages/fans/RulesPage'));
 const FAQPage = lazy(() => import('./pages/fans/FAQPage'));
 
@@ -90,6 +92,7 @@ const App = () => {
                 <Route path="/club/history" element={<HistoryPage />} />
                 <Route path="/club/partners" element={<PartnersPage />} />
                 <Route path="/club/contacts" element={<ContactsPage />} />
+                <Route path="/club/infrastructure" element={<InfrastructurePage />} />
                 <Route path="/about" element={<AboutPage />} />
 
                 {/* Раздел Команда */}
@@ -110,15 +113,16 @@ const App = () => {
                 {/* Матчи */}
                 <Route path="/matches" element={<MatchesPage />} />
                 <Route path="/match/:id" element={<MatchPage />} />
+                <Route path="/standings" element={<StandingsPage />} />
 
                 {/* Новости и Галерея */}
                 <Route path="/news" element={<NewsPage />} />
                 <Route path="/news/:slug" element={<NewsDetailPage />} />
                 <Route path="/gallery" element={<GalleryPage />} />
+                <Route path="/media" element={<MediaPage />} />
 
                 {/* Раздел Болельщику */}
                 <Route path="/fans" element={<FansPage />} />
-                <Route path="/fans/transport" element={<TransportPage />} />
                 <Route path="/fans/rules" element={<RulesPage />} />
                 <Route path="/fans/faq" element={<FAQPage />} />
 

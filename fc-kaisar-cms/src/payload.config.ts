@@ -18,12 +18,21 @@ import { TeamStats } from './collections/TeamStats'
 import { Seasons } from './collections/Seasons'
 import { Leadership } from './collections/Leadership'
 import { TeamLogos } from './collections/TeamLogos'
+import { Infrastructure } from './collections/Infrastructure'
+import { Achievements } from './collections/Achievements'
+import { Veterans } from './collections/Veterans'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
 export default buildConfig({
-  cors: ['http://localhost:8080', 'http://localhost:3000', 'http://localhost:5173'],
+  cors: [
+    'http://localhost:8080',
+    'http://localhost:3000',
+    'http://localhost:5173',
+    'http://127.0.0.1:8080',
+    'http://127.0.0.1:3000',
+  ],
   admin: {
     user: Users.slug,
     importMap: {
@@ -33,7 +42,23 @@ export default buildConfig({
       titleSuffix: '- FC Kaisar CMS',
     },
   },
-  collections: [Users, Media, News, Players, Matches, Gallery, Polls, LeagueTable, TeamStats, Seasons, Leadership, TeamLogos],
+  collections: [
+    Users,
+    Media,
+    News,
+    Players,
+    Matches,
+    Gallery,
+    Polls,
+    LeagueTable,
+    TeamStats,
+    Seasons,
+    Leadership,
+    TeamLogos,
+    Infrastructure,
+    Achievements,
+    Veterans,
+  ],
   localization: {
     locales: [
       {

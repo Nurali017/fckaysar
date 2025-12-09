@@ -7,11 +7,7 @@ import { kk, ru, enUS } from 'date-fns/locale';
 import cmsApiClient from './cms-client';
 import { logger } from '@/lib/logger';
 import { env } from '@/lib/env';
-import type {
-  CMSMatch,
-  CMSPaginatedResponse,
-  CMSQueryParams,
-} from './types';
+import type { CMSMatch, CMSPaginatedResponse, CMSQueryParams } from './types';
 import type {
   MatchDetails,
   PreGameLineupResponse,
@@ -24,9 +20,9 @@ import type {
 const COLLECTION = 'matches';
 
 // In development, use relative paths (Vite proxy handles them)
-// In production, use full CMS URL
+// In production, use full CMS URL from env
 const isDev = import.meta.env.DEV;
-const CMS_MEDIA_URL = isDev ? '' : (env.VITE_CMS_BASE_URL || 'http://localhost:3000');
+const CMS_MEDIA_URL = isDev ? '' : env.VITE_CMS_BASE_URL;
 
 /**
  * Convert relative logo path to full URL
@@ -79,7 +75,7 @@ const transformLineup = (
 ): LineupPlayer[] => {
   if (!cmsLineup) return [];
 
-  return cmsLineup.map((player) => ({
+  return cmsLineup.map(player => ({
     id: player.playerId,
     number: player.number,
     full_name: player.fullName,
@@ -118,7 +114,7 @@ const transformPlayerStats = (
 ): MatchPlayer[] | undefined => {
   const result: MatchPlayer[] = [];
 
-  homePlayers?.forEach((player) => {
+  homePlayers?.forEach(player => {
     result.push({
       id: player.playerId,
       team: homeTeamName || '',
@@ -141,7 +137,7 @@ const transformPlayerStats = (
     });
   });
 
-  awayPlayers?.forEach((player) => {
+  awayPlayers?.forEach(player => {
     result.push({
       id: player.playerId,
       team: awayTeamName || '',

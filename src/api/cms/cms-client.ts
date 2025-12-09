@@ -7,8 +7,13 @@ import i18n from '@/i18n/config';
 import { logger } from '@/lib/logger';
 import { env } from '@/lib/env';
 
-// Use /cms-api path in both dev and production (nginx proxies to CMS)
-const CMS_BASE_URL = `${env.VITE_CMS_BASE_URL || ''}/cms-api`;
+// In dev: use /cms-api through Vite proxy (rewrites to /api)
+// In prod or direct CMS access: use /api directly
+const cmsBaseUrl = env.VITE_CMS_BASE_URL;
+
+// If CMS base URL is set (direct access), use /api path
+// If not set (going through Vite proxy), use /cms-api which gets rewritten to /api
+const CMS_BASE_URL = cmsBaseUrl ? `${cmsBaseUrl}/api` : '/cms-api';
 
 /**
  * Create axios instance for CMS
@@ -37,7 +42,7 @@ const mapLocale = (appLang: string): string => {
  * Request interceptor: Add locale parameter
  */
 cmsApiClient.interceptors.request.use(
-  (config) => {
+  config => {
     const currentLang = i18n.language || 'kk';
     const locale = mapLocale(currentLang);
 
@@ -58,7 +63,7 @@ cmsApiClient.interceptors.request.use(
  * Response interceptor: Handle errors
  */
 cmsApiClient.interceptors.response.use(
-  (response) => response,
+  response => response,
   async (error: AxiosError) => {
     if (error.response) {
       logger.error('CMS API Error:', {
@@ -83,7 +88,7 @@ export const checkCMSHealth = async (): Promise<boolean> => {
   try {
     const response = await cmsApiClient.get('/users', {
       timeout: 5000,
-      params: { limit: 1 }
+      params: { limit: 1 },
     });
     return response.status === 200;
   } catch {

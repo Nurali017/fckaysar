@@ -1,6 +1,5 @@
 import { useState } from 'react';
-import { WebsiteHeader } from '@/components/website/WebsiteHeader';
-import { Footer } from '@/components/website/Footer';
+import { PageWrapper } from '@/components/website/PageWrapper';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -15,39 +14,42 @@ import { PlayerProfile } from '@/components/website/PlayerProfile';
 type Position = 'all' | 'GK' | 'DEF' | 'MID' | 'FWD';
 
 const TeamPage = () => {
-  const { i18n } = useTranslation();
+  const { t } = useTranslation();
   const { data: players = [], isLoading, error } = useTeamPlayers();
-  const lang = i18n.language as 'ru' | 'kk' | 'en';
 
   const [selectedPosition, setSelectedPosition] = useState<Position>('all');
-  const [selectedPlayer, setSelectedPlayer] = useState<typeof players[0] | null>(null);
+  const [selectedPlayer, setSelectedPlayer] = useState<(typeof players)[0] | null>(null);
 
-  const positions: { key: Position; label: Record<string, string> }[] = [
-    { key: 'all', label: { ru: 'Все', kk: 'Барлығы', en: 'All' } },
-    { key: 'GK', label: { ru: 'Вратари', kk: 'Қақпашылар', en: 'Goalkeepers' } },
-    { key: 'DEF', label: { ru: 'Защитники', kk: 'Қорғаушылар', en: 'Defenders' } },
-    { key: 'MID', label: { ru: 'Полузащитники', kk: 'Жартылай қорғаушылар', en: 'Midfielders' } },
-    { key: 'FWD', label: { ru: 'Нападающие', kk: 'Шабуылшылар', en: 'Forwards' } },
+  const positions: { key: Position; label: string }[] = [
+    { key: 'all', label: t('team.filterAll', 'Все') },
+    { key: 'GK', label: t('team.filterGK', 'Вратари') },
+    { key: 'DEF', label: t('team.filterDEF', 'Защитники') },
+    { key: 'MID', label: t('team.filterMID', 'Полузащитники') },
+    { key: 'FWD', label: t('team.filterFWD', 'Нападающие') },
   ];
 
   const mapPositionKey = (positionKey?: string): Position => {
     switch (positionKey) {
-      case 'goalkeeper': return 'GK';
-      case 'defender': return 'DEF';
-      case 'midfielder': return 'MID';
-      case 'forward': return 'FWD';
-      default: return 'MID';
+      case 'goalkeeper':
+        return 'GK';
+      case 'defender':
+        return 'DEF';
+      case 'midfielder':
+        return 'MID';
+      case 'forward':
+        return 'FWD';
+      default:
+        return 'MID';
     }
   };
 
-  const filteredPlayers = selectedPosition === 'all'
-    ? players
-    : players.filter((p) => mapPositionKey(p.positionKey) === selectedPosition);
+  const filteredPlayers =
+    selectedPosition === 'all'
+      ? players
+      : players.filter(p => mapPositionKey(p.positionKey) === selectedPosition);
 
   return (
-    <div className="min-h-screen bg-black text-white font-sans">
-      <WebsiteHeader />
-
+    <PageWrapper>
       <main className="pt-20">
         {/* Hero Section */}
         <section className="relative py-16 md:py-24 overflow-hidden">
@@ -61,17 +63,15 @@ const TeamPage = () => {
             >
               <Badge className="bg-red-600/20 text-red-400 border-red-600/30 mb-4">
                 <Users className="w-4 h-4 mr-2" />
-                {lang === 'kk' ? 'Команда' : lang === 'en' ? 'Team' : 'Команда'}
+                {t('team.badge', 'Команда')}
               </Badge>
 
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4">
                 <span className="bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent">
-                  {lang === 'kk' ? 'Толық' : lang === 'en' ? 'Full' : 'Полный'}
+                  {t('team.heroTitle1', 'Полный')}
                 </span>
                 <br />
-                <span className="text-red-500">
-                  {lang === 'kk' ? 'Құрам' : lang === 'en' ? 'Squad' : 'Состав'}
-                </span>
+                <span className="text-red-500">{t('team.heroTitle2', 'Состав')}</span>
               </h1>
             </motion.div>
           </div>
@@ -81,7 +81,7 @@ const TeamPage = () => {
         <section className="py-4 px-4">
           <div className="container mx-auto max-w-6xl">
             <div className="flex flex-wrap justify-center gap-2">
-              {positions.map((pos) => (
+              {positions.map(pos => (
                 <Button
                   key={pos.key}
                   variant={selectedPosition === pos.key ? 'default' : 'outline'}
@@ -93,7 +93,7 @@ const TeamPage = () => {
                       : 'border-gray-700 hover:border-gray-600'
                   }
                 >
-                  {pos.label[lang] || pos.label.ru}
+                  {pos.label}
                 </Button>
               ))}
             </div>
@@ -119,23 +119,13 @@ const TeamPage = () => {
               <Alert className="bg-red-500/10 border-red-500/20">
                 <AlertCircle className="h-4 w-4 text-red-500" />
                 <AlertDescription className="text-white">
-                  {lang === 'kk'
-                    ? 'Ойыншыларды жүктеу мүмкін болмады'
-                    : lang === 'en'
-                      ? 'Failed to load players'
-                      : 'Не удалось загрузить игроков'}
+                  {t('team.loadError', 'Не удалось загрузить игроков')}
                 </AlertDescription>
               </Alert>
             ) : filteredPlayers.length === 0 ? (
               <div className="text-center py-12">
                 <Users className="w-16 h-16 text-gray-700 mx-auto mb-4" />
-                <p className="text-gray-500">
-                  {lang === 'kk'
-                    ? 'Ойыншылар табылмады'
-                    : lang === 'en'
-                      ? 'No players found'
-                      : 'Игроки не найдены'}
-                </p>
+                <p className="text-gray-500">{t('team.noPlayers', 'Игроки не найдены')}</p>
               </div>
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
@@ -152,7 +142,7 @@ const TeamPage = () => {
                       <img
                         src={player.photoUrl || '/placeholder.svg'}
                         alt={player.name}
-                        onError={(e) => {
+                        onError={e => {
                           const target = e.target as HTMLImageElement;
                           if (target.src !== window.location.origin + '/placeholder.svg') {
                             target.src = '/placeholder.svg';
@@ -191,19 +181,14 @@ const TeamPage = () => {
                   exit={{ opacity: 0, scale: 0.95 }}
                   transition={{ duration: 0.3 }}
                 >
-                  <PlayerProfile
-                    playerId={selectedPlayer.id}
-                    initialData={selectedPlayer}
-                  />
+                  <PlayerProfile playerId={selectedPlayer.id} initialData={selectedPlayer} />
                 </motion.div>
               )}
             </AnimatePresence>
           </DialogContent>
         </Dialog>
       </main>
-
-      <Footer />
-    </div>
+    </PageWrapper>
   );
 };
 

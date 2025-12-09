@@ -246,6 +246,65 @@ export interface PollOptionItem {
   percentage: number;
 }
 
+// Infrastructure collection
+export interface CMSInfrastructure {
+  id: string;
+  name: string;
+  type: 'stadium' | 'training_base' | 'academy' | 'office';
+  status: 'active' | 'construction' | 'planned';
+  description?: CMSRichText;
+  shortDescription?: string;
+  mainImage?: CMSMedia | string;
+  gallery?: (CMSMedia | string)[];
+  features?: {
+    title: string;
+    description: string;
+  }[];
+  address?: string;
+  coordinates?: {
+    lat?: number;
+    lng?: number;
+  };
+  capacity?: number;
+  uefaCategory?: '1' | '2' | '3' | '4';
+  fieldType?: string;
+  lightingLux?: number;
+  parkingSpaces?: number;
+  fieldsCount?: number;
+  yearBuilt?: number;
+  order: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
+// Infrastructure transformed type for frontend
+export interface InfrastructureItem {
+  id: string;
+  name: string;
+  type: 'stadium' | 'training_base' | 'academy' | 'office';
+  status: 'active' | 'construction' | 'planned';
+  description?: string;
+  shortDescription?: string;
+  mainImageUrl?: string;
+  galleryUrls: string[];
+  features: {
+    title: string;
+    description: string;
+  }[];
+  address?: string;
+  coordinates?: {
+    lat?: number;
+    lng?: number;
+  };
+  capacity?: number;
+  uefaCategory?: string;
+  fieldType?: string;
+  lightingLux?: number;
+  parkingSpaces?: number;
+  fieldsCount?: number;
+  yearBuilt?: number;
+}
+
 // Match collection from CMS
 export interface CMSMatch {
   id: string;
@@ -373,4 +432,75 @@ export interface CMSMatch {
   lastSyncAt?: string;
   createdAt: string;
   updatedAt: string;
+}
+
+// Achievement collection
+export interface CMSAchievement {
+  id: string;
+  title: string;
+  type: 'championship' | 'cup' | 'eurocup' | 'award' | 'other';
+  year: number;
+  place?: '1' | '2' | '3' | 'finalist' | 'semifinalist' | 'participant';
+  competition?: string;
+  description?: CMSRichText;
+  image?: CMSMedia | string;
+  order: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
+// Achievement transformed type for frontend
+export interface AchievementItem {
+  id: string;
+  title: string;
+  type: 'championship' | 'cup' | 'eurocup' | 'award' | 'other';
+  year: number;
+  place?: string;
+  competition?: string;
+  description?: string;
+  imageUrl?: string;
+}
+
+// Veteran collection
+export interface CMSVeteran {
+  id: string;
+  firstName: string;
+  lastName: string;
+  displayName: string;
+  position?: 'goalkeeper' | 'defender' | 'midfielder' | 'forward' | 'coach';
+  yearsInClub?: string;
+  jerseyNumber?: number;
+  photo?: CMSMedia | string;
+  achievements?: string;
+  biography?: CMSRichText;
+  statistics?: {
+    matches?: number;
+    goals?: number;
+    assists?: number;
+  };
+  isLegend: boolean;
+  order: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
+// Veteran transformed type for frontend
+export interface VeteranItem {
+  id: string;
+  firstName: string;
+  lastName: string;
+  displayName: string;
+  position?: string;
+  positionKey?: 'goalkeeper' | 'defender' | 'midfielder' | 'forward' | 'coach';
+  yearsInClub?: string;
+  jerseyNumber?: number;
+  photoUrl?: string;
+  achievements?: string;
+  biography?: string;
+  statistics?: {
+    matches: number;
+    goals: number;
+    assists: number;
+  };
+  isLegend: boolean;
 }

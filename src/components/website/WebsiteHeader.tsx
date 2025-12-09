@@ -3,7 +3,7 @@ import { Search, Menu, ChevronDown } from 'lucide-react';
 import kaisarLogo from '@/assets/kaysar-logo-nobg.png';
 import { useNavigate } from 'react-router-dom';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { motion, useScroll, useMotionValueEvent } from 'framer-motion';
 import {
@@ -13,6 +13,74 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { SearchModal } from './SearchModal';
+
+// Компонент NavDropdown с hover-эффектом для классического меню ФК
+interface NavItem {
+  key: string;
+  label: string;
+  path?: string;
+}
+
+interface NavDropdownProps {
+  label: string;
+  items: NavItem[];
+  onNavigate: (path: string) => void;
+}
+
+const NavDropdown = ({ label, items, onNavigate }: NavDropdownProps) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  const handleMouseEnter = () => {
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    setIsOpen(true);
+  };
+
+  const handleMouseLeave = () => {
+    timeoutRef.current = setTimeout(() => setIsOpen(false), 150);
+  };
+
+  return (
+    <div className="relative" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+      <button
+        className={`relative py-3 flex items-center gap-1.5 transition-colors ${isOpen ? 'text-white' : 'hover:text-white'}`}
+      >
+        <span>{label}</span>
+        <ChevronDown
+          className={`w-3.5 h-3.5 transition-transform duration-200 ${isOpen ? 'rotate-180 text-red-500' : ''}`}
+        />
+      </button>
+
+      {/* Dropdown с CSS анимацией */}
+      <div
+        className={`absolute top-full left-0 pt-1 z-50 transition-all duration-200 ${
+          isOpen ? 'opacity-100 visible translate-y-0' : 'opacity-0 invisible -translate-y-2'
+        }`}
+      >
+        <div className="bg-black/95 backdrop-blur-md border border-white/10 rounded-lg overflow-hidden min-w-[200px] shadow-xl shadow-black/50">
+          {/* Красная линия сверху */}
+          <div className="h-0.5 bg-gradient-to-r from-red-600 to-red-500" />
+          <div className="py-1.5">
+            {items.map(item => (
+              <button
+                key={item.key}
+                onClick={() => {
+                  onNavigate(item.path || '');
+                  setIsOpen(false);
+                }}
+                className="w-full text-left px-4 py-2.5 text-[13px] font-semibold uppercase tracking-wide text-gray-300 hover:text-white hover:bg-white/5 transition-all relative group/item flex items-center"
+              >
+                {/* Красная полоска слева при hover */}
+                <span className="absolute left-0 top-0 bottom-0 w-0.5 bg-red-600 scale-y-0 group-hover/item:scale-y-100 transition-transform origin-center" />
+                <span className="relative">{item.label}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 export const WebsiteHeader = () => {
   const navigate = useNavigate();
@@ -49,6 +117,11 @@ export const WebsiteHeader = () => {
         { key: 'about', label: t('nav.about', 'О клубе'), path: '/club' },
         { key: 'leadership', label: t('nav.leadership', 'Руководство'), path: '/club/leadership' },
         { key: 'history', label: t('nav.history', 'История'), path: '/club/history' },
+        {
+          key: 'infrastructure',
+          label: t('nav.infrastructure', 'Инфраструктура'),
+          path: '/club/infrastructure',
+        },
         { key: 'partners', label: t('nav.partners', 'Партнёры'), path: '/club/partners' },
         { key: 'contacts', label: t('nav.contacts', 'Контакты'), path: '/club/contacts' },
       ],
@@ -78,16 +151,33 @@ export const WebsiteHeader = () => {
         { key: 'branches', label: t('nav.branches', 'Филиалы'), path: '/academy/branches' },
       ],
     },
-    { key: 'stadium', label: t('nav.stadium', 'Стадион'), path: '/stadium' },
-    { key: 'city', label: t('nav.city', 'Кызылорда'), path: '/city' },
-    { key: 'matches', label: t('nav.matches', 'Матчи'), path: '/matches' },
-    { key: 'news', label: t('nav.news', 'Новости'), path: '/news' },
     {
-      key: 'fans',
-      label: t('nav.fans', 'Болельщику'),
+      key: 'matches',
+      label: t('nav.matches', 'Ойындар'),
       hasDropdown: true,
       items: [
-        { key: 'transport', label: t('nav.transport', 'Как добраться'), path: '/fans/transport' },
+        { key: 'calendar', label: t('nav.calendar', 'Календарь'), path: '/matches' },
+        { key: 'results', label: t('nav.results', 'Результаты'), path: '/matches?tab=results' },
+        { key: 'standings', label: t('nav.standings', 'Таблица'), path: '/standings' },
+        { key: 'statistics', label: t('nav.statistics', 'Статистика'), path: '/statistics' },
+      ],
+    },
+    {
+      key: 'news',
+      label: t('nav.news', 'Жаңалықтар'),
+      hasDropdown: true,
+      items: [
+        { key: 'allNews', label: t('nav.allNews', 'Все новости'), path: '/news' },
+        { key: 'media', label: t('nav.media', 'Медиа'), path: '/media' },
+      ],
+    },
+    {
+      key: 'fans',
+      label: t('nav.fans', 'Жанкүйерге'),
+      hasDropdown: true,
+      items: [
+        { key: 'stadium', label: t('nav.stadium', 'Стадион'), path: '/stadium' },
+        { key: 'city', label: t('nav.city', 'Кызылорда'), path: '/city' },
         { key: 'rules', label: t('nav.rules', 'Правила'), path: '/fans/rules' },
         { key: 'faq', label: t('nav.faq', 'FAQ'), path: '/fans/faq' },
       ],
@@ -99,11 +189,9 @@ export const WebsiteHeader = () => {
     { key: 'club', label: t('nav.club', 'Клуб'), path: '/club' },
     { key: 'team', label: t('nav.team', 'Команда'), path: '/team' },
     { key: 'academy', label: t('nav.academy', 'Академия'), path: '/academy' },
-    { key: 'stadium', label: t('nav.stadium', 'Стадион'), path: '/stadium' },
-    { key: 'city', label: t('nav.city', 'Кызылорда'), path: '/city' },
-    { key: 'matches', label: t('nav.matches', 'Матчи'), path: '/matches' },
-    { key: 'news', label: t('nav.news', 'Новости'), path: '/news' },
-    { key: 'fans', label: t('nav.fans', 'Болельщику'), path: '/fans' },
+    { key: 'matches', label: t('nav.matches', 'Ойындар'), path: '/matches' },
+    { key: 'news', label: t('nav.news', 'Жаңалықтар'), path: '/news' },
+    { key: 'fans', label: t('nav.fans', 'Жанкүйерге'), path: '/fans' },
   ];
 
   const handleNavClick = (path: string) => {
@@ -223,42 +311,15 @@ export const WebsiteHeader = () => {
             </span>
           </div>
 
-          <nav className="hidden md:flex items-center gap-2 lg:gap-4 text-sm font-semibold text-gray-300 uppercase tracking-wider">
-            {navStructure.map(item =>
-              item.hasDropdown ? (
-                <DropdownMenu key={item.key}>
-                  <DropdownMenuTrigger asChild>
-                    <button className="relative group py-2 flex items-center gap-1 hover:text-white transition-colors">
-                      <span>{item.label}</span>
-                      <ChevronDown className="w-3 h-3" />
-                    </button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent
-                    align="start"
-                    className="bg-black/95 border-white/10 text-white min-w-[180px]"
-                  >
-                    {item.items?.map(subItem => (
-                      <DropdownMenuItem
-                        key={subItem.key}
-                        onClick={() => handleNavClick(subItem.path)}
-                        className="cursor-pointer hover:bg-white/10 focus:bg-white/10 text-sm font-medium"
-                      >
-                        {subItem.label}
-                      </DropdownMenuItem>
-                    ))}
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              ) : (
-                <button
-                  key={item.key}
-                  onClick={() => item.path && handleNavClick(item.path)}
-                  className="relative group py-2"
-                >
-                  <span className="group-hover:text-white transition-colors">{item.label}</span>
-                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-red-600 transition-all duration-300 group-hover:w-full" />
-                </button>
-              )
-            )}
+          <nav className="hidden md:flex items-center gap-3 lg:gap-5 text-[13px] font-semibold text-gray-300 uppercase tracking-wide">
+            {navStructure.map(item => (
+              <NavDropdown
+                key={item.key}
+                label={item.label}
+                items={item.items}
+                onNavigate={handleNavClick}
+              />
+            ))}
           </nav>
         </div>
 
