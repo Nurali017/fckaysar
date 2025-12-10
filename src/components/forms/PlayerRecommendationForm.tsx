@@ -24,6 +24,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import SmartContactInput, { validateContact } from '@/components/ui/SmartContactInput';
 
 import { useSubmitPlayerRecommendation } from '@/hooks/api/usePlayerRecommendation';
 import type { PlayerRecommendationData } from '@/api/cms/player-recommendations-service';
@@ -44,8 +45,7 @@ const PlayerRecommendationForm = () => {
       playerContact: '',
       recommenderName: '',
       recommenderRelation: undefined,
-      recommenderEmail: '',
-      recommenderPhone: '',
+      recommenderContact: '',
       videoUrl: '',
       comment: '',
       consentGiven: false,
@@ -203,15 +203,25 @@ const PlayerRecommendationForm = () => {
             <FormField
               control={form.control}
               name="playerContact"
-              rules={{ required: true }}
-              render={({ field }) => (
+              rules={{
+                validate: value => validateContact(value, t),
+              }}
+              render={({ field, fieldState }) => (
                 <FormItem>
                   <FormLabel>
                     {t('playerRecommendation.playerContact', 'Контакт игрока/родителей')} *
                   </FormLabel>
                   <FormControl>
-                    <Input placeholder="+7 (XXX) XXX-XX-XX или email" {...field} />
+                    <SmartContactInput
+                      value={field.value}
+                      onChange={field.onChange}
+                      onBlur={field.onBlur}
+                      error={!!fieldState.error}
+                    />
                   </FormControl>
+                  <FormDescription>
+                    {t('playerRecommendation.contactHint', 'Телефон или email для связи')}
+                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -283,34 +293,26 @@ const PlayerRecommendationForm = () => {
 
             <FormField
               control={form.control}
-              name="recommenderEmail"
+              name="recommenderContact"
               rules={{
-                required: true,
-                pattern: {
-                  value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                  message: t('validation.invalidEmail', 'Неверный формат email'),
-                },
+                validate: value => validateContact(value, t),
               }}
-              render={({ field }) => (
+              render={({ field, fieldState }) => (
                 <FormItem>
-                  <FormLabel>{t('playerRecommendation.email', 'Email')} *</FormLabel>
+                  <FormLabel>
+                    {t('playerRecommendation.recommenderContact', 'Ваш контакт')} *
+                  </FormLabel>
                   <FormControl>
-                    <Input type="email" {...field} />
+                    <SmartContactInput
+                      value={field.value}
+                      onChange={field.onChange}
+                      onBlur={field.onBlur}
+                      error={!!fieldState.error}
+                    />
                   </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="recommenderPhone"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>{t('playerRecommendation.phone', 'Телефон')}</FormLabel>
-                  <FormControl>
-                    <Input type="tel" placeholder="+7 (XXX) XXX-XX-XX" {...field} />
-                  </FormControl>
+                  <FormDescription>
+                    {t('playerRecommendation.contactHint', 'Телефон или email для связи')}
+                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -345,7 +347,6 @@ const PlayerRecommendationForm = () => {
             control={form.control}
             name="comment"
             rules={{
-              required: true,
               minLength: {
                 value: 20,
                 message: t('validation.minLength', 'Минимум 20 символов'),
@@ -354,7 +355,7 @@ const PlayerRecommendationForm = () => {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>
-                  {t('playerRecommendation.comment', 'Почему рекомендуете этого игрока?')} *
+                  {t('playerRecommendation.comment', 'Почему рекомендуете этого игрока?')}
                 </FormLabel>
                 <FormControl>
                   <Textarea

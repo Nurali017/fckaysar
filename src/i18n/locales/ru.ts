@@ -896,6 +896,11 @@ export default {
         a5: 'До стадиона можно добраться на автомобиле или общественном транспорте.',
       },
     },
+    talentRecommendation: {
+      cta: 'Рекомендовать',
+      modalTitle: 'Рекомендовать талант',
+      modalSubtitle: 'Помогите нам найти будущих звёзд',
+    },
     playerRecommendation: {
       title: 'Рекомендация игрока',
       subtitle:
@@ -919,8 +924,9 @@ export default {
         fan: 'Болельщик',
         self: 'Сам игрок',
       },
-      email: 'Email',
-      phone: 'Телефон',
+      recommenderContact: 'Ваш контакт',
+      contactPlaceholder: '+7 (XXX) XXX-XX-XX или email',
+      contactHint: 'Телефон или email для связи',
       additionalInfo: 'Дополнительная информация',
       videoUrl: 'Ссылка на видео',
       videoHint: 'YouTube, Instagram, TikTok и т.д.',
@@ -942,6 +948,7 @@ export default {
     validation: {
       required: 'Обязательное поле',
       invalidEmail: 'Неверный формат email',
+      invalidContact: 'Введите корректный телефон или email',
       minLength: 'Минимум 20 символов',
     },
   },

@@ -898,6 +898,11 @@ export default {
         a5: 'Стадионға автокөлікпен немесе қоғамдық көлікпен жетуге болады.',
       },
     },
+    talentRecommendation: {
+      cta: 'Ұсыну',
+      modalTitle: 'Талантты ұсыну',
+      modalSubtitle: 'Болашақ жұлдыздарды табуға көмектесіңіз',
+    },
     playerRecommendation: {
       title: 'Ойыншыны ұсыну',
       subtitle:
@@ -921,8 +926,9 @@ export default {
         fan: 'Жанкүйер',
         self: 'Ойыншының өзі',
       },
-      email: 'Email',
-      phone: 'Телефон',
+      recommenderContact: 'Сіздің байланысыңыз',
+      contactPlaceholder: '+7 (XXX) XXX-XX-XX немесе email',
+      contactHint: 'Байланыс үшін телефон немесе email',
       additionalInfo: 'Қосымша ақпарат',
       videoUrl: 'Бейнеге сілтеме',
       videoHint: 'YouTube, Instagram, TikTok және т.б.',
@@ -944,6 +950,7 @@ export default {
     validation: {
       required: 'Міндетті өріс',
       invalidEmail: 'Email пішімі дұрыс емес',
+      invalidContact: 'Дұрыс телефон немесе email енгізіңіз',
       minLength: 'Кемінде 20 таңба',
     },
   },

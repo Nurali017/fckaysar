@@ -896,6 +896,11 @@ export default {
         a5: 'You can reach the stadium by car or public transport.',
       },
     },
+    talentRecommendation: {
+      cta: 'Recommend',
+      modalTitle: 'Recommend a Talent',
+      modalSubtitle: 'Help us find future stars',
+    },
     playerRecommendation: {
       title: 'Recommend a Player',
       subtitle:
@@ -919,8 +924,9 @@ export default {
         fan: 'Fan',
         self: 'Player Themselves',
       },
-      email: 'Email',
-      phone: 'Phone',
+      recommenderContact: 'Your Contact',
+      contactPlaceholder: '+7 (XXX) XXX-XX-XX or email',
+      contactHint: 'Phone or email for contact',
       additionalInfo: 'Additional Information',
       videoUrl: 'Video Link',
       videoHint: 'YouTube, Instagram, TikTok, etc.',
@@ -942,6 +948,7 @@ export default {
     validation: {
       required: 'Required field',
       invalidEmail: 'Invalid email format',
+      invalidContact: 'Enter a valid phone or email',
       minLength: 'Minimum 20 characters',
     },
   },

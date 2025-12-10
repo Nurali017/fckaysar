@@ -13,7 +13,6 @@ import Home from './pages/Home';
 import NotFound from './pages/NotFound';
 
 // Lazy load - These pages are loaded on-demand for better initial bundle size
-const AboutPage = lazy(() => import('./pages/AboutPage'));
 const AcademyPage = lazy(() => import('./pages/AcademyPage'));
 const ShopPage = lazy(() => import('./pages/ShopPage'));
 const MatchesPage = lazy(() => import('./pages/MatchesPage'));
@@ -93,7 +92,6 @@ const App = () => {
                 <Route path="/club/partners" element={<PartnersPage />} />
                 <Route path="/club/contacts" element={<ContactsPage />} />
                 <Route path="/club/infrastructure" element={<InfrastructurePage />} />
-                <Route path="/about" element={<AboutPage />} />
 
                 {/* Раздел Команда */}
                 <Route path="/team" element={<TeamPage />} />

@@ -11,7 +11,12 @@ interface MatchTabsProps {
   hasStats?: boolean;
 }
 
-export const MatchTabs = ({ activeTab, onTabChange, hasLineup = true, hasStats = true }: MatchTabsProps) => {
+export const MatchTabs = ({
+  activeTab,
+  onTabChange,
+  hasLineup = true,
+  hasStats = true,
+}: MatchTabsProps) => {
   const { t } = useTranslation();
 
   const tabs: { id: MatchTab; label: string; icon: React.ReactNode; available: boolean }[] = [
@@ -36,11 +41,14 @@ export const MatchTabs = ({ activeTab, onTabChange, hasLineup = true, hasStats =
   ];
 
   return (
-    <div className="sticky top-20 z-30 bg-black/80 backdrop-blur-xl border-b border-white/10">
+    <div
+      className="sticky top-20 z-30 bg-black/80 backdrop-blur-xl border-b border-white/10"
+      style={{ willChange: 'transform' }} // Safari fix for sticky + backdrop-blur
+    >
       <div className="container mx-auto px-4">
         <div className="flex justify-center">
           <div className="inline-flex gap-1 p-1 bg-white/5 rounded-xl">
-            {tabs.map((tab) => (
+            {tabs.map(tab => (
               <button
                 key={tab.id}
                 onClick={() => tab.available && onTabChange(tab.id)}
@@ -49,8 +57,8 @@ export const MatchTabs = ({ activeTab, onTabChange, hasLineup = true, hasStats =
                   !tab.available
                     ? 'text-gray-600 cursor-not-allowed'
                     : activeTab === tab.id
-                    ? 'text-white'
-                    : 'text-gray-400 hover:text-white'
+                      ? 'text-white'
+                      : 'text-gray-400 hover:text-white'
                 }`}
               >
                 {activeTab === tab.id && (

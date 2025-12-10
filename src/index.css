@@ -89,6 +89,14 @@ All colors MUST be HSL.
     scroll-behavior: smooth;
     /* Prevent text size adjustment on iOS */
     -webkit-text-size-adjust: 100%;
+    /* Safari dvh fallback */
+    --vh-fallback: 100vh;
+  }
+
+  @supports (height: 100dvh) {
+    html {
+      --vh-fallback: 100dvh;
+    }
   }
 
   body {
@@ -162,9 +170,29 @@ All colors MUST be HSL.
 }
 
 @layer utilities {
+  /* Safari webkit fixes */
+  .backdrop-blur-sm {
+    -webkit-backdrop-filter: blur(4px);
+  }
+  .backdrop-blur-md {
+    -webkit-backdrop-filter: blur(12px);
+  }
+  .backdrop-blur-xl {
+    -webkit-backdrop-filter: blur(24px);
+  }
+  .backdrop-blur-2xl {
+    -webkit-backdrop-filter: blur(40px);
+  }
+
+  /* Safari gradient text fix */
+  .bg-clip-text {
+    -webkit-background-clip: text;
+  }
+
   /* Gradient text - агрессивный красный */
   .gradient-text-red {
     @apply text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-red-600 to-red-700;
+    -webkit-background-clip: text;
   }
 
   /* Red glow shadow */

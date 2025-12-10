@@ -14,17 +14,16 @@ export interface PlayerRecommendationData {
   position: 'goalkeeper' | 'defender' | 'midfielder' | 'forward';
   currentClub?: string;
   city: string;
-  playerContact: string;
+  playerContact: string; // Smart field: phone or email
 
   // Recommender info
   recommenderName: string;
   recommenderRelation: 'coach' | 'agent' | 'family' | 'fan' | 'self';
-  recommenderEmail: string;
-  recommenderPhone?: string;
+  recommenderContact: string; // Smart field: phone or email
 
   // Additional info
   videoUrl?: string;
-  comment: string;
+  comment?: string; // Now optional
   consentGiven: boolean;
 }
 

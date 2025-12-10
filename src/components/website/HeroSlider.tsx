@@ -1,9 +1,10 @@
 import { Button } from '@/components/ui/button';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Star } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { TalentRecommendationModal } from './TalentRecommendationModal';
 
 // Видео стадиона с дрона (Main ~15MB)
 const STADIUM_VIDEO = '/videos/hero-main.mp4';
@@ -12,6 +13,7 @@ export const HeroSlider = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const ref = useRef(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ['start start', 'end start'],
@@ -46,10 +48,21 @@ export const HeroSlider = () => {
   };
 
   return (
-    <div ref={ref} className="relative min-h-screen h-[100dvh] w-full overflow-hidden">
+    <div
+      ref={ref}
+      className="relative min-h-screen h-[var(--vh-fallback,100vh)] w-full overflow-hidden"
+    >
       {/* Background Media */}
       <motion.div style={{ y, scale }} className="absolute inset-0">
-        <video autoPlay muted loop playsInline className="w-full h-full object-cover">
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          // @ts-expect-error webkit-playsinline is needed for Safari iOS
+          webkit-playsinline="true"
+          className="w-full h-full object-cover"
+        >
           <source src={STADIUM_VIDEO} type="video/mp4" />
         </video>
       </motion.div>
@@ -97,17 +110,17 @@ export const HeroSlider = () => {
       </div>
 
       {/* Content */}
-      <div className="relative container mx-auto px-4 h-full flex flex-col justify-center pt-16 sm:pt-20 md:pt-0">
+      <div className="relative container mx-auto px-4 sm:px-6 lg:px-8 h-full flex flex-col justify-center pt-20 sm:pt-24 md:pt-0">
         <motion.div
           variants={containerVariants}
           initial="hidden"
           animate="visible"
-          className="max-w-5xl space-y-4 sm:space-y-6"
+          className="max-w-5xl space-y-3 sm:space-y-4 md:space-y-6"
         >
           {/* Badge */}
           <motion.span
             variants={itemVariants}
-            className="inline-block px-4 py-1.5 bg-red-600 text-white text-xs sm:text-sm font-bold tracking-[0.2em] uppercase shadow-red-glow"
+            className="inline-block px-3 py-1 sm:px-4 sm:py-1.5 bg-red-600 text-white text-[10px] sm:text-xs md:text-sm font-bold tracking-[0.15em] sm:tracking-[0.2em] uppercase shadow-red-glow"
           >
             {t('hero.officialSite')}
           </motion.span>
@@ -115,7 +128,7 @@ export const HeroSlider = () => {
           {/* Main Title - АГРЕССИВНАЯ ТИПОГРАФИКА */}
           <motion.h1
             variants={itemVariants}
-            className="text-[clamp(2.5rem,9vw,7rem)] font-black italic uppercase leading-[0.85] tracking-[-0.04em]"
+            className="text-[clamp(2rem,8vw,7rem)] font-black italic uppercase leading-[0.85] tracking-[-0.03em] sm:tracking-[-0.04em]"
           >
             <span className="block text-white drop-shadow-2xl">{t('hero.newEra')}</span>
             <span className="block text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-red-600 to-red-800">
@@ -126,7 +139,7 @@ export const HeroSlider = () => {
           {/* Subtitle */}
           <motion.p
             variants={itemVariants}
-            className="text-base sm:text-lg md:text-xl text-gray-300 max-w-xl leading-relaxed"
+            className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-300 max-w-xl leading-relaxed pr-4"
           >
             {t('hero.newOwner')}
           </motion.p>
@@ -134,28 +147,27 @@ export const HeroSlider = () => {
           {/* CTA Buttons */}
           <motion.div
             variants={itemVariants}
-            className="flex flex-col sm:flex-row gap-3 sm:gap-4 pt-4 sm:pt-6 md:pt-8"
+            className="flex flex-col sm:flex-row gap-2.5 sm:gap-3 md:gap-4 pt-3 sm:pt-4 md:pt-6 lg:pt-8"
           >
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
               <Button
                 size="lg"
-                className="bg-red-600 hover:bg-red-700 text-white px-8 sm:px-10 h-14 sm:h-16 text-base sm:text-lg font-bold uppercase tracking-wide w-full sm:w-auto shadow-[0_0_30px_rgba(220,38,38,0.5)] hover:shadow-[0_0_50px_rgba(220,38,38,0.8)] transition-all duration-300"
-                onClick={() => navigate('/about')}
+                className="bg-red-600 hover:bg-red-700 text-white px-6 sm:px-8 md:px-10 h-12 sm:h-14 md:h-16 text-sm sm:text-base md:text-lg font-bold uppercase tracking-wide w-full sm:w-auto shadow-[0_0_30px_rgba(220,38,38,0.5)] hover:shadow-[0_0_50px_rgba(220,38,38,0.8)] transition-all duration-300"
+                onClick={() => navigate('/club')}
               >
                 {t('hero.aboutClub')}
-                <ArrowRight className="ml-2 w-5 h-5" />
+                <ArrowRight className="ml-2 w-4 h-4 sm:w-5 sm:h-5" />
               </Button>
             </motion.div>
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
               <Button
                 size="lg"
                 variant="outline"
-                className="border-white/40 border-2 text-white hover:bg-white/10 px-8 sm:px-10 h-14 sm:h-16 text-base sm:text-lg font-bold uppercase tracking-wide w-full sm:w-auto backdrop-blur-sm"
-                onClick={() =>
-                  document.getElementById('matches')?.scrollIntoView({ behavior: 'smooth' })
-                }
+                className="border-yellow-500/60 border-2 text-white hover:bg-yellow-500/20 px-6 sm:px-8 md:px-10 h-12 sm:h-14 md:h-16 text-sm sm:text-base md:text-lg font-bold uppercase tracking-wide w-full sm:w-auto backdrop-blur-sm group"
+                onClick={() => setIsModalOpen(true)}
               >
-                {t('nav.matches')}
+                <Star className="w-4 h-4 sm:w-5 sm:h-5 mr-2 text-yellow-500 group-hover:text-yellow-400" />
+                {t('talentRecommendation.cta', 'Ұсыну')}
               </Button>
             </motion.div>
           </motion.div>
@@ -178,6 +190,9 @@ export const HeroSlider = () => {
 
       {/* Bottom gradient transition to next section - softer */}
       <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-zinc-900 via-zinc-900/50 to-transparent pointer-events-none" />
+
+      {/* Talent Recommendation Modal */}
+      <TalentRecommendationModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </div>
   );
 };

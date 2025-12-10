@@ -57,7 +57,10 @@ const NavDropdown = ({ label, items, onNavigate }: NavDropdownProps) => {
           isOpen ? 'opacity-100 visible translate-y-0' : 'opacity-0 invisible -translate-y-2'
         }`}
       >
-        <div className="bg-black/95 backdrop-blur-md border border-white/10 rounded-lg overflow-hidden min-w-[200px] shadow-xl shadow-black/50">
+        <div
+          className="bg-black/95 backdrop-blur-md border border-white/10 rounded-lg overflow-hidden min-w-[200px] shadow-xl shadow-black/50"
+          style={{ willChange: 'transform' }} // Safari fix for backdrop-blur
+        >
           {/* Красная линия сверху */}
           <div className="h-0.5 bg-gradient-to-r from-red-600 to-red-500" />
           <div className="py-1.5">
@@ -231,6 +234,7 @@ export const WebsiteHeader = () => {
           ? 'bg-black/80 backdrop-blur-md border-white/10 py-2'
           : 'bg-transparent border-transparent py-4'
       }`}
+      style={{ willChange: 'transform' }} // Safari fix for backdrop-blur
     >
       <div className="relative container mx-auto px-3 sm:px-4 flex items-center justify-between">
         <div className="flex items-center gap-2 sm:gap-4 md:gap-6">
