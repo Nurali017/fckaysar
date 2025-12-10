@@ -2,18 +2,45 @@ import { Button } from '@/components/ui/button';
 import { ArrowRight, Star } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { TalentRecommendationModal } from './TalentRecommendationModal';
 
-// Видео стадиона с дрона (Main ~15MB)
-const STADIUM_VIDEO = '/videos/hero-main.mp4';
+// Видео стадиона - мобильная версия меньше по размеру
+const STADIUM_VIDEO_DESKTOP = '/videos/hero-main.mp4';
+const STADIUM_VIDEO_MOBILE = '/videos/hero-main-mobile.mp4';
+const HERO_POSTER = '/images/hero-poster.jpg';
 
 export const HeroSlider = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const ref = useRef(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [videoLoaded, setVideoLoaded] = useState(false);
+  const [videoError, setVideoError] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Определяем мобильное устройство
+  useEffect(() => {
+    const checkMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    setIsMobile(checkMobile);
+  }, []);
+
+  // Попытка программного воспроизведения для iOS Safari
+  useEffect(() => {
+    const video = videoRef.current;
+    if (video) {
+      const playPromise = video.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {
+          // iOS заблокировал autoplay - показываем poster
+          setVideoError(true);
+        });
+      }
+    }
+  }, [isMobile]);
+
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ['start start', 'end start'],
@@ -23,6 +50,9 @@ export const HeroSlider = () => {
   // Фото остается ярким до середины скролла, потом плавно исчезает
   const opacity = useTransform(scrollYProgress, [0, 0.5, 1], [1, 0.8, 0]);
   const scale = useTransform(scrollYProgress, [0, 1], [1, 1.1]);
+
+  // Выбираем видео в зависимости от устройства
+  const videoSrc = isMobile ? STADIUM_VIDEO_MOBILE : STADIUM_VIDEO_DESKTOP;
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -54,18 +84,31 @@ export const HeroSlider = () => {
     >
       {/* Background Media */}
       <motion.div style={{ y, scale }} className="absolute inset-0">
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          webkit-playsinline="true"
-          poster="/images/hero-poster.jpg"
-          preload="auto"
-          className="w-full h-full object-cover"
-        >
-          <source src={STADIUM_VIDEO} type="video/mp4" />
-        </video>
+        {/* Fallback фон - показывается сразу пока видео грузится */}
+        <div
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{ backgroundImage: `url(${HERO_POSTER})` }}
+        />
+        {/* Видео поверх фона - скрываем при ошибке */}
+        {!videoError && (
+          <video
+            ref={videoRef}
+            autoPlay
+            muted
+            loop
+            playsInline
+            webkit-playsinline="true"
+            poster={HERO_POSTER}
+            preload="auto"
+            onCanPlay={() => setVideoLoaded(true)}
+            onError={() => setVideoError(true)}
+            className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${
+              videoLoaded ? 'opacity-100' : 'opacity-0'
+            }`}
+          >
+            <source src={videoSrc} type="video/mp4" />
+          </video>
+        )}
       </motion.div>
 
       {/* Gradient Overlays - Victory Style (Акцент на фото) */}
