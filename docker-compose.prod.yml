@@ -2,8 +2,6 @@
 # Domain: kaysar.kz
 # Server: Debian 12, 2 CPU / 2 GB RAM / 40 GB disk
 
-version: '3.8'
-
 services:
   # ============================================
   # MongoDB Database
@@ -43,9 +41,7 @@ services:
   # Payload CMS (Next.js)
   # ============================================
   cms:
-    build:
-      context: ./fc-kaisar-cms
-      dockerfile: Dockerfile
+    image: kaisar-cms:latest
     container_name: kaisar-cms
     restart: unless-stopped
     depends_on:
@@ -93,16 +89,7 @@ services:
   # Frontend (Static Build served by Nginx)
   # ============================================
   frontend:
-    build:
-      context: .
-      dockerfile: Dockerfile
-      args:
-        - VITE_CMS_BASE_URL=https://kaysar.kz
-        - VITE_SOTA_API_BASE_URL=
-        - VITE_FC_KAISAR_TEAM_ID=94
-        - VITE_SOTA_CURRENT_SEASON_ID=61
-        - VITE_USE_MOCK_DATA=false
-        - VITE_ENABLE_LIVE_UPDATES=true
+    image: kaisar-frontend:latest
     container_name: kaisar-frontend
     restart: unless-stopped
     networks:
