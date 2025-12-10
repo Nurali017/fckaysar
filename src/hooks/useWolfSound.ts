@@ -7,10 +7,13 @@ export const useWolfSound = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isReady, setIsReady] = useState(false);
 
-  // Preload audio on mount
+  // Initialize audio on mount
   useEffect(() => {
     const audio = new Audio(WOLF_HOWL_URL);
     audio.preload = 'auto';
+    // iOS Safari compatibility
+    audio.setAttribute('playsinline', 'true');
+    audio.setAttribute('webkit-playsinline', 'true');
 
     audio.addEventListener('canplaythrough', () => {
       setIsReady(true);
@@ -33,12 +36,18 @@ export const useWolfSound = () => {
   }, []);
 
   const play = useCallback(() => {
-    if (!audioRef.current || !isReady) return;
+    if (!audioRef.current) return;
+
+    // iOS Safari: load() must be called within user gesture if not preloaded
+    if (!isReady) {
+      audioRef.current.load();
+    }
 
     // Reset and play
     audioRef.current.currentTime = 0;
     audioRef.current.volume = 0.7;
-    audioRef.current.play().catch(() => {
+    audioRef.current.play().catch(e => {
+      console.warn('Audio play failed:', e);
       setIsPlaying(false);
     });
 

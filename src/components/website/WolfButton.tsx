@@ -44,6 +44,11 @@ export const WolfButton = () => {
       {/* Wolf Sound Button */}
       <motion.button
         onClick={toggle}
+        onTouchEnd={e => {
+          // iOS Safari: explicit touch handler for better compatibility
+          e.preventDefault();
+          toggle();
+        }}
         className={`w-14 h-14 rounded-full flex items-center justify-center transition-all shadow-lg ${
           isPlaying
             ? 'bg-red-600 shadow-[0_0_30px_rgba(239,68,68,0.6)]'
