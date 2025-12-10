@@ -19,13 +19,5 @@ export const useSubmitPlayerRecommendation = (): UseMutationResult<
 > => {
   return useMutation({
     mutationFn: submitPlayerRecommendation,
-    onSuccess: data => {
-      if (data.success) {
-        console.log('[usePlayerRecommendation] Submitted successfully:', data.data?.id);
-      }
-    },
-    onError: error => {
-      console.error('[usePlayerRecommendation] Error:', error);
-    },
   });
 };

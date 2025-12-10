@@ -59,8 +59,9 @@ export const HeroSlider = () => {
           muted
           loop
           playsInline
-          // @ts-expect-error webkit-playsinline is needed for Safari iOS
           webkit-playsinline="true"
+          poster="/images/hero-poster.jpg"
+          preload="auto"
           className="w-full h-full object-cover"
         >
           <source src={STADIUM_VIDEO} type="video/mp4" />

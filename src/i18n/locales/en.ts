@@ -122,6 +122,7 @@ export default {
       losses: 'Losses',
       fullStats: 'Full Statistics',
       firstMatchScheduled: 'First match scheduled for March 2026',
+      league: 'QFL PREMIER LEAGUE',
       countdown: {
         days: 'Days',
         hours: 'Hours',
@@ -951,5 +952,19 @@ export default {
       invalidContact: 'Enter a valid phone or email',
       minLength: 'Minimum 20 characters',
     },
+  },
+  months: {
+    january: 'January',
+    february: 'February',
+    march: 'March',
+    april: 'April',
+    may: 'May',
+    june: 'June',
+    july: 'July',
+    august: 'August',
+    september: 'September',
+    october: 'October',
+    november: 'November',
+    december: 'December',
   },
 };

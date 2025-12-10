@@ -57,7 +57,6 @@ export const submitPlayerRecommendation = async (
 
     return result;
   } catch (error) {
-    console.error('Error submitting player recommendation:', error);
     return {
       success: false,
       error: error instanceof Error ? error.message : 'Unknown error',

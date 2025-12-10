@@ -121,6 +121,7 @@ export default {
       losses: 'Поражения',
       fullStats: 'Полная статистика',
       firstMatchScheduled: 'Первый матч запланирован на март 2026',
+      league: 'QFL PREMIER LEAGUE',
       countdown: {
         days: 'Дней',
         hours: 'Часов',
@@ -951,5 +952,19 @@ export default {
       invalidContact: 'Введите корректный телефон или email',
       minLength: 'Минимум 20 символов',
     },
+  },
+  months: {
+    january: 'Январь',
+    february: 'Февраль',
+    march: 'Март',
+    april: 'Апрель',
+    may: 'Май',
+    june: 'Июнь',
+    july: 'Июль',
+    august: 'Август',
+    september: 'Сентябрь',
+    october: 'Октябрь',
+    november: 'Ноябрь',
+    december: 'Декабрь',
   },
 };

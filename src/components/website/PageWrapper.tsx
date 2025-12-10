@@ -1,5 +1,6 @@
 import { WebsiteHeader } from '@/components/website/WebsiteHeader';
 import { Footer } from '@/components/website/Footer';
+import { WolfButton } from '@/components/website/WolfButton';
 import { cn } from '@/lib/utils';
 
 interface PageWrapperProps {
@@ -31,6 +32,9 @@ export const PageWrapper = ({
         {children}
         {showFooter && <Footer />}
       </div>
+
+      {/* Wolf Sound Button - floating */}
+      <WolfButton />
     </div>
   );
 };

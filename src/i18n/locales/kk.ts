@@ -121,6 +121,7 @@ export default {
       losses: 'Жеңілістер',
       fullStats: 'Толық статистика',
       firstMatchScheduled: 'Алғашқы ойын 2026 жылдың наурызына жоспарланған',
+      league: 'QFL PREMIER LEAGUE',
       countdown: {
         days: 'Күн',
         hours: 'Сағат',
@@ -953,5 +954,19 @@ export default {
       invalidContact: 'Дұрыс телефон немесе email енгізіңіз',
       minLength: 'Кемінде 20 таңба',
     },
+  },
+  months: {
+    january: 'Қаңтар',
+    february: 'Ақпан',
+    march: 'Наурыз',
+    april: 'Сәуір',
+    may: 'Мамыр',
+    june: 'Маусым',
+    july: 'Шілде',
+    august: 'Тамыз',
+    september: 'Қыркүйек',
+    october: 'Қазан',
+    november: 'Қараша',
+    december: 'Желтоқсан',
   },
 };

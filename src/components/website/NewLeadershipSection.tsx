@@ -14,11 +14,11 @@ const getIconComponent = (iconName: string) => {
   return icons[iconName] || User;
 };
 
-// Loading skeleton component
+// Loading skeleton component - Safari iOS compatible
 const LeaderSkeleton = () => (
   <div className="rounded-3xl overflow-hidden border border-white/10 shadow-2xl animate-pulse">
     <div className="aspect-square bg-white/5" />
-    <div className="bg-black/40 backdrop-blur-xl border-t-0 p-6">
+    <div className="bg-black/80 backdrop-blur-xl backdrop-blur-fallback border-t-0 p-6">
       <div className="w-12 h-12 rounded-xl bg-white/10 mb-4" />
       <div className="space-y-3">
         <div className="h-4 w-32 bg-white/10 rounded" />
@@ -72,12 +72,13 @@ export const NewLeadershipSection = () => {
 
   return (
     <section className="py-24 relative overflow-hidden">
-      {/* Blurred Stadium Background */}
+      {/* Blurred Stadium Background - Safari iOS compatible */}
       <div className="absolute inset-0">
         <img
           src="/images/stadium/stadium-field.jpg"
           alt=""
-          className="w-full h-full object-cover blur-[8px] scale-105"
+          className="w-full h-full object-cover blur-safari scale-105"
+          loading="eager"
         />
         <div className="absolute inset-0 bg-zinc-900/85" />
       </div>
@@ -95,7 +96,7 @@ export const NewLeadershipSection = () => {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: true, amount: 0.1 }}
           className="text-center mb-16"
         >
           <span className="inline-block px-4 py-1 bg-white/10 text-white/80 text-sm font-bold tracking-wider uppercase mb-4 rounded-full border border-white/10">
@@ -122,8 +123,8 @@ export const NewLeadershipSection = () => {
                   key={leader.key}
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.2 }}
+                  viewport={{ once: true, amount: 0.1 }}
+                  transition={{ delay: index * 0.15 }}
                   className="group rounded-3xl overflow-hidden border border-white/10 shadow-2xl"
                 >
                   {/* Image Block */}
@@ -141,8 +142,8 @@ export const NewLeadershipSection = () => {
                     <div className="absolute inset-0 border-2 border-white/0 group-hover:border-white/20 transition-colors duration-500 pointer-events-none" />
                   </div>
 
-                  {/* Text Block - Below Photo */}
-                  <div className="bg-black/40 backdrop-blur-xl border-t-0 p-6">
+                  {/* Text Block - Below Photo - Safari iOS compatible */}
+                  <div className="bg-black/80 backdrop-blur-xl backdrop-blur-fallback border-t-0 p-6">
                     <div
                       className={`w-12 h-12 rounded-xl bg-gradient-to-br ${leader.color} flex items-center justify-center shadow-lg`}
                     >
