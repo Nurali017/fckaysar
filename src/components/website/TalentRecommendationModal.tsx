@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { X, Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import PlayerRecommendationForm from '@/components/forms/PlayerRecommendationForm';
+import { createPortal } from 'react-dom';
 
 interface TalentRecommendationModalProps {
   isOpen: boolean;
@@ -12,7 +13,7 @@ interface TalentRecommendationModalProps {
 export const TalentRecommendationModal = ({ isOpen, onClose }: TalentRecommendationModalProps) => {
   const { t } = useTranslation();
 
-  return (
+  return createPortal(
     <AnimatePresence>
       {isOpen && (
         <>
@@ -65,7 +66,8 @@ export const TalentRecommendationModal = ({ isOpen, onClose }: TalentRecommendat
           </motion.div>
         </>
       )}
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body
   );
 };
 
