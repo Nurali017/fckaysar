@@ -181,7 +181,7 @@ jobs:
           FRONTEND_CHANGED: ${{ needs.changes.outputs.frontend }}
           CMS_CHANGED: ${{ needs.changes.outputs.cms }}
         run: |
-          ssh ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << ENDSSH
+          ssh -o ServerAliveInterval=30 -o ServerAliveCountMax=10 ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << ENDSSH
             cd /opt/kaisar
 
             # Login to GitHub Container Registry
