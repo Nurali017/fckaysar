@@ -9,6 +9,7 @@ import { useTranslation } from 'react-i18next';
 import { useUpcomingMatches } from '@/hooks/api/useGames';
 import { useCurrentSeason, useNextSeason } from '@/hooks/api/useSeasons';
 import { useTeamStatsWithForm } from '@/hooks/api/useTeamStats';
+import { useIsMobile } from '@/hooks/useIsMobile';
 
 // Memoized countdown item to prevent re-renders
 const CountdownItem = memo(({ value, label }: { value: number; label: string }) => (
@@ -25,7 +26,17 @@ CountdownItem.displayName = 'CountdownItem';
 
 // Memoized stat bar to prevent re-renders
 const StatBar = memo(
-  ({ label, leftValue, rightValue }: { label: string; leftValue: number; rightValue: number }) => (
+  ({
+    label,
+    leftValue,
+    rightValue,
+    isMobile,
+  }: {
+    label: string;
+    leftValue: number;
+    rightValue: number;
+    isMobile: boolean;
+  }) => (
     <div className="space-y-1 sm:space-y-2">
       <div className="flex justify-between text-xs sm:text-sm font-bold">
         <span>{leftValue}%</span>
@@ -36,15 +47,15 @@ const StatBar = memo(
       </div>
       <div className="flex h-1.5 sm:h-2 bg-gray-800 rounded-full overflow-hidden">
         <motion.div
-          initial={{ width: 0 }}
+          initial={isMobile ? { width: `${leftValue}%` } : { width: 0 }}
           animate={{ width: `${leftValue}%` }}
-          transition={{ duration: 1, ease: 'easeOut' }}
+          transition={{ duration: isMobile ? 0 : 1, ease: 'easeOut' }}
           className="bg-red-600 h-full"
         />
         <motion.div
-          initial={{ width: 0 }}
+          initial={isMobile ? { width: `${rightValue}%` } : { width: 0 }}
           animate={{ width: `${rightValue}%` }}
-          transition={{ duration: 1, ease: 'easeOut', delay: 0.2 }}
+          transition={{ duration: isMobile ? 0 : 1, ease: 'easeOut', delay: isMobile ? 0 : 0.2 }}
           className="bg-white h-full ml-auto"
         />
       </div>
@@ -96,6 +107,7 @@ CountdownTimer.displayName = 'CountdownTimer';
 
 export const MatchCenter = () => {
   const { t } = useTranslation();
+  const isMobile = useIsMobile();
   const [activeTab, setActiveTab] = useState<'upcoming' | 'live'>('upcoming');
 
   // Tab change handler
@@ -177,8 +189,9 @@ export const MatchCenter = () => {
           <div className="max-w-5xl mx-auto">
             <div className="text-center mb-8 sm:mb-12">
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
+                initial={isMobile ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: isMobile ? 0 : 0.3 }}
                 className="inline-flex items-center gap-2 px-3 sm:px-4 py-1 rounded-full bg-red-600/10 border border-red-600/20 text-red-500 text-xs sm:text-sm font-bold uppercase tracking-wider mb-3 sm:mb-4"
               >
                 <Activity className="w-3 h-3 sm:w-4 sm:h-4" />
@@ -296,8 +309,9 @@ export const MatchCenter = () => {
       <div className="container mx-auto px-4 py-12 sm:py-16 md:py-20 relative z-10">
         <div className="text-center mb-8 sm:mb-12">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={isMobile ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: isMobile ? 0 : 0.3 }}
             className="inline-flex items-center gap-2 px-3 sm:px-4 py-1 rounded-full bg-red-600/10 border border-red-600/20 text-red-500 text-xs sm:text-sm font-bold uppercase tracking-wider mb-3 sm:mb-4"
           >
             <Activity className="w-3 h-3 sm:w-4 sm:h-4 animate-pulse" />
@@ -334,9 +348,10 @@ export const MatchCenter = () => {
               {activeTab === 'upcoming' ? (
                 <motion.div
                   key="upcoming"
-                  initial={{ opacity: 0, x: -20 }}
+                  initial={isMobile ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: 20 }}
+                  exit={isMobile ? { opacity: 1, x: 0 } : { opacity: 0, x: 20 }}
+                  transition={{ duration: isMobile ? 0 : 0.3 }}
                   className="flex flex-col items-center"
                 >
                   {/* Teams */}
@@ -395,9 +410,10 @@ export const MatchCenter = () => {
               ) : (
                 <motion.div
                   key="live"
-                  initial={{ opacity: 0, x: 20 }}
+                  initial={isMobile ? { opacity: 1, x: 0 } : { opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -20 }}
+                  exit={isMobile ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
+                  transition={{ duration: isMobile ? 0 : 0.3 }}
                   className="space-y-4 sm:space-y-6 md:space-y-8"
                 >
                   <div className="flex justify-between items-center text-xs sm:text-sm text-gray-400 mb-2 sm:mb-4">
@@ -408,10 +424,20 @@ export const MatchCenter = () => {
                     </span>
                   </div>
 
-                  <StatBar label="Possession" leftValue={45} rightValue={55} />
-                  <StatBar label="Shots on Target" leftValue={60} rightValue={40} />
-                  <StatBar label="Pass Accuracy" leftValue={82} rightValue={78} />
-                  <StatBar label="Fouls" leftValue={30} rightValue={70} />
+                  <StatBar label="Possession" leftValue={45} rightValue={55} isMobile={isMobile} />
+                  <StatBar
+                    label="Shots on Target"
+                    leftValue={60}
+                    rightValue={40}
+                    isMobile={isMobile}
+                  />
+                  <StatBar
+                    label="Pass Accuracy"
+                    leftValue={82}
+                    rightValue={78}
+                    isMobile={isMobile}
+                  />
+                  <StatBar label="Fouls" leftValue={30} rightValue={70} isMobile={isMobile} />
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mt-4 sm:mt-6 md:mt-8">
                     <div className="bg-white/5 p-3 sm:p-4 rounded-xl border border-white/10">

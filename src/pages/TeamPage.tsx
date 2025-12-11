@@ -10,12 +10,14 @@ import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTeamPlayers } from '@/hooks/api/useSotaPlayers';
 import { PlayerProfile } from '@/components/website/PlayerProfile';
+import { useIsMobile } from '@/hooks/useIsMobile';
 
 type Position = 'all' | 'GK' | 'DEF' | 'MID' | 'FWD';
 
 const TeamPage = () => {
   const { t } = useTranslation();
   const { data: players = [], isLoading, error } = useTeamPlayers();
+  const isMobile = useIsMobile();
 
   const [selectedPosition, setSelectedPosition] = useState<Position>('all');
   const [selectedPlayer, setSelectedPlayer] = useState<(typeof players)[0] | null>(null);
@@ -57,9 +59,9 @@ const TeamPage = () => {
 
           <div className="relative z-10 container mx-auto px-4 text-center">
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={isMobile ? { opacity: 1 } : { opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
+              transition={{ duration: isMobile ? 0 : 0.6 }}
             >
               <Badge className="bg-red-600/20 text-red-400 border-red-600/30 mb-4">
                 <Users className="w-4 h-4 mr-2" />
@@ -132,9 +134,12 @@ const TeamPage = () => {
                 {filteredPlayers.map((player, index) => (
                   <motion.div
                     key={player.id}
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={isMobile ? { opacity: 1 } : { opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.4, delay: index * 0.05 }}
+                    transition={{
+                      duration: isMobile ? 0 : 0.4,
+                      delay: isMobile ? 0 : index * 0.05,
+                    }}
                     className="group bg-gray-900/50 rounded-xl overflow-hidden border border-gray-800 hover:border-red-500/50 transition-all cursor-pointer"
                     onClick={() => setSelectedPlayer(player)}
                   >
@@ -176,10 +181,10 @@ const TeamPage = () => {
             <AnimatePresence>
               {selectedPlayer && (
                 <motion.div
-                  initial={{ opacity: 0, scale: 0.95 }}
+                  initial={isMobile ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.95 }}
-                  transition={{ duration: 0.3 }}
+                  exit={isMobile ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.95 }}
+                  transition={{ duration: isMobile ? 0 : 0.3 }}
                 >
                   <PlayerProfile playerId={selectedPlayer.id} initialData={selectedPlayer} />
                 </motion.div>

@@ -7,9 +7,11 @@ import { useTranslation } from 'react-i18next';
 import { fetchAchievements } from '@/api/cms/achievements-service';
 import { fetchVeterans } from '@/api/cms/veterans-service';
 import type { AchievementItem, VeteranItem } from '@/api/cms/types';
+import { useIsMobile } from '@/hooks/useIsMobile';
 
 const HistoryPage = () => {
   const { t } = useTranslation();
+  const isMobile = useIsMobile();
 
   // Реальные достижения ФК Кайсар
   const defaultAchievements: AchievementItem[] = [
@@ -215,8 +217,9 @@ const HistoryPage = () => {
         </div>
         <div className="container mx-auto px-4 relative z-10">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={isMobile ? { opacity: 1 } : { opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: isMobile ? 0 : 0.8 }}
             className="text-center"
           >
             <History className="w-16 h-16 text-red-500 mx-auto mb-4" />
@@ -234,9 +237,10 @@ const HistoryPage = () => {
       <section className="py-20 bg-gradient-to-b from-black to-gray-900">
         <div className="container mx-auto px-4">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={isMobile ? { opacity: 1 } : { opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
+            transition={{ duration: isMobile ? 0 : 0.5 }}
             className="text-center mb-16"
           >
             <span className="inline-block px-4 py-1 bg-red-500/20 text-red-500 text-sm font-bold rounded-full mb-4">
@@ -251,10 +255,10 @@ const HistoryPage = () => {
             {timeline.map((item, index) => (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, x: -30 }}
+                initial={isMobile ? { opacity: 1 } : { opacity: 0, x: -30 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
+                transition={{ delay: isMobile ? 0 : index * 0.1 }}
                 className="flex items-start gap-6 mb-8"
               >
                 <div className="flex-shrink-0 w-24 text-right">
@@ -295,9 +299,10 @@ const HistoryPage = () => {
       <section className="py-20 bg-gray-900">
         <div className="container mx-auto px-4">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={isMobile ? { opacity: 1 } : { opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
+            transition={{ duration: isMobile ? 0 : 0.5 }}
             className="text-center mb-16"
           >
             <span className="inline-block px-4 py-1 bg-yellow-500/20 text-yellow-500 text-sm font-bold rounded-full mb-4">
@@ -318,10 +323,10 @@ const HistoryPage = () => {
               {achievements.map((achievement: AchievementItem, index: number) => (
                 <motion.div
                   key={achievement.id}
-                  initial={{ opacity: 0, y: 20 }}
+                  initial={isMobile ? { opacity: 1 } : { opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ delay: index * 0.05 }}
+                  transition={{ delay: isMobile ? 0 : index * 0.05 }}
                   className="bg-white/5 rounded-2xl p-6 border border-white/10 hover:border-yellow-500/30 transition-all group"
                 >
                   <div className="flex items-start gap-4">
@@ -365,9 +370,10 @@ const HistoryPage = () => {
       <section className="py-20 bg-gradient-to-b from-gray-900 to-black">
         <div className="container mx-auto px-4">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={isMobile ? { opacity: 1 } : { opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
+            transition={{ duration: isMobile ? 0 : 0.5 }}
             className="text-center mb-16"
           >
             <span className="inline-block px-4 py-1 bg-red-500/20 text-red-500 text-sm font-bold rounded-full mb-4">
@@ -397,10 +403,10 @@ const HistoryPage = () => {
               {veterans.map((veteran: VeteranItem, index: number) => (
                 <motion.div
                   key={veteran.id}
-                  initial={{ opacity: 0, y: 20 }}
+                  initial={isMobile ? { opacity: 1 } : { opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ delay: index * 0.05 }}
+                  transition={{ delay: isMobile ? 0 : index * 0.05 }}
                   className="bg-white/5 rounded-2xl overflow-hidden border border-white/10 hover:border-red-500/30 transition-all group"
                 >
                   {/* Photo */}
@@ -473,9 +479,10 @@ const HistoryPage = () => {
       <section className="py-20 bg-black">
         <div className="container mx-auto px-4">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={isMobile ? { opacity: 1 } : { opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
+            transition={{ duration: isMobile ? 0 : 0.5 }}
             className="text-center mb-16"
           >
             <span className="inline-block px-4 py-1 bg-blue-500/20 text-blue-400 text-sm font-bold rounded-full mb-4">
@@ -492,10 +499,12 @@ const HistoryPage = () => {
               {coaches.map((coach, index) => (
                 <motion.div
                   key={index}
-                  initial={{ opacity: 0, x: index % 2 === 0 ? -20 : 20 }}
+                  initial={
+                    isMobile ? { opacity: 1 } : { opacity: 0, x: index % 2 === 0 ? -20 : 20 }
+                  }
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
-                  transition={{ delay: index * 0.05 }}
+                  transition={{ delay: isMobile ? 0 : index * 0.05 }}
                   className={`flex items-center gap-4 p-4 rounded-xl border transition-all ${
                     coach.current
                       ? 'bg-red-500/10 border-red-500/30'

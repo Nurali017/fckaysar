@@ -20,9 +20,11 @@ import {
 } from '@/components/ui/accordion';
 import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
+import { useIsMobile } from '@/hooks/useIsMobile';
 
 const StadiumPage = () => {
   const { t } = useTranslation();
+  const isMobile = useIsMobile();
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
   const stadiumPhotos = [
@@ -186,9 +188,9 @@ const StadiumPage = () => {
         </div>
         <div className="relative z-20 text-center px-4">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={isMobile ? { opacity: 1 } : { opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
+            transition={{ duration: isMobile ? 0 : 0.8 }}
           >
             <span className="inline-block px-4 py-2 bg-red-600 text-white text-sm font-bold uppercase tracking-wider mb-6">
               {t('stadium.homeArena', 'Домашняя арена')}
@@ -228,7 +230,7 @@ const StadiumPage = () => {
       <section className="py-20 bg-black">
         <div className="container mx-auto px-4">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={isMobile ? { opacity: 1 } : { opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             className="text-center mb-12"
@@ -246,10 +248,10 @@ const StadiumPage = () => {
             {stadiumPhotos.map((photo, index) => (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, scale: 0.9 }}
+                initial={isMobile ? { opacity: 1 } : { opacity: 0, scale: 0.9 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
+                transition={{ delay: isMobile ? 0 : index * 0.1 }}
                 className="relative aspect-[4/3] overflow-hidden rounded-xl cursor-pointer group"
                 onClick={() => setSelectedImage(photo)}
               >
@@ -268,14 +270,14 @@ const StadiumPage = () => {
       {/* Lightbox */}
       {selectedImage && (
         <motion.div
-          initial={{ opacity: 0 }}
+          initial={isMobile ? { opacity: 1 } : { opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-4"
           onClick={() => setSelectedImage(null)}
         >
           <motion.img
-            initial={{ scale: 0.8 }}
+            initial={isMobile ? { scale: 1 } : { scale: 0.8 }}
             animate={{ scale: 1 }}
             src={selectedImage}
             alt="Кайсар Арена"
@@ -294,7 +296,7 @@ const StadiumPage = () => {
       <section className="py-20 bg-gradient-to-b from-black to-gray-900">
         <div className="container mx-auto px-4">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={isMobile ? { opacity: 1 } : { opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             className="text-center mb-16"
@@ -314,10 +316,10 @@ const StadiumPage = () => {
             {features.map((feature, index) => (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, y: 20 }}
+                initial={isMobile ? { opacity: 1 } : { opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
+                transition={{ delay: isMobile ? 0 : index * 0.1 }}
                 className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 hover:bg-white/10 transition-all duration-300"
               >
                 <feature.icon className="w-10 h-10 text-red-500 mb-4" />
@@ -336,7 +338,7 @@ const StadiumPage = () => {
       <section className="py-20 bg-gray-900">
         <div className="container mx-auto px-4">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={isMobile ? { opacity: 1 } : { opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             className="text-center mb-16"
@@ -353,10 +355,10 @@ const StadiumPage = () => {
             {fieldFeatures.map((feature, index) => (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, y: 20 }}
+                initial={isMobile ? { opacity: 1 } : { opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
+                transition={{ delay: isMobile ? 0 : index * 0.1 }}
                 className="bg-gradient-to-br from-green-900/30 to-green-800/10 border border-green-500/20 rounded-2xl p-6 text-center"
               >
                 <feature.icon className="w-12 h-12 text-green-500 mx-auto mb-4" />
@@ -367,7 +369,7 @@ const StadiumPage = () => {
           </div>
 
           <motion.div
-            initial={{ opacity: 0 }}
+            initial={isMobile ? { opacity: 1 } : { opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             className="mt-12 p-6 bg-white/5 rounded-2xl border border-white/10"
@@ -388,7 +390,7 @@ const StadiumPage = () => {
       <section className="py-20 bg-black">
         <div className="container mx-auto px-4">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={isMobile ? { opacity: 1 } : { opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             className="text-center mb-16"
@@ -422,7 +424,7 @@ const StadiumPage = () => {
       <section className="py-16 bg-gradient-to-r from-gray-900 to-black">
         <div className="container mx-auto px-4">
           <motion.div
-            initial={{ opacity: 0 }}
+            initial={isMobile ? { opacity: 1 } : { opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             className="text-center max-w-4xl mx-auto"

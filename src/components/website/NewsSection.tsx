@@ -7,6 +7,7 @@ import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { useNews } from '@/hooks/api/useNews';
 import { Link } from 'react-router-dom';
+import { useIsMobile } from '@/hooks/useIsMobile';
 
 interface NewsCardProps {
   news: {
@@ -21,14 +22,15 @@ interface NewsCardProps {
   index: number;
   formatDate: (date: string) => string;
   readMoreText: string;
+  isMobile: boolean;
 }
 
 // Memoized news card to prevent re-renders
-const NewsCard = memo(({ news, index, formatDate, readMoreText }: NewsCardProps) => (
+const NewsCard = memo(({ news, index, formatDate, readMoreText, isMobile }: NewsCardProps) => (
   <motion.div
-    initial={{ opacity: 0, y: 20 }}
+    initial={isMobile ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
     whileInView={{ opacity: 1, y: 0 }}
-    transition={{ delay: index * 0.1 }}
+    transition={{ delay: isMobile ? 0 : index * 0.1 }}
     viewport={{ once: true }}
   >
     <Link to={`/news/${news.slug}`}>
@@ -72,6 +74,7 @@ NewsCard.displayName = 'NewsCard';
 
 export const NewsSection = () => {
   const { t, i18n } = useTranslation();
+  const isMobile = useIsMobile();
   const { data, isLoading, isError } = useNews(1, 4);
 
   const newsItems = data?.news || [];
@@ -138,6 +141,7 @@ export const NewsSection = () => {
                 index={index}
                 formatDate={formatDate}
                 readMoreText={t('news.readMore')}
+                isMobile={isMobile}
               />
             ))}
           </div>

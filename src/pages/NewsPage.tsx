@@ -7,12 +7,14 @@ import { Newspaper, AlertCircle, Calendar } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 import { useNews } from '@/hooks/api/useNews';
+import { useIsMobile } from '@/hooks/useIsMobile';
 
 const NewsPage = () => {
   const { i18n } = useTranslation();
   const { data, isLoading, error } = useNews(1, 20);
   const news = data?.news || [];
   const lang = i18n.language as 'ru' | 'kk' | 'en';
+  const isMobile = useIsMobile();
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -32,9 +34,9 @@ const NewsPage = () => {
 
           <div className="relative z-10 container mx-auto px-4 text-center">
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={isMobile ? { opacity: 1 } : { opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
+              transition={{ duration: isMobile ? 0 : 0.6 }}
             >
               <Badge className="bg-red-600/20 text-red-400 border-red-600/30 mb-4">
                 <Newspaper className="w-4 h-4 mr-2" />
@@ -97,9 +99,12 @@ const NewsPage = () => {
                 {news.map((item, index) => (
                   <Link key={item.id} to={`/news/${item.slug}`}>
                     <motion.article
-                      initial={{ opacity: 0, y: 20 }}
+                      initial={isMobile ? { opacity: 1 } : { opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.4, delay: index * 0.05 }}
+                      transition={{
+                        duration: isMobile ? 0 : 0.4,
+                        delay: isMobile ? 0 : index * 0.05,
+                      }}
                       className="group bg-gray-900/50 rounded-xl overflow-hidden border border-gray-800 hover:border-gray-700 transition-all cursor-pointer h-full"
                     >
                       <div className="relative aspect-video overflow-hidden">

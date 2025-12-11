@@ -2,8 +2,10 @@ import { WebsiteHeader } from '@/components/website/WebsiteHeader';
 import { Footer } from '@/components/website/Footer';
 import { motion } from 'framer-motion';
 import { MapPin, Building } from 'lucide-react';
+import { useIsMobile } from '@/hooks/useIsMobile';
 
 const AcademyBranchesPage = () => {
+  const isMobile = useIsMobile();
   const branches = [
     { name: 'Кызылорда', status: 'Главный филиал', description: 'Основная база академии' },
     {
@@ -20,8 +22,9 @@ const AcademyBranchesPage = () => {
       <section className="pt-32 pb-20">
         <div className="container mx-auto px-4">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={isMobile ? { opacity: 1 } : { opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: isMobile ? 0 : 0.5 }}
             className="text-center mb-16"
           >
             <Building className="w-16 h-16 text-red-500 mx-auto mb-4" />
@@ -35,10 +38,10 @@ const AcademyBranchesPage = () => {
             {branches.map((branch, index) => (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, y: 20 }}
+                initial={isMobile ? { opacity: 1 } : { opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
+                transition={{ delay: isMobile ? 0 : index * 0.1 }}
                 className="bg-white/5 rounded-2xl p-6 border border-white/10"
               >
                 <MapPin className="w-8 h-8 text-red-500 mb-3" />
@@ -52,9 +55,10 @@ const AcademyBranchesPage = () => {
           </div>
 
           <motion.div
-            initial={{ opacity: 0 }}
+            initial={isMobile ? { opacity: 1 } : { opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
+            transition={{ duration: isMobile ? 0 : 0.5 }}
             className="mt-12 p-6 bg-gradient-to-r from-red-900/20 to-red-800/10 rounded-2xl border border-red-500/20 max-w-4xl mx-auto text-center"
           >
             <h3 className="text-xl font-bold mb-2">План развития</h3>

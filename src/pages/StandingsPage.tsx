@@ -7,11 +7,13 @@ import { Footer } from '@/components/website/Footer';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { useLeagueStandings } from '@/hooks/api/useStandings';
+import { useIsMobile } from '@/hooks/useIsMobile';
 
 const StandingsPage = () => {
   const { i18n } = useTranslation();
   const { data: standings = [], isLoading, error } = useLeagueStandings();
   const lang = i18n.language as 'ru' | 'kk' | 'en';
+  const isMobile = useIsMobile();
 
   const labels = {
     ru: {
@@ -88,9 +90,9 @@ const StandingsPage = () => {
             <span>{l.backToHome}</span>
           </Link>
           <motion.div
-            initial={{ opacity: 0, x: -30 }}
+            initial={isMobile ? { opacity: 1 } : { opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: isMobile ? 0 : 0.6 }}
           >
             <div className="flex items-center gap-4 mb-2">
               <Trophy className="w-10 h-10 text-red-500" />
@@ -130,8 +132,9 @@ const StandingsPage = () => {
 
         {standings.length > 0 && (
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={isMobile ? { opacity: 1 } : { opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: isMobile ? 0 : 0.3 }}
             className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden"
           >
             <div className="overflow-x-auto">
@@ -174,9 +177,9 @@ const StandingsPage = () => {
                   {standings.map((team, index) => (
                     <motion.tr
                       key={team.teamId}
-                      initial={{ opacity: 0, x: -20 }}
+                      initial={isMobile ? { opacity: 1 } : { opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: index * 0.03 }}
+                      transition={{ delay: isMobile ? 0 : index * 0.03 }}
                       className={`border-b border-white/5 hover:bg-white/5 ${team.isKaisar ? 'bg-red-500/10 hover:bg-red-500/20' : ''}`}
                     >
                       <td className="px-4 py-4">

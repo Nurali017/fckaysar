@@ -3,6 +3,7 @@ import { User, Award, Briefcase } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useLeadership } from '@/hooks/api/useLeadership';
 import { useMemo } from 'react';
+import { useIsMobile } from '@/hooks/useIsMobile';
 
 // Icon mapping helper
 const getIconComponent = (iconName: string) => {
@@ -31,6 +32,7 @@ const LeaderSkeleton = () => (
 
 export const NewLeadershipSection = () => {
   const { t } = useTranslation();
+  const isMobile = useIsMobile();
   const { data: leadershipPhotos, isLoading, isError } = useLeadership();
 
   // Merge CMS photos with i18n data
@@ -94,9 +96,10 @@ export const NewLeadershipSection = () => {
 
       <div className="container mx-auto px-4 relative z-10">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={isMobile ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.1 }}
+          transition={{ duration: isMobile ? 0 : 0.3 }}
           className="text-center mb-16"
         >
           <span className="inline-block px-4 py-1 bg-white/10 text-white/80 text-sm font-bold tracking-wider uppercase mb-4 rounded-full border border-white/10">
@@ -121,10 +124,10 @@ export const NewLeadershipSection = () => {
               leaders.map((leader, index) => (
                 <motion.div
                   key={leader.key}
-                  initial={{ opacity: 0, y: 30 }}
+                  initial={isMobile ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, amount: 0.1 }}
-                  transition={{ delay: index * 0.15 }}
+                  transition={{ delay: isMobile ? 0 : index * 0.15 }}
                   className="group rounded-3xl overflow-hidden border border-white/10 shadow-2xl"
                 >
                   {/* Image Block */}

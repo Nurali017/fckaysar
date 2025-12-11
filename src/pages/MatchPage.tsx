@@ -17,11 +17,13 @@ import { MatchStats } from '@/components/website/match/MatchStats';
 import { LineupPitch } from '@/components/website/match/LineupPitch';
 
 import { useMatchDetails } from '@/hooks/api/useMatchDetails';
+import { useIsMobile } from '@/hooks/useIsMobile';
 
 const MatchPage = () => {
   const { id } = useParams<{ id: string }>();
   const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState<MatchTab>('overview');
+  const isMobile = useIsMobile();
 
   const { data: match, isLoading, error } = useMatchDetails(id);
 
@@ -125,10 +127,10 @@ const MatchPage = () => {
             {activeTab === 'overview' && (
               <motion.div
                 key="overview"
-                initial={{ opacity: 0, y: 20 }}
+                initial={isMobile ? { opacity: 1 } : { opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.3 }}
+                exit={isMobile ? { opacity: 1 } : { opacity: 0, y: -20 }}
+                transition={{ duration: isMobile ? 0 : 0.3 }}
               >
                 <MatchOverview match={match} />
               </motion.div>
@@ -137,10 +139,10 @@ const MatchPage = () => {
             {activeTab === 'lineups' && (
               <motion.div
                 key="lineups"
-                initial={{ opacity: 0, y: 20 }}
+                initial={isMobile ? { opacity: 1 } : { opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.3 }}
+                exit={isMobile ? { opacity: 1 } : { opacity: 0, y: -20 }}
+                transition={{ duration: isMobile ? 0 : 0.3 }}
               >
                 {hasLineup && match.lineup ? (
                   <LineupPitch
@@ -149,7 +151,9 @@ const MatchPage = () => {
                   />
                 ) : (
                   <div className="text-center py-12">
-                    <p className="text-gray-400">{t('match.noLineup', 'Составы пока не объявлены')}</p>
+                    <p className="text-gray-400">
+                      {t('match.noLineup', 'Составы пока не объявлены')}
+                    </p>
                   </div>
                 )}
               </motion.div>
@@ -158,10 +162,10 @@ const MatchPage = () => {
             {activeTab === 'stats' && (
               <motion.div
                 key="stats"
-                initial={{ opacity: 0, y: 20 }}
+                initial={isMobile ? { opacity: 1 } : { opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.3 }}
+                exit={isMobile ? { opacity: 1 } : { opacity: 0, y: -20 }}
+                transition={{ duration: isMobile ? 0 : 0.3 }}
               >
                 {hasStats && match.teamStats ? (
                   <MatchStats

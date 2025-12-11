@@ -13,6 +13,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { FadeInWhenVisible } from '@/components/animations/FadeInWhenVisible';
 import { useTeamStatsWithForm } from '@/hooks/api/useTeamStats';
+import { useIsMobile } from '@/hooks/useIsMobile';
 
 // Stats components
 import {
@@ -27,6 +28,7 @@ import {
 const StatsPage = () => {
   const { data: stats, isLoading, error } = useTeamStatsWithForm();
   const { t } = useTranslation();
+  const isMobile = useIsMobile();
 
   return (
     <div className="min-h-screen bg-black text-white">
@@ -50,9 +52,9 @@ const StatsPage = () => {
           {/* Title with season progress */}
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
             <motion.div
-              initial={{ opacity: 0, x: -30 }}
+              initial={isMobile ? { opacity: 1 } : { opacity: 0, x: -30 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6 }}
+              transition={{ duration: isMobile ? 0 : 0.6 }}
             >
               <div className="flex items-center gap-4 mb-2">
                 <BarChart3 className="w-10 h-10 text-red-500" />
@@ -69,9 +71,9 @@ const StatsPage = () => {
             {/* Season Progress Ring */}
             {stats && (
               <motion.div
-                initial={{ opacity: 0, scale: 0.8 }}
+                initial={isMobile ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.6, delay: 0.2 }}
+                transition={{ duration: isMobile ? 0 : 0.6, delay: isMobile ? 0 : 0.2 }}
                 className="flex-shrink-0"
               >
                 <SeasonProgressRing
@@ -165,7 +167,7 @@ const StatsPage = () => {
             {/* Last Updated */}
             {stats.raw.lastUpdated && (
               <motion.p
-                initial={{ opacity: 0 }}
+                initial={isMobile ? { opacity: 1 } : { opacity: 0 }}
                 whileInView={{ opacity: 1 }}
                 viewport={{ once: true }}
                 className="text-center text-gray-500 text-sm"

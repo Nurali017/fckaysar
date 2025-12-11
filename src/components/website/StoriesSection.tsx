@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Plus, X, Play } from 'lucide-react';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
+import { useIsMobile } from '@/hooks/useIsMobile';
 
 interface Story {
   id: number;
@@ -53,6 +54,7 @@ const stories: Story[] = [
 
 export const StoriesSection = () => {
   const [selectedStory, setSelectedStory] = useState<Story | null>(null);
+  const isMobile = useIsMobile();
 
   return (
     <section className="container mx-auto px-4 py-12">
@@ -82,7 +84,12 @@ export const StoriesSection = () => {
           </motion.div>
 
           {stories.map(story => (
-            <StoryCard key={story.id} story={story} onClick={() => setSelectedStory(story)} />
+            <StoryCard
+              key={story.id}
+              story={story}
+              onClick={() => setSelectedStory(story)}
+              isMobile={isMobile}
+            />
           ))}
         </div>
         <ScrollBar orientation="horizontal" className="bg-white/10" />
@@ -131,9 +138,9 @@ export const StoriesSection = () => {
               <div className="absolute top-2 left-2 right-2 flex gap-1">
                 <div className="h-1 flex-1 bg-white/30 rounded-full overflow-hidden">
                   <motion.div
-                    initial={{ width: '0%' }}
+                    initial={{ width: isMobile ? '100%' : '0%' }}
                     animate={{ width: '100%' }}
-                    transition={{ duration: 5, ease: 'linear' }}
+                    transition={{ duration: isMobile ? 0 : 5, ease: 'linear' }}
                     className="h-full bg-white"
                     onAnimationComplete={() => setSelectedStory(null)}
                   />
@@ -154,11 +161,19 @@ export const StoriesSection = () => {
   );
 };
 
-const StoryCard = ({ story, onClick }: { story: Story; onClick: () => void }) => {
+const StoryCard = ({
+  story,
+  onClick,
+  isMobile,
+}: {
+  story: Story;
+  onClick: () => void;
+  isMobile: boolean;
+}) => {
   return (
     <motion.div
       layoutId={`story-${story.id}`}
-      whileHover={{ scale: 1.05, y: -5 }}
+      whileHover={isMobile ? {} : { scale: 1.05, y: -5 }}
       onClick={onClick}
       className="relative w-32 h-56 flex-shrink-0 cursor-pointer rounded-2xl overflow-hidden group"
     >

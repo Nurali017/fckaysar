@@ -6,6 +6,7 @@ import { PageWrapper } from '@/components/website/PageWrapper';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Button } from '@/components/ui/button';
 import { useTeamMatches } from '@/hooks/api/useGames';
+import { useIsMobile } from '@/hooks/useIsMobile';
 
 type FilterType = 'all' | 'finished' | 'upcoming';
 
@@ -14,6 +15,7 @@ const KAYSAR_TEAM_ID = 94;
 const MatchesPage = () => {
   const [filter, setFilter] = useState<FilterType>('all');
   const { data: matches = [], isLoading } = useTeamMatches(KAYSAR_TEAM_ID);
+  const isMobile = useIsMobile();
 
   // Filter matches based on selected filter
   const filteredMatches = matches.filter(match => {
@@ -78,7 +80,7 @@ const MatchesPage = () => {
         ) : (
           <div className="space-y-4">
             {filteredMatches.map((match, index) => (
-              <MatchCard key={match.id} match={match} index={index} />
+              <MatchCard key={match.id} match={match} index={index} isMobile={isMobile} />
             ))}
           </div>
         )}
@@ -98,7 +100,15 @@ interface Match {
   status: 'upcoming' | 'live' | 'finished';
 }
 
-const MatchCard = ({ match, index }: { match: Match; index: number }) => {
+const MatchCard = ({
+  match,
+  index,
+  isMobile,
+}: {
+  match: Match;
+  index: number;
+  isMobile: boolean;
+}) => {
   const isKaysarHome =
     match.homeTeam.name.includes('Кайсар') ||
     match.homeTeam.name.includes('Kaysar') ||
@@ -126,9 +136,9 @@ const MatchCard = ({ match, index }: { match: Match; index: number }) => {
   return (
     <Link to={`/match/${match.id}`}>
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
+        initial={isMobile ? { opacity: 1 } : { opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: index * 0.05 }}
+        transition={{ delay: isMobile ? 0 : index * 0.05 }}
         className={`border-l-4 ${result ? resultColors[result] : 'border-l-blue-500 bg-blue-500/5'}
                     backdrop-blur-sm rounded-r-xl p-4 md:p-6 hover:bg-white/5 transition-all cursor-pointer`}
       >

@@ -2,8 +2,10 @@ import { WebsiteHeader } from '@/components/website/WebsiteHeader';
 import { Footer } from '@/components/website/Footer';
 import { motion } from 'framer-motion';
 import { Phone, Mail, MapPin, Clock } from 'lucide-react';
+import { useIsMobile } from '@/hooks/useIsMobile';
 
 const ContactsPage = () => {
+  const isMobile = useIsMobile();
   const contacts = [
     {
       icon: MapPin,
@@ -38,8 +40,9 @@ const ContactsPage = () => {
       <section className="pt-32 pb-20">
         <div className="container mx-auto px-4">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={isMobile ? { opacity: 1 } : { opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: isMobile ? 0 : 0.5 }}
             className="text-center mb-16"
           >
             <Phone className="w-16 h-16 text-red-500 mx-auto mb-4" />
@@ -53,10 +56,10 @@ const ContactsPage = () => {
             {contacts.map((contact, index) => (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, y: 20 }}
+                initial={isMobile ? { opacity: 1 } : { opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
+                transition={{ delay: isMobile ? 0 : index * 0.1 }}
                 className="bg-white/5 rounded-2xl p-6 border border-white/10 text-center"
               >
                 <contact.icon className="w-10 h-10 text-red-500 mx-auto mb-4" />
@@ -68,9 +71,10 @@ const ContactsPage = () => {
           </div>
 
           <motion.div
-            initial={{ opacity: 0 }}
+            initial={isMobile ? { opacity: 1 } : { opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
+            transition={{ duration: isMobile ? 0 : 0.5 }}
             className="mt-12 max-w-4xl mx-auto"
           >
             <div className="bg-white/5 rounded-2xl overflow-hidden border border-white/10">

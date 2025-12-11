@@ -1,29 +1,10 @@
-import { useState, useEffect } from 'react';
-import { Facebook, Instagram, Twitter, Youtube, Mail, Phone, MapPin, ArrowUp } from 'lucide-react';
+import { Facebook, Instagram, Twitter, Youtube, Mail, Phone, MapPin } from 'lucide-react';
 import kaisarLogo from '@/assets/kaisar-logo.jpg';
 import { useTranslation } from 'react-i18next';
 import { env } from '@/lib/env';
 
 export const Footer = () => {
   const { t } = useTranslation();
-  const [showBackToTop, setShowBackToTop] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setShowBackToTop(window.scrollY > 500);
-    };
-
-    // passive: true improves scroll performance on all browsers
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    });
-  };
 
   return (
     <footer className="bg-black border-t border-white/10 text-white" role="contentinfo">
@@ -253,17 +234,6 @@ export const Footer = () => {
           </div>
         </div>
       </div>
-
-      {/* Back to Top Button */}
-      {showBackToTop && (
-        <button
-          onClick={scrollToTop}
-          className="fixed bottom-4 right-4 sm:bottom-8 sm:right-8 w-11 h-11 sm:w-12 sm:h-12 bg-red-600 hover:bg-red-700 active:bg-red-800 text-white rounded-full flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-110 active:scale-95 z-40"
-          aria-label="Back to top"
-        >
-          <ArrowUp className="w-5 h-5" />
-        </button>
-      )}
     </footer>
   );
 };

@@ -8,11 +8,13 @@ import { Camera, AlertCircle, X, ChevronLeft, ChevronRight } from 'lucide-react'
 import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useGallery } from '@/hooks/api/useGallery';
+import { useIsMobile } from '@/hooks/useIsMobile';
 
 const GalleryPage = () => {
   const { i18n } = useTranslation();
   const { data: gallery = [], isLoading, error } = useGallery(1, 50);
   const lang = i18n.language as 'ru' | 'kk' | 'en';
+  const isMobile = useIsMobile();
 
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
 
@@ -47,9 +49,9 @@ const GalleryPage = () => {
 
           <div className="relative z-10 container mx-auto px-4 text-center">
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={isMobile ? { opacity: 1 } : { opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
+              transition={{ duration: isMobile ? 0 : 0.6 }}
             >
               <Badge className="bg-red-600/20 text-red-400 border-red-600/30 mb-4">
                 <Camera className="w-4 h-4 mr-2" />
@@ -105,9 +107,12 @@ const GalleryPage = () => {
                 {gallery.map((item, index) => (
                   <motion.div
                     key={item.id}
-                    initial={{ opacity: 0, scale: 0.9 }}
+                    initial={isMobile ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.3, delay: index * 0.03 }}
+                    transition={{
+                      duration: isMobile ? 0 : 0.3,
+                      delay: isMobile ? 0 : index * 0.03,
+                    }}
                     className="group relative aspect-square rounded-xl overflow-hidden cursor-pointer border border-gray-800 hover:border-gray-600 transition-all"
                     onClick={() => openLightbox(index)}
                   >
@@ -133,9 +138,9 @@ const GalleryPage = () => {
               {selectedIndex !== null && gallery[selectedIndex] && (
                 <motion.div
                   key={selectedIndex}
-                  initial={{ opacity: 0 }}
+                  initial={isMobile ? { opacity: 1 } : { opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
+                  exit={isMobile ? { opacity: 1 } : { opacity: 0 }}
                   className="relative flex items-center justify-center min-h-[60vh]"
                 >
                   <img

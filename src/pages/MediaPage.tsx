@@ -5,10 +5,12 @@ import { useTranslation } from 'react-i18next';
 import { WebsiteHeader } from '@/components/website/WebsiteHeader';
 import { Footer } from '@/components/website/Footer';
 import { Badge } from '@/components/ui/badge';
+import { useIsMobile } from '@/hooks/useIsMobile';
 
 const MediaPage = () => {
   const { i18n } = useTranslation();
   const lang = i18n.language as 'ru' | 'kk' | 'en';
+  const isMobile = useIsMobile();
 
   const labels = {
     ru: {
@@ -65,9 +67,9 @@ const MediaPage = () => {
             <span>{l.backToHome}</span>
           </Link>
           <motion.div
-            initial={{ opacity: 0, x: -30 }}
+            initial={isMobile ? { opacity: 1 } : { opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: isMobile ? 0 : 0.6 }}
           >
             <div className="flex items-center gap-4 mb-2">
               <Video className="w-10 h-10 text-red-500" />
@@ -83,9 +85,9 @@ const MediaPage = () => {
       <main className="container mx-auto px-4 py-12 space-y-12">
         {/* Photo Gallery Section */}
         <motion.section
-          initial={{ opacity: 0, y: 20 }}
+          initial={isMobile ? { opacity: 1 } : { opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1 }}
+          transition={{ delay: isMobile ? 0 : 0.1 }}
         >
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-3">
@@ -120,9 +122,9 @@ const MediaPage = () => {
 
         {/* Videos Section */}
         <motion.section
-          initial={{ opacity: 0, y: 20 }}
+          initial={isMobile ? { opacity: 1 } : { opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
+          transition={{ delay: isMobile ? 0 : 0.2 }}
         >
           <div className="flex items-center gap-3 mb-6">
             <Play className="w-6 h-6 text-red-500" />
@@ -133,9 +135,9 @@ const MediaPage = () => {
             {[1, 2, 3].map(i => (
               <motion.div
                 key={i}
-                initial={{ opacity: 0, scale: 0.9 }}
+                initial={isMobile ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.1 * i }}
+                transition={{ delay: isMobile ? 0 : 0.1 * i }}
                 className="relative bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden aspect-video group cursor-pointer hover:border-red-500/50 transition-all"
               >
                 <div className="absolute inset-0 flex items-center justify-center">

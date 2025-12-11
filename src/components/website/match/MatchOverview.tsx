@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { Scale, Calendar, MapPin, Users, Trophy } from 'lucide-react';
 import type { MatchDetails } from '@/api/types/match-details-types';
+import { useIsMobile } from '@/hooks/useIsMobile';
 
 interface MatchOverviewProps {
   match: MatchDetails;
@@ -9,12 +10,13 @@ interface MatchOverviewProps {
 
 export const MatchOverview = ({ match }: MatchOverviewProps) => {
   const { t } = useTranslation();
+  const isMobile = useIsMobile();
 
   return (
     <div className="space-y-8 max-w-2xl mx-auto">
       {/* Key Facts */}
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
+        initial={isMobile ? { opacity: 1 } : { opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         className="bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 p-6"
       >
@@ -46,8 +48,8 @@ export const MatchOverview = ({ match }: MatchOverviewProps) => {
               match.status === 'finished'
                 ? t('match.status.finished', 'Завершён')
                 : match.status === 'live'
-                ? t('match.status.live', 'В прямом эфире')
-                : t('match.status.upcoming', 'Ожидается')
+                  ? t('match.status.live', 'В прямом эфире')
+                  : t('match.status.upcoming', 'Ожидается')
             }
           />
         </div>
@@ -56,9 +58,9 @@ export const MatchOverview = ({ match }: MatchOverviewProps) => {
       {/* Referees */}
       {match.referees && (
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={isMobile ? { opacity: 1 } : { opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1 }}
+          transition={{ delay: isMobile ? 0 : 0.1 }}
           className="bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 p-6"
         >
           <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
@@ -105,9 +107,9 @@ export const MatchOverview = ({ match }: MatchOverviewProps) => {
       {/* Quick Stats Preview */}
       {match.teamStats && (
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={isMobile ? { opacity: 1 } : { opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
+          transition={{ delay: isMobile ? 0 : 0.2 }}
           className="bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 p-6"
         >
           <h3 className="text-lg font-bold text-white mb-4">
@@ -172,8 +174,12 @@ interface RefereeItemProps {
 }
 
 const RefereeItem = ({ role, name, isPrimary }: RefereeItemProps) => (
-  <div className={`flex justify-between items-center p-3 rounded-lg ${isPrimary ? 'bg-white/5' : ''}`}>
-    <span className={`text-sm ${isPrimary ? 'text-white font-medium' : 'text-gray-400'}`}>{role}</span>
+  <div
+    className={`flex justify-between items-center p-3 rounded-lg ${isPrimary ? 'bg-white/5' : ''}`}
+  >
+    <span className={`text-sm ${isPrimary ? 'text-white font-medium' : 'text-gray-400'}`}>
+      {role}
+    </span>
     <span className={`text-sm ${isPrimary ? 'text-white' : 'text-gray-300'}`}>{name}</span>
   </div>
 );

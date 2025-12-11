@@ -3,9 +3,11 @@ import { Footer } from '@/components/website/Footer';
 import { motion } from 'framer-motion';
 import { FileText, Check, X } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { useIsMobile } from '@/hooks/useIsMobile';
 
 const RulesPage = () => {
   const { t } = useTranslation();
+  const isMobile = useIsMobile();
 
   const allowed = [
     t('fans.allowedItems.attributes', 'Болельщицкая атрибутика'),
@@ -29,8 +31,9 @@ const RulesPage = () => {
       <section className="pt-32 pb-20">
         <div className="container mx-auto px-4">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={isMobile ? { opacity: 1 } : { opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: isMobile ? 0 : 0.5 }}
             className="text-center mb-16"
           >
             <FileText className="w-16 h-16 text-red-500 mx-auto mb-4" />
@@ -44,9 +47,10 @@ const RulesPage = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
             <motion.div
-              initial={{ opacity: 0, x: -20 }}
+              initial={isMobile ? { opacity: 1 } : { opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
+              transition={{ duration: isMobile ? 0 : 0.5 }}
               className="bg-green-900/20 rounded-2xl p-6 border border-green-500/30"
             >
               <h3 className="text-xl font-bold mb-4 text-green-400 flex items-center gap-2">
@@ -63,9 +67,10 @@ const RulesPage = () => {
             </motion.div>
 
             <motion.div
-              initial={{ opacity: 0, x: 20 }}
+              initial={isMobile ? { opacity: 1 } : { opacity: 0, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
+              transition={{ duration: isMobile ? 0 : 0.5 }}
               className="bg-red-900/20 rounded-2xl p-6 border border-red-500/30"
             >
               <h3 className="text-xl font-bold mb-4 text-red-400 flex items-center gap-2">

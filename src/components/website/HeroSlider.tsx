@@ -5,6 +5,7 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRef, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { TalentRecommendationModal } from './TalentRecommendationModal';
+import { useIsMobile } from '@/hooks/useIsMobile';
 
 // Видео стадиона - мобильная версия меньше по размеру
 const STADIUM_VIDEO_DESKTOP = '/videos/hero-main.mp4';
@@ -14,17 +15,18 @@ const HERO_POSTER = '/images/hero-poster.jpg';
 export const HeroSlider = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const isMobile = useIsMobile();
   const ref = useRef(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [videoLoaded, setVideoLoaded] = useState(false);
   const [videoError, setVideoError] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobileDevice, setIsMobileDevice] = useState(false);
 
-  // Определяем мобильное устройство
+  // Определяем мобильное устройство для выбора видео
   useEffect(() => {
     const checkMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-    setIsMobile(checkMobile);
+    setIsMobileDevice(checkMobile);
   }, []);
 
   // Попытка программного воспроизведения для iOS Safari
@@ -39,7 +41,7 @@ export const HeroSlider = () => {
         });
       }
     }
-  }, [isMobile]);
+  }, [isMobileDevice]);
 
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -52,26 +54,26 @@ export const HeroSlider = () => {
   const scale = useTransform(scrollYProgress, [0, 1], [1, 1.1]);
 
   // Выбираем видео в зависимости от устройства
-  const videoSrc = isMobile ? STADIUM_VIDEO_MOBILE : STADIUM_VIDEO_DESKTOP;
+  const videoSrc = isMobileDevice ? STADIUM_VIDEO_MOBILE : STADIUM_VIDEO_DESKTOP;
 
   const containerVariants = {
-    hidden: { opacity: 0 },
+    hidden: { opacity: isMobile ? 1 : 0 },
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.15,
-        delayChildren: 0.2,
+        staggerChildren: isMobile ? 0 : 0.15,
+        delayChildren: isMobile ? 0 : 0.2,
       },
     },
   };
 
   const itemVariants = {
-    hidden: { y: 30, opacity: 0 },
+    hidden: { y: isMobile ? 0 : 30, opacity: isMobile ? 1 : 0 },
     visible: {
       y: 0,
       opacity: 1,
       transition: {
-        duration: 0.7,
+        duration: isMobile ? 0 : 0.7,
         ease: [0.22, 1, 0.36, 1] as const,
       },
     },
@@ -134,21 +136,21 @@ export const HeroSlider = () => {
       {/* Speed Lines - динамичные акценты */}
       <div className="absolute right-0 top-1/3 space-y-3 hidden lg:block">
         <motion.div
-          initial={{ width: 0 }}
+          initial={{ width: isMobile ? 160 : 0 }}
           animate={{ width: 160 }}
-          transition={{ delay: 1.5, duration: 0.8 }}
+          transition={{ delay: isMobile ? 0 : 1.5, duration: isMobile ? 0 : 0.8 }}
           className="h-0.5 bg-gradient-to-l from-red-600 to-transparent"
         />
         <motion.div
-          initial={{ width: 0 }}
+          initial={{ width: isMobile ? 100 : 0 }}
           animate={{ width: 100 }}
-          transition={{ delay: 1.7, duration: 0.8 }}
+          transition={{ delay: isMobile ? 0 : 1.7, duration: isMobile ? 0 : 0.8 }}
           className="h-0.5 bg-gradient-to-l from-red-600/50 to-transparent ml-8"
         />
         <motion.div
-          initial={{ width: 0 }}
+          initial={{ width: isMobile ? 60 : 0 }}
           animate={{ width: 60 }}
-          transition={{ delay: 1.9, duration: 0.8 }}
+          transition={{ delay: isMobile ? 0 : 1.9, duration: isMobile ? 0 : 0.8 }}
           className="h-0.5 bg-gradient-to-l from-red-600/30 to-transparent ml-16"
         />
       </div>
@@ -220,9 +222,9 @@ export const HeroSlider = () => {
 
       {/* Scroll Indicator */}
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: isMobile ? 1 : 0, y: isMobile ? 0 : 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 2, duration: 1 }}
+        transition={{ delay: isMobile ? 0 : 2, duration: isMobile ? 0 : 1 }}
         className="absolute bottom-8 sm:bottom-12 left-1/2 -translate-x-1/2 flex-col items-center gap-2 text-white/50 hidden sm:flex"
       >
         <motion.div

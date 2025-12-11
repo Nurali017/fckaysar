@@ -14,19 +14,28 @@ import {
   type Product,
   type ProductCategory,
 } from '@/data/shopData';
+import { useIsMobile } from '@/hooks/useIsMobile';
 
 const ShopPage = () => {
   const { t, i18n } = useTranslation();
   const [selectedCategory, setSelectedCategory] = useState<ProductCategory | 'all'>('all');
   const [gridCols, setGridCols] = useState<2 | 3>(3);
+  const isMobile = useIsMobile();
 
   const currentLang = i18n.language as 'ru' | 'kk' | 'en';
 
-  const filteredProducts = selectedCategory === 'all'
-    ? mockProducts
-    : mockProducts.filter(p => p.category === selectedCategory);
+  const filteredProducts =
+    selectedCategory === 'all'
+      ? mockProducts
+      : mockProducts.filter(p => p.category === selectedCategory);
 
-  const categories: (ProductCategory | 'all')[] = ['all', 'jerseys', 'training', 'accessories', 'kids'];
+  const categories: (ProductCategory | 'all')[] = [
+    'all',
+    'jerseys',
+    'training',
+    'accessories',
+    'kids',
+  ];
 
   const getCategoryLabel = (cat: ProductCategory | 'all'): string => {
     if (cat === 'all') {
@@ -37,9 +46,12 @@ const ShopPage = () => {
 
   const getProductName = (product: Product): string => {
     switch (currentLang) {
-      case 'kk': return product.nameKz;
-      case 'en': return product.nameEn;
-      default: return product.name;
+      case 'kk':
+        return product.nameKz;
+      case 'en':
+        return product.nameEn;
+      default:
+        return product.name;
     }
   };
 
@@ -54,9 +66,9 @@ const ShopPage = () => {
 
           <div className="relative z-10 container mx-auto px-4 text-center">
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={isMobile ? { opacity: 1 } : { opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
+              transition={{ duration: isMobile ? 0 : 0.6 }}
             >
               <Badge className="bg-red-600/20 text-red-400 border-red-600/30 mb-4">
                 {t('shop.official', 'Official Store')}
@@ -81,9 +93,9 @@ const ShopPage = () => {
         <section className="px-4 -mt-8 relative z-20">
           <div className="container mx-auto max-w-4xl">
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={isMobile ? { opacity: 1 } : { opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
+              transition={{ duration: isMobile ? 0 : 0.6, delay: isMobile ? 0 : 0.2 }}
               className="bg-gradient-to-r from-red-900/40 via-red-800/30 to-red-900/40 backdrop-blur-xl border border-red-500/20 rounded-2xl p-6 md:p-8"
             >
               <div className="flex flex-col md:flex-row items-center gap-6">
@@ -97,7 +109,10 @@ const ShopPage = () => {
                     {t('shop.comingSoonTitle', 'Онлайн-магазин скоро откроется!')}
                   </h3>
                   <p className="text-gray-300 text-sm mb-4">
-                    {t('shop.comingSoonBanner', 'Мы готовим для вас удобную систему онлайн-заказов. А пока вы можете приобрести атрибутику в нашем магазине на стадионе.')}
+                    {t(
+                      'shop.comingSoonBanner',
+                      'Мы готовим для вас удобную систему онлайн-заказов. А пока вы можете приобрести атрибутику в нашем магазине на стадионе.'
+                    )}
                   </p>
                   <div className="flex flex-col sm:flex-row items-center gap-4 text-sm text-gray-400">
                     <div className="flex items-center gap-2">
@@ -123,7 +138,7 @@ const ShopPage = () => {
               {/* Categories */}
               <div className="flex flex-wrap items-center gap-2">
                 <Filter className="w-4 h-4 text-gray-500 mr-2" />
-                {categories.map((cat) => (
+                {categories.map(cat => (
                   <Button
                     key={cat}
                     variant={selectedCategory === cat ? 'default' : 'outline'}
@@ -167,11 +182,13 @@ const ShopPage = () => {
             </p>
 
             {/* Products Grid */}
-            <div className={`grid gap-6 ${
-              gridCols === 3
-                ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3'
-                : 'grid-cols-1 sm:grid-cols-2'
-            }`}>
+            <div
+              className={`grid gap-6 ${
+                gridCols === 3
+                  ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3'
+                  : 'grid-cols-1 sm:grid-cols-2'
+              }`}
+            >
               {filteredProducts.map((product, index) => (
                 <ProductCard
                   key={product.id}
@@ -181,7 +198,6 @@ const ShopPage = () => {
                 />
               ))}
             </div>
-
           </div>
         </section>
       </main>
@@ -200,12 +216,13 @@ interface ProductCardProps {
 
 const ProductCard = ({ product, index, getProductName }: ProductCardProps) => {
   const { t } = useTranslation();
+  const isMobile = useIsMobile();
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={isMobile ? { opacity: 1 } : { opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4, delay: index * 0.05 }}
+      transition={{ duration: isMobile ? 0 : 0.4, delay: isMobile ? 0 : index * 0.05 }}
       className="group relative bg-gray-900/50 rounded-xl overflow-hidden border border-gray-800 hover:border-gray-700 transition-all"
     >
       {/* Image */}
@@ -219,14 +236,10 @@ const ProductCard = ({ product, index, getProductName }: ProductCardProps) => {
         {/* Badges */}
         <div className="absolute top-3 left-3 flex flex-col gap-2">
           {product.isNew && (
-            <Badge className="bg-green-600 hover:bg-green-600">
-              {t('shop.new', 'New')}
-            </Badge>
+            <Badge className="bg-green-600 hover:bg-green-600">{t('shop.new', 'New')}</Badge>
           )}
           {product.isSale && (
-            <Badge className="bg-red-600 hover:bg-red-600">
-              {t('shop.sale', 'Sale')}
-            </Badge>
+            <Badge className="bg-red-600 hover:bg-red-600">{t('shop.sale', 'Sale')}</Badge>
           )}
         </div>
 
@@ -255,9 +268,7 @@ const ProductCard = ({ product, index, getProductName }: ProductCardProps) => {
 
         {/* Price */}
         <div className="flex items-center gap-2">
-          <span className="text-lg font-bold text-white">
-            {formatPrice(product.price)}
-          </span>
+          <span className="text-lg font-bold text-white">{formatPrice(product.price)}</span>
           {product.originalPrice && (
             <span className="text-sm text-gray-500 line-through">
               {formatPrice(product.originalPrice)}
@@ -269,9 +280,15 @@ const ProductCard = ({ product, index, getProductName }: ProductCardProps) => {
         <Button
           className="w-full mt-4 bg-red-600 hover:bg-red-700 text-white"
           onClick={() => {
-            toast.info(t('shop.toastMessage', 'Онлайн-заказы скоро будут доступны! Приходите в наш магазин на стадионе.'), {
-              duration: 4000,
-            });
+            toast.info(
+              t(
+                'shop.toastMessage',
+                'Онлайн-заказы скоро будут доступны! Приходите в наш магазин на стадионе.'
+              ),
+              {
+                duration: 4000,
+              }
+            );
           }}
         >
           <ShoppingBag className="w-4 h-4 mr-2" />

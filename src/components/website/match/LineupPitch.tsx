@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { LineupPlayer, LineupTeam, transformImagePath } from '@/api/types/match-details-types';
 import { PlayerCard } from './PlayerCard';
 import { Shield } from 'lucide-react';
+import { useIsMobile } from '@/hooks/useIsMobile';
 
 interface LineupPitchProps {
   homeTeam: LineupTeam;
@@ -12,6 +13,7 @@ interface LineupPitchProps {
 export const LineupPitch: React.FC<LineupPitchProps> = ({ homeTeam, awayTeam }) => {
   const [selectedPlayer, setSelectedPlayer] = useState<LineupPlayer | null>(null);
   const [selectedTeam, setSelectedTeam] = useState<'home' | 'away' | null>(null);
+  const isMobile = useIsMobile();
 
   const handlePlayerClick = (player: LineupPlayer, team: 'home' | 'away') => {
     setSelectedPlayer(player);
@@ -22,19 +24,20 @@ export const LineupPitch: React.FC<LineupPitchProps> = ({ homeTeam, awayTeam }) 
     <div className="w-full max-w-4xl mx-auto">
       {/* Two Column Layout */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-
         {/* Home Team */}
         <TeamList
           team={homeTeam}
           teamType="home"
-          onPlayerClick={(player) => handlePlayerClick(player, 'home')}
+          onPlayerClick={player => handlePlayerClick(player, 'home')}
+          isMobile={isMobile}
         />
 
         {/* Away Team */}
         <TeamList
           team={awayTeam}
           teamType="away"
-          onPlayerClick={(player) => handlePlayerClick(player, 'away')}
+          onPlayerClick={player => handlePlayerClick(player, 'away')}
+          isMobile={isMobile}
         />
       </div>
 
@@ -61,7 +64,8 @@ const TeamList: React.FC<{
   team: LineupTeam;
   teamType: 'home' | 'away';
   onPlayerClick: (player: LineupPlayer) => void;
-}> = ({ team, teamType, onPlayerClick }) => {
+  isMobile: boolean;
+}> = ({ team, teamType, onPlayerClick, isMobile }) => {
   const brandColor = team.brand_color || (teamType === 'home' ? '#eab308' : '#dc2626');
 
   // Разделяем на основу и запас
@@ -75,9 +79,9 @@ const TeamList: React.FC<{
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={isMobile ? { opacity: 1 } : { opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: teamType === 'home' ? 0 : 0.1 }}
+      transition={{ delay: isMobile ? 0 : teamType === 'home' ? 0 : 0.1 }}
       className="bg-gray-900/50 backdrop-blur-sm rounded-2xl overflow-hidden border border-white/10"
     >
       {/* Team Header */}
@@ -86,11 +90,7 @@ const TeamList: React.FC<{
         style={{ background: `linear-gradient(135deg, ${brandColor}30 0%, transparent 100%)` }}
       >
         {team.bas_logo_path && (
-          <img
-            src={team.bas_logo_path}
-            alt={team.name}
-            className="w-10 h-10 object-contain"
-          />
+          <img src={team.bas_logo_path} alt={team.name} className="w-10 h-10 object-contain" />
         )}
         <div>
           <h3 className="text-white font-bold text-lg">{team.name}</h3>
@@ -117,6 +117,7 @@ const TeamList: React.FC<{
               color={brandColor}
               onClick={() => onPlayerClick(startingGk)}
               index={0}
+              isMobile={isMobile}
             />
           </div>
         )}
@@ -134,12 +135,12 @@ const TeamList: React.FC<{
                 color={brandColor}
                 onClick={() => onPlayerClick(player)}
                 index={index + 1}
+                isMobile={isMobile}
               />
             ))}
           </div>
         )}
       </div>
-
     </motion.div>
   );
 };
@@ -150,15 +151,16 @@ const PlayerRow: React.FC<{
   color: string;
   onClick: () => void;
   index: number;
-}> = ({ player, color, onClick, index }) => {
+  isMobile: boolean;
+}> = ({ player, color, onClick, index, isMobile }) => {
   const playerImage = transformImagePath(player.bas_image_path);
   const hasCustomImage = player.bas_image_path && !playerImage.includes('default-player');
 
   return (
     <motion.button
-      initial={{ opacity: 0, x: -10 }}
+      initial={isMobile ? { opacity: 1 } : { opacity: 0, x: -10 }}
       animate={{ opacity: 1, x: 0 }}
-      transition={{ delay: index * 0.03 }}
+      transition={{ delay: isMobile ? 0 : index * 0.03 }}
       onClick={onClick}
       className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-white/5 transition-colors group"
     >
@@ -180,7 +182,7 @@ const PlayerRow: React.FC<{
             src={playerImage}
             alt={player.full_name}
             className="w-full h-full object-cover"
-            onError={(e) => {
+            onError={e => {
               e.currentTarget.style.display = 'none';
               const fallback = e.currentTarget.nextElementSibling as HTMLElement;
               if (fallback) fallback.style.display = 'flex';

@@ -13,9 +13,11 @@ import {
   TreePine,
 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { useIsMobile } from '@/hooks/useIsMobile';
 
 const CityPage = () => {
   const { t } = useTranslation();
+  const isMobile = useIsMobile();
 
   const timeline = [
     {
@@ -126,9 +128,9 @@ const CityPage = () => {
         />
         <div className="relative z-20 text-center px-4">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={isMobile ? { opacity: 1 } : { opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
+            transition={{ duration: isMobile ? 0 : 0.8 }}
           >
             <span className="inline-block px-4 py-2 bg-red-600 text-white text-sm font-bold uppercase tracking-wider mb-6">
               {t('city.ourCity', 'Наш город')}
@@ -176,7 +178,7 @@ const CityPage = () => {
       <section className="py-20 bg-gradient-to-b from-black to-gray-900">
         <div className="container mx-auto px-4">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={isMobile ? { opacity: 1 } : { opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             className="text-center mb-16"
@@ -194,10 +196,10 @@ const CityPage = () => {
             {timeline.map((item, index) => (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, x: index % 2 === 0 ? -30 : 30 }}
+                initial={isMobile ? { opacity: 1 } : { opacity: 0, x: index % 2 === 0 ? -30 : 30 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
+                transition={{ delay: isMobile ? 0 : index * 0.1 }}
                 className="flex items-start gap-6 mb-8"
               >
                 <div className="flex-shrink-0 w-24 text-right">
@@ -216,7 +218,7 @@ const CityPage = () => {
           </div>
 
           <motion.div
-            initial={{ opacity: 0 }}
+            initial={isMobile ? { opacity: 1 } : { opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             className="mt-12 p-6 bg-white/5 rounded-2xl border border-white/10 max-w-4xl mx-auto"
@@ -244,7 +246,7 @@ const CityPage = () => {
       <section className="py-20 bg-gray-900">
         <div className="container mx-auto px-4">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={isMobile ? { opacity: 1 } : { opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             className="text-center mb-16"
@@ -262,10 +264,10 @@ const CityPage = () => {
             {attractions.map((item, index) => (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, y: 20 }}
+                initial={isMobile ? { opacity: 1 } : { opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
+                transition={{ delay: isMobile ? 0 : index * 0.1 }}
                 className={`rounded-2xl p-6 border transition-all duration-300 hover:scale-105 ${
                   item.highlight
                     ? 'bg-gradient-to-br from-blue-900/40 to-purple-900/20 border-blue-500/30'
@@ -287,7 +289,7 @@ const CityPage = () => {
       <section className="py-20 bg-gradient-to-b from-gray-900 to-black">
         <div className="container mx-auto px-4">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={isMobile ? { opacity: 1 } : { opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             className="text-center mb-16"
@@ -305,10 +307,10 @@ const CityPage = () => {
             {nature.map((item, index) => (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, y: 20 }}
+                initial={isMobile ? { opacity: 1 } : { opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
+                transition={{ delay: isMobile ? 0 : index * 0.1 }}
                 className="bg-gradient-to-br from-green-900/20 to-teal-900/10 border border-green-500/20 rounded-2xl p-6 text-center"
               >
                 <item.icon className="w-12 h-12 text-green-500 mx-auto mb-4" />
@@ -324,7 +326,7 @@ const CityPage = () => {
       <section className="py-20 bg-black">
         <div className="container mx-auto px-4">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={isMobile ? { opacity: 1 } : { opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             className="text-center mb-12"

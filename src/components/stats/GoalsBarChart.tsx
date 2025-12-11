@@ -3,19 +3,12 @@
  * Shows goals scored, conceded, and difference
  */
 
-import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  ResponsiveContainer,
-  Cell,
-  LabelList,
-} from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer, Cell, LabelList } from 'recharts';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/utils';
 import { StatCard } from './StatCard';
+import { useIsMobile } from '@/hooks/useIsMobile';
 
 interface GoalsBarChartProps {
   goalsScored: number;
@@ -23,12 +16,9 @@ interface GoalsBarChartProps {
   className?: string;
 }
 
-export const GoalsBarChart = ({
-  goalsScored,
-  goalsConceded,
-  className,
-}: GoalsBarChartProps) => {
+export const GoalsBarChart = ({ goalsScored, goalsConceded, className }: GoalsBarChartProps) => {
   const { t } = useTranslation();
+  const isMobile = useIsMobile();
   const goalDifference = goalsScored - goalsConceded;
 
   const data = [
@@ -46,10 +36,10 @@ export const GoalsBarChart = ({
 
   return (
     <motion.div
-      initial={{ opacity: 0, x: 20 }}
+      initial={isMobile ? { opacity: 1 } : { opacity: 0, x: 20 }}
       whileInView={{ opacity: 1, x: 0 }}
       viewport={{ once: true }}
-      transition={{ duration: 0.6 }}
+      transition={{ duration: isMobile ? 0 : 0.6 }}
       className={cn('h-[200px] w-full', className)}
     >
       <ResponsiveContainer width="100%" height="100%">
@@ -59,11 +49,7 @@ export const GoalsBarChart = ({
           margin={{ top: 10, right: 40, left: 0, bottom: 10 }}
           barCategoryGap={20}
         >
-          <XAxis
-            type="number"
-            hide
-            domain={[0, Math.max(goalsScored, goalsConceded) * 1.2]}
-          />
+          <XAxis type="number" hide domain={[0, Math.max(goalsScored, goalsConceded) * 1.2]} />
           <YAxis
             type="category"
             dataKey="category"
@@ -75,7 +61,7 @@ export const GoalsBarChart = ({
           <Bar
             dataKey="value"
             radius={[0, 8, 8, 0]}
-            animationDuration={1500}
+            animationDuration={isMobile ? 0 : 1500}
             animationEasing="ease-out"
           >
             {data.map((entry, index) => (
@@ -103,7 +89,8 @@ export const GoalsBarChart = ({
             goalDifference === 0 && 'text-gray-400'
           )}
         >
-          {goalDifference > 0 ? '+' : ''}{goalDifference}
+          {goalDifference > 0 ? '+' : ''}
+          {goalDifference}
         </span>
       </div>
     </motion.div>
@@ -137,10 +124,7 @@ export const GoalsAnalysisCard = ({
         </span>
       </div>
 
-      <GoalsBarChart
-        goalsScored={goalsScored}
-        goalsConceded={goalsConceded}
-      />
+      <GoalsBarChart goalsScored={goalsScored} goalsConceded={goalsConceded} />
 
       {/* Per game stats */}
       <div className="mt-4 pt-4 border-t border-white/10 flex justify-around">
@@ -169,6 +153,7 @@ interface ComparisonBarChartProps {
 }
 
 export const ComparisonBarChart = ({ items, className }: ComparisonBarChartProps) => {
+  const isMobile = useIsMobile();
   const maxValue = Math.max(...items.map(i => i.max || i.value));
 
   return (
@@ -179,10 +164,10 @@ export const ComparisonBarChart = ({ items, className }: ComparisonBarChartProps
         return (
           <motion.div
             key={item.label}
-            initial={{ opacity: 0, x: -20 }}
+            initial={isMobile ? { opacity: 1 } : { opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            transition={{ delay: index * 0.1 }}
+            transition={{ delay: isMobile ? 0 : index * 0.1 }}
             className="space-y-1"
           >
             <div className="flex justify-between text-sm">
@@ -191,10 +176,14 @@ export const ComparisonBarChart = ({ items, className }: ComparisonBarChartProps
             </div>
             <div className="h-2 bg-white/10 rounded-full overflow-hidden">
               <motion.div
-                initial={{ width: 0 }}
+                initial={{ width: isMobile ? `${percentage}%` : 0 }}
                 whileInView={{ width: `${percentage}%` }}
                 viewport={{ once: true }}
-                transition={{ duration: 1, delay: 0.2 + index * 0.1, ease: 'easeOut' }}
+                transition={{
+                  duration: isMobile ? 0 : 1,
+                  delay: isMobile ? 0 : 0.2 + index * 0.1,
+                  ease: 'easeOut',
+                }}
                 className="h-full rounded-full"
                 style={{ backgroundColor: item.color }}
               />

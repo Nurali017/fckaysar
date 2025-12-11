@@ -5,9 +5,11 @@ import { Construction, ArrowLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
+import { useIsMobile } from '@/hooks/useIsMobile';
 
 const AcademyPage = () => {
   const { t } = useTranslation();
+  const isMobile = useIsMobile();
 
   return (
     <div className="min-h-screen bg-black text-white font-sans">
@@ -27,9 +29,9 @@ const AcademyPage = () => {
 
           <div className="relative z-10 container mx-auto px-4 text-center">
             <motion.div
-              initial={{ opacity: 0, y: 30 }}
+              initial={isMobile ? { opacity: 1 } : { opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
+              transition={{ duration: isMobile ? 0 : 0.8 }}
               className="max-w-2xl mx-auto"
             >
               {/* Icon */}
@@ -51,20 +53,25 @@ const AcademyPage = () => {
 
               {/* Description */}
               <p className="text-gray-500 mb-8 max-w-lg mx-auto">
-                {t('academy.description', 'Мы работаем над созданием раздела Академии FC Kaisar. Здесь будет информация о нашей футбольной школе, тренерском составе и программах подготовки молодых талантов.')}
+                {t(
+                  'academy.description',
+                  'Мы работаем над созданием раздела Академии FC Kaisar. Здесь будет информация о нашей футбольной школе, тренерском составе и программах подготовки молодых талантов.'
+                )}
               </p>
 
               {/* Progress indicator */}
               <div className="mb-8">
                 <div className="flex items-center justify-center gap-2 mb-2">
-                  <span className="text-sm text-gray-500">{t('academy.progress', 'Прогресс разработки')}</span>
+                  <span className="text-sm text-gray-500">
+                    {t('academy.progress', 'Прогресс разработки')}
+                  </span>
                 </div>
                 <div className="w-full max-w-[256px] mx-auto h-2 bg-gray-800 rounded-full overflow-hidden">
                   <motion.div
                     className="h-full bg-gradient-to-r from-red-600 to-red-500"
-                    initial={{ width: 0 }}
+                    initial={{ width: isMobile ? '35%' : 0 }}
                     animate={{ width: '35%' }}
-                    transition={{ duration: 1.5, delay: 0.5 }}
+                    transition={{ duration: isMobile ? 0 : 1.5, delay: isMobile ? 0 : 0.5 }}
                   />
                 </div>
                 <span className="text-xs text-gray-600 mt-1 block">35%</span>
@@ -73,7 +80,10 @@ const AcademyPage = () => {
               {/* Actions */}
               <div className="flex items-center justify-center">
                 <Link to="/">
-                  <Button variant="outline" className="border-gray-700 hover:border-gray-600 hover:bg-gray-900">
+                  <Button
+                    variant="outline"
+                    className="border-gray-700 hover:border-gray-600 hover:bg-gray-900"
+                  >
                     <ArrowLeft className="w-4 h-4 mr-2" />
                     {t('common.backToHome', 'На главную')}
                   </Button>
@@ -94,22 +104,34 @@ const AcademyPage = () => {
               {[
                 {
                   title: t('academy.feature1Title', 'Программы обучения'),
-                  description: t('academy.feature1Desc', 'Информация о тренировочных программах для разных возрастных групп')
+                  description: t(
+                    'academy.feature1Desc',
+                    'Информация о тренировочных программах для разных возрастных групп'
+                  ),
                 },
                 {
                   title: t('academy.feature2Title', 'Тренерский состав'),
-                  description: t('academy.feature2Desc', 'Профили наших квалифицированных тренеров и их достижения')
+                  description: t(
+                    'academy.feature2Desc',
+                    'Профили наших квалифицированных тренеров и их достижения'
+                  ),
                 },
                 {
                   title: t('academy.feature3Title', 'Запись в академию'),
-                  description: t('academy.feature3Desc', 'Онлайн-форма для записи на просмотр и обучение')
-                }
+                  description: t(
+                    'academy.feature3Desc',
+                    'Онлайн-форма для записи на просмотр и обучение'
+                  ),
+                },
               ].map((feature, index) => (
                 <motion.div
                   key={index}
-                  initial={{ opacity: 0, y: 20 }}
+                  initial={isMobile ? { opacity: 1 } : { opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.2 + index * 0.1 }}
+                  transition={{
+                    duration: isMobile ? 0 : 0.5,
+                    delay: isMobile ? 0 : 0.2 + index * 0.1,
+                  }}
                   className="p-6 rounded-xl bg-gray-900/50 border border-gray-800 hover:border-gray-700 transition-colors"
                 >
                   <div className="w-10 h-10 rounded-lg bg-red-600/20 flex items-center justify-center mb-4">

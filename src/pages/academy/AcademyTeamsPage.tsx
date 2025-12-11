@@ -2,8 +2,10 @@ import { WebsiteHeader } from '@/components/website/WebsiteHeader';
 import { Footer } from '@/components/website/Footer';
 import { motion } from 'framer-motion';
 import { Users } from 'lucide-react';
+import { useIsMobile } from '@/hooks/useIsMobile';
 
 const AcademyTeamsPage = () => {
+  const isMobile = useIsMobile();
   const teams = [
     { name: 'Кайсар U-21', category: 'Молодёжка', description: 'Молодёжная команда клуба' },
     { name: 'Кайсар U-19', category: 'Юниоры', description: 'Юниорская команда' },
@@ -18,8 +20,9 @@ const AcademyTeamsPage = () => {
       <section className="pt-32 pb-20">
         <div className="container mx-auto px-4">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={isMobile ? { opacity: 1 } : { opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: isMobile ? 0 : 0.5 }}
             className="text-center mb-16"
           >
             <Users className="w-16 h-16 text-red-500 mx-auto mb-4" />
@@ -33,10 +36,10 @@ const AcademyTeamsPage = () => {
             {teams.map((team, index) => (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, y: 20 }}
+                initial={isMobile ? { opacity: 1 } : { opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
+                transition={{ delay: isMobile ? 0 : index * 0.1 }}
                 className="bg-white/5 rounded-2xl p-6 border border-white/10 hover:bg-white/10 transition-all"
               >
                 <span className="text-xs font-bold text-red-500 uppercase tracking-wider">

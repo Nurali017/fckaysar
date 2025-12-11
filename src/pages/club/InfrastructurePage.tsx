@@ -17,6 +17,7 @@ import { fetchInfrastructure } from '@/api/cms/infrastructure-service';
 import type { InfrastructureItem } from '@/api/cms/types';
 import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
+import { useIsMobile } from '@/hooks/useIsMobile';
 
 const StatusBadge = ({ status }: { status: InfrastructureItem['status'] }) => {
   const { t } = useTranslation();
@@ -38,6 +39,7 @@ const StatusBadge = ({ status }: { status: InfrastructureItem['status'] }) => {
 
 const InfrastructureCard = ({ item }: { item: InfrastructureItem }) => {
   const { t } = useTranslation();
+  const isMobile = useIsMobile();
   const [currentImage, setCurrentImage] = useState(0);
   const allImages = item.mainImageUrl ? [item.mainImageUrl, ...item.galleryUrls] : item.galleryUrls;
 
@@ -51,9 +53,10 @@ const InfrastructureCard = ({ item }: { item: InfrastructureItem }) => {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 30 }}
+      initial={isMobile ? { opacity: 1 } : { opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
+      transition={{ duration: isMobile ? 0 : 0.5 }}
       className="bg-white/5 rounded-2xl border border-white/10 overflow-hidden"
     >
       {/* Image Gallery */}
@@ -183,6 +186,7 @@ const InfrastructureCard = ({ item }: { item: InfrastructureItem }) => {
 
 const InfrastructurePage = () => {
   const { t } = useTranslation();
+  const isMobile = useIsMobile();
 
   const {
     data: infrastructure,
@@ -200,8 +204,9 @@ const InfrastructurePage = () => {
       <section className="pt-32 pb-20">
         <div className="container mx-auto px-4">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={isMobile ? { opacity: 1 } : { opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: isMobile ? 0 : 0.5 }}
             className="text-center mb-16"
           >
             <Building2 className="w-16 h-16 text-red-500 mx-auto mb-4" />

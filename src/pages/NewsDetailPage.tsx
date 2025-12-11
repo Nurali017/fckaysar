@@ -8,6 +8,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { useNewsBySlug } from '@/hooks/api/useNews';
+import { useIsMobile } from '@/hooks/useIsMobile';
 
 const NewsDetailPage = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -15,6 +16,7 @@ const NewsDetailPage = () => {
   const navigate = useNavigate();
   const { data: news, isLoading, error } = useNewsBySlug(slug || '');
   const lang = i18n.language as 'ru' | 'kk' | 'en';
+  const isMobile = useIsMobile();
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -112,9 +114,9 @@ const NewsDetailPage = () => {
                 <div className="relative h-[50vh] md:h-[60vh] overflow-hidden">
                   <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent z-10" />
                   <motion.img
-                    initial={{ scale: 1.1, opacity: 0 }}
+                    initial={isMobile ? { opacity: 1 } : { scale: 1.1, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
-                    transition={{ duration: 0.8 }}
+                    transition={{ duration: isMobile ? 0 : 0.8 }}
                     src={news.imageUrl}
                     alt={news.title}
                     className="w-full h-full object-cover"
@@ -129,9 +131,9 @@ const NewsDetailPage = () => {
               {/* Title & Meta */}
               <div className="container mx-auto px-4 -mt-32 relative z-20">
                 <motion.div
-                  initial={{ opacity: 0, y: 30 }}
+                  initial={isMobile ? { opacity: 1 } : { opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.2 }}
+                  transition={{ duration: isMobile ? 0 : 0.6, delay: isMobile ? 0 : 0.2 }}
                   className="max-w-4xl"
                 >
                   {news.category && (
@@ -168,9 +170,9 @@ const NewsDetailPage = () => {
             <section className="py-12">
               <div className="container mx-auto px-4">
                 <motion.article
-                  initial={{ opacity: 0, y: 20 }}
+                  initial={isMobile ? { opacity: 1 } : { opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.4 }}
+                  transition={{ duration: isMobile ? 0 : 0.6, delay: isMobile ? 0 : 0.4 }}
                   className="max-w-4xl mx-auto"
                 >
                   {/* Excerpt */}

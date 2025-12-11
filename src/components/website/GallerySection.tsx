@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { useGallery } from '@/hooks/api/useGallery';
+import { useIsMobile } from '@/hooks/useIsMobile';
 
 interface GalleryItemProps {
   item: {
@@ -16,14 +17,15 @@ interface GalleryItemProps {
   index: number;
   formatDate: (date: string) => string;
   onSelect: (index: number) => void;
+  isMobile: boolean;
 }
 
 // Memoized gallery item to prevent re-renders
-const GalleryItem = memo(({ item, index, formatDate, onSelect }: GalleryItemProps) => (
+const GalleryItem = memo(({ item, index, formatDate, onSelect, isMobile }: GalleryItemProps) => (
   <motion.div
-    initial={{ opacity: 0, scale: 0.9 }}
+    initial={isMobile ? { opacity: 1 } : { opacity: 0, scale: 0.9 }}
     whileInView={{ opacity: 1, scale: 1 }}
-    transition={{ delay: index * 0.1 }}
+    transition={{ delay: isMobile ? 0 : index * 0.1 }}
     viewport={{ once: true }}
     onClick={() => onSelect(index)}
     className="group relative aspect-square overflow-hidden rounded-lg sm:rounded-xl cursor-pointer"
@@ -46,6 +48,7 @@ GalleryItem.displayName = 'GalleryItem';
 
 export const GallerySection = () => {
   const { t, i18n } = useTranslation();
+  const isMobile = useIsMobile();
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const { data, isLoading, isError } = useGallery(1, 8);
 
@@ -160,6 +163,7 @@ export const GallerySection = () => {
                 index={index}
                 formatDate={formatDate}
                 onSelect={handleSelect}
+                isMobile={isMobile}
               />
             ))}
           </div>
@@ -183,9 +187,10 @@ export const GallerySection = () => {
       <AnimatePresence>
         {selectedIndex !== null && galleryItems[selectedIndex] && (
           <motion.div
-            initial={{ opacity: 0 }}
+            initial={{ opacity: isMobile ? 1 : 0 }}
             animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
+            exit={{ opacity: isMobile ? 1 : 0 }}
+            transition={{ duration: isMobile ? 0 : 0.2 }}
             className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center"
             onClick={closeLightbox}
           >
@@ -216,10 +221,10 @@ export const GallerySection = () => {
             {/* Image */}
             <motion.div
               key={selectedIndex}
-              initial={{ opacity: 0, scale: 0.9 }}
+              initial={isMobile ? { opacity: 1 } : { opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.9 }}
-              transition={{ duration: 0.2 }}
+              exit={isMobile ? { opacity: 1 } : { opacity: 0, scale: 0.9 }}
+              transition={{ duration: isMobile ? 0 : 0.2 }}
               className="max-w-5xl max-h-[85vh] px-4 sm:px-8 md:px-12 lg:px-16"
               onClick={e => e.stopPropagation()}
             >

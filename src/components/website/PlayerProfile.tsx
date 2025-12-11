@@ -15,6 +15,7 @@ import { PerGameStats } from '@/components/stats/PerGameStats';
 import { DisciplineCard } from '@/components/stats/DisciplineCard';
 import { GoalkeeperStats } from '@/components/stats/GoalkeeperStats';
 import type { PlayerStats } from '@/types/player';
+import { useIsMobile } from '@/hooks/useIsMobile';
 
 interface PlayerProfileProps {
   playerId: string;
@@ -23,17 +24,39 @@ interface PlayerProfileProps {
 
 export const PlayerProfile = ({ playerId, initialData }: PlayerProfileProps) => {
   const { t } = useTranslation();
+  const isMobile = useIsMobile();
   const { data: statsResponse, isLoading } = useSotaPlayerStats(playerId);
 
   // Get full statistics from API response (включая V2 данные для радарной диаграммы)
   const fullStats: PlayerStats = {
-    appearances: statsResponse?.data.stats.find((s) => s.key === 'games_played')?.value ?? initialData?.stats?.appearances ?? 0,
-    goals: statsResponse?.data.stats.find((s) => s.key === 'goal')?.value ?? initialData?.stats?.goals ?? 0,
-    assists: statsResponse?.data.stats.find((s) => s.key === 'goal_pass')?.value ?? initialData?.stats?.assists ?? 0,
-    yellowCards: statsResponse?.data.stats.find((s) => s.key === 'yellow_cards')?.value ?? initialData?.stats?.yellowCards ?? 0,
-    redCards: statsResponse?.data.stats.find((s) => s.key === 'red_cards')?.value ?? initialData?.stats?.redCards ?? 0,
-    cleanSheets: statsResponse?.data.stats.find((s) => s.key === 'clean_sheet')?.value ?? initialData?.stats?.cleanSheets ?? 0,
-    minutesPlayed: statsResponse?.data.stats.find((s) => s.key === 'time_on_field_total')?.value ?? initialData?.stats?.minutesPlayed ?? 0,
+    appearances:
+      statsResponse?.data.stats.find(s => s.key === 'games_played')?.value ??
+      initialData?.stats?.appearances ??
+      0,
+    goals:
+      statsResponse?.data.stats.find(s => s.key === 'goal')?.value ??
+      initialData?.stats?.goals ??
+      0,
+    assists:
+      statsResponse?.data.stats.find(s => s.key === 'goal_pass')?.value ??
+      initialData?.stats?.assists ??
+      0,
+    yellowCards:
+      statsResponse?.data.stats.find(s => s.key === 'yellow_cards')?.value ??
+      initialData?.stats?.yellowCards ??
+      0,
+    redCards:
+      statsResponse?.data.stats.find(s => s.key === 'red_cards')?.value ??
+      initialData?.stats?.redCards ??
+      0,
+    cleanSheets:
+      statsResponse?.data.stats.find(s => s.key === 'clean_sheet')?.value ??
+      initialData?.stats?.cleanSheets ??
+      0,
+    minutesPlayed:
+      statsResponse?.data.stats.find(s => s.key === 'time_on_field_total')?.value ??
+      initialData?.stats?.minutesPlayed ??
+      0,
     // V2 данные для радарной диаграммы
     shots: initialData?.stats?.shots ?? 0,
     shotsOnGoal: initialData?.stats?.shotsOnGoal ?? 0,
@@ -77,13 +100,12 @@ export const PlayerProfile = ({ playerId, initialData }: PlayerProfileProps) => 
 
       {/* Main Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 relative z-10">
-
         {/* LEFT COLUMN - Hero Section (2/5 width) */}
         <motion.div
-          initial={{ opacity: 0, x: -50 }}
+          initial={isMobile ? { opacity: 1, x: 0 } : { opacity: 0, x: -50 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: isMobile ? 0 : 0.6 }}
           className="lg:col-span-2 space-y-6"
         >
           {/* Player Name */}
@@ -116,14 +138,17 @@ export const PlayerProfile = ({ playerId, initialData }: PlayerProfileProps) => 
                 src={player.image}
                 alt={`${player.firstName} ${player.lastName}`}
                 className="w-full h-full object-cover rounded-3xl shadow-2xl"
-                onError={(e) => {
+                onError={e => {
                   // Hide image on error and show initials fallback
                   (e.target as HTMLImageElement).style.display = 'none';
                 }}
               />
             ) : null}
             {/* Fallback - always render, but image will overlay it if loaded successfully */}
-            <div className="w-full h-full bg-gradient-to-br from-gray-800 to-gray-900 rounded-3xl flex items-center justify-center border border-white/10 absolute inset-0" style={{ zIndex: player.image ? -1 : 0 }}>
+            <div
+              className="w-full h-full bg-gradient-to-br from-gray-800 to-gray-900 rounded-3xl flex items-center justify-center border border-white/10 absolute inset-0"
+              style={{ zIndex: player.image ? -1 : 0 }}
+            >
               <span className="text-6xl md:text-7xl font-black text-gray-700">
                 {player.firstName[0]}
                 {player.lastName[0]}
@@ -134,14 +159,13 @@ export const PlayerProfile = ({ playerId, initialData }: PlayerProfileProps) => 
 
         {/* RIGHT COLUMN - Stats Dashboard (3/5 width) */}
         <motion.div
-          initial={{ opacity: 0, x: 50 }}
+          initial={isMobile ? { opacity: 1, x: 0 } : { opacity: 0, x: 50 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: isMobile ? 0 : 0.6 }}
           className="lg:col-span-3"
         >
           <div className="space-y-6 md:space-y-8">
-
             {/* Header with In Form badge */}
             <div className="flex items-center justify-between">
               <h3 className="text-xl md:text-2xl font-bold text-white flex items-center gap-2">
@@ -179,7 +203,9 @@ export const PlayerProfile = ({ playerId, initialData }: PlayerProfileProps) => 
               />
             ) : (
               <div className="bg-[#1a1a1a]/80 backdrop-blur-xl border border-white/10 rounded-3xl p-6 md:p-8 shadow-2xl">
-                <h4 className="text-lg font-bold text-white mb-4">{t('playerStats.playerAttributes')}</h4>
+                <h4 className="text-lg font-bold text-white mb-4">
+                  {t('playerStats.playerAttributes')}
+                </h4>
                 <PlayerRadarChart
                   data={radarData}
                   playerName={`${player.firstName} ${player.lastName}`}
@@ -193,10 +219,8 @@ export const PlayerProfile = ({ playerId, initialData }: PlayerProfileProps) => 
               redCards={fullStats.redCards}
               cleanSheets={fullStats.cleanSheets}
             />
-
           </div>
         </motion.div>
-
       </div>
     </section>
   );

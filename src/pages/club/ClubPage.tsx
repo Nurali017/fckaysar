@@ -15,9 +15,11 @@ import {
 } from 'lucide-react';
 import kaisarLogo from '@/assets/kaysar-logo-nobg.png';
 import { useTranslation } from 'react-i18next';
+import { useIsMobile } from '@/hooks/useIsMobile';
 
 const ClubPage = () => {
   const { t } = useTranslation();
+  const isMobile = useIsMobile();
 
   const sections = [
     {
@@ -70,9 +72,9 @@ const ClubPage = () => {
         />
         <div className="relative z-20 text-center px-4">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={isMobile ? { opacity: 1 } : { opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
+            transition={{ duration: isMobile ? 0 : 0.8 }}
             className="flex flex-col items-center"
           >
             <img src={kaisarLogo} alt="FC KAYSAR" className="w-32 h-32 md:w-40 md:h-40 mb-6" />
@@ -91,9 +93,10 @@ const ClubPage = () => {
       <section className="py-16 bg-gradient-to-r from-red-600 to-red-700">
         <div className="container mx-auto px-4 text-center">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={isMobile ? { opacity: 1 } : { opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
+            transition={{ duration: isMobile ? 0 : 0.5 }}
           >
             <Target className="w-12 h-12 mx-auto mb-4" />
             <h2 className="text-2xl md:text-3xl font-bold mb-4">
@@ -113,9 +116,10 @@ const ClubPage = () => {
       <section className="py-20 bg-gradient-to-b from-black to-gray-900">
         <div className="container mx-auto px-4">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={isMobile ? { opacity: 1 } : { opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
+            transition={{ duration: isMobile ? 0 : 0.5 }}
             className="text-center mb-16"
           >
             <Calendar className="w-12 h-12 text-red-500 mx-auto mb-4" />
@@ -134,10 +138,10 @@ const ClubPage = () => {
             {goals.map((item, index) => (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, y: 20 }}
+                initial={isMobile ? { opacity: 1 } : { opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
+                transition={{ delay: isMobile ? 0 : index * 0.1 }}
                 className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 text-center"
               >
                 <div className="text-4xl font-black text-red-500 mb-2">{item.year}</div>
@@ -147,9 +151,10 @@ const ClubPage = () => {
           </div>
 
           <motion.div
-            initial={{ opacity: 0 }}
+            initial={isMobile ? { opacity: 1 } : { opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
+            transition={{ duration: isMobile ? 0 : 0.5 }}
             className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto"
           >
             <div className="bg-white/5 rounded-2xl p-6 border border-white/10">
@@ -178,9 +183,10 @@ const ClubPage = () => {
       <section className="py-20 bg-gray-900">
         <div className="container mx-auto px-4">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={isMobile ? { opacity: 1 } : { opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
+            transition={{ duration: isMobile ? 0 : 0.5 }}
             className="text-center mb-12"
           >
             <h2 className="text-4xl md:text-5xl font-bold uppercase mb-4">
@@ -192,10 +198,10 @@ const ClubPage = () => {
             {sections.map((section, index) => (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, y: 20 }}
+                initial={isMobile ? { opacity: 1 } : { opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
+                transition={{ delay: isMobile ? 0 : index * 0.1 }}
               >
                 <Link
                   to={section.path}

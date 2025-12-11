@@ -3,12 +3,14 @@ import { motion } from 'framer-motion';
 import { Instagram } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
+import { useIsMobile } from '@/hooks/useIsMobile';
 
 // Elfsight Widget ID from https://elfsight.com
 const ELFSIGHT_WIDGET_ID = 'cc28739425124fd58a908f1a1d0e81ae';
 
 export const InstagramFeed = () => {
   const { t } = useTranslation();
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     // Check if script already exists
@@ -38,9 +40,10 @@ export const InstagramFeed = () => {
         {/* Header */}
         <div className="text-center mb-12">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={isMobile ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
+            transition={{ duration: isMobile ? 0 : 0.3 }}
             className="inline-flex items-center gap-2 px-4 py-1 rounded-full bg-gradient-to-r from-pink-500/10 to-purple-500/10 border border-pink-500/20 text-pink-500 text-sm font-bold uppercase tracking-wider mb-4"
           >
             <Instagram className="w-4 h-4" />
@@ -48,10 +51,10 @@ export const InstagramFeed = () => {
           </motion.div>
 
           <motion.h2
-            initial={{ opacity: 0, y: 20 }}
+            initial={isMobile ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
+            transition={{ delay: isMobile ? 0 : 0.1 }}
             className="text-4xl md:text-5xl font-black text-white mb-4"
           >
             {t('instagram.title', 'FOLLOW')}{' '}
@@ -64,10 +67,10 @@ export const InstagramFeed = () => {
             href="https://instagram.com/fckaysar_official"
             target="_blank"
             rel="noopener noreferrer"
-            initial={{ opacity: 0, y: 20 }}
+            initial={isMobile ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
+            transition={{ delay: isMobile ? 0 : 0.2 }}
             className="text-gray-400 hover:text-pink-500 transition-colors text-lg"
           >
             @fckaysar_official
@@ -76,10 +79,10 @@ export const InstagramFeed = () => {
 
         {/* Elfsight Widget Container */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={isMobile ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ delay: 0.3 }}
+          transition={{ delay: isMobile ? 0 : 0.3 }}
           className="max-w-[95vw] sm:max-w-6xl mx-auto"
         >
           {ELFSIGHT_WIDGET_ID === 'YOUR_WIDGET_ID' ? (
@@ -95,19 +98,16 @@ export const InstagramFeed = () => {
             </div>
           ) : (
             // Actual Elfsight widget
-            <div
-              className={`elfsight-app-${ELFSIGHT_WIDGET_ID}`}
-              data-elfsight-app-lazy
-            />
+            <div className={`elfsight-app-${ELFSIGHT_WIDGET_ID}`} data-elfsight-app-lazy />
           )}
         </motion.div>
 
         {/* CTA Button */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={isMobile ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ delay: 0.4 }}
+          transition={{ delay: isMobile ? 0 : 0.4 }}
           className="text-center mt-10"
         >
           <Button

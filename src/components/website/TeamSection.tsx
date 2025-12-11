@@ -7,22 +7,22 @@ import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { useHeroPlayer } from '@/hooks/api/useSotaPlayers';
 import { PlayerProfile } from './PlayerProfile';
+import { useIsMobile } from '@/hooks/useIsMobile';
 
 export const TeamSection = () => {
   const { t } = useTranslation();
   const { data: heroPlayer, isLoading, isError } = useHeroPlayer();
   const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const isMobile = useIsMobile();
 
   return (
     <section className="container mx-auto px-4 py-12 sm:py-16 md:py-20">
       {/* Header */}
       <div className="text-center mb-8 sm:mb-12">
         <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-3 sm:mb-4 text-white">
-          {t("team.title")}
+          {t('team.title')}
         </h2>
-        <p className="text-gray-400 text-base sm:text-lg">
-          {t("team.subtitle")}
-        </p>
+        <p className="text-gray-400 text-base sm:text-lg">{t('team.subtitle')}</p>
       </div>
 
       {/* Loading State */}
@@ -35,14 +35,14 @@ export const TeamSection = () => {
       {/* Error State */}
       {isError && (
         <div className="text-center py-12 sm:py-20 text-gray-400 text-sm sm:text-base">
-          {t("common.error")}
+          {t('common.error')}
         </div>
       )}
 
       {/* Hero Player Display */}
       {!isLoading && !isError && heroPlayer && (
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={isMobile ? { opacity: 1 } : { opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           className="max-w-4xl mx-auto"
@@ -63,7 +63,7 @@ export const TeamSection = () => {
                   <img
                     src={heroPlayer.photoUrl || '/placeholder.svg'}
                     alt={heroPlayer.name}
-                    onError={(e) => {
+                    onError={e => {
                       const target = e.target as HTMLImageElement;
                       if (target.src !== '/placeholder.svg') {
                         target.src = '/placeholder.svg';
@@ -102,7 +102,7 @@ export const TeamSection = () => {
                         {heroPlayer.stats.goals || 0}
                       </div>
                       <div className="text-[10px] sm:text-xs text-gray-400 uppercase mt-1">
-                        {t("playerStats.goals")}
+                        {t('playerStats.goals')}
                       </div>
                     </div>
                     <div className="bg-white/5 rounded-lg sm:rounded-xl p-3 sm:p-4 border border-white/10">
@@ -110,7 +110,7 @@ export const TeamSection = () => {
                         {heroPlayer.stats.assists || 0}
                       </div>
                       <div className="text-[10px] sm:text-xs text-gray-400 uppercase mt-1">
-                        {t("playerStats.assists")}
+                        {t('playerStats.assists')}
                       </div>
                     </div>
                     <div className="bg-white/5 rounded-lg sm:rounded-xl p-3 sm:p-4 border border-white/10">
@@ -118,7 +118,7 @@ export const TeamSection = () => {
                         {heroPlayer.stats.appearances || 0}
                       </div>
                       <div className="text-[10px] sm:text-xs text-gray-400 uppercase mt-1">
-                        {t("playerStats.matches")}
+                        {t('playerStats.matches')}
                       </div>
                     </div>
                   </div>
@@ -126,7 +126,7 @@ export const TeamSection = () => {
 
                 {/* CTA */}
                 <div className="flex items-center gap-2 text-white/60 group-hover:text-red-500 transition-colors">
-                  <span className="text-sm font-medium">{t("team.viewProfile")}</span>
+                  <span className="text-sm font-medium">{t('team.viewProfile')}</span>
                   <ArrowRight className="w-4 h-4" />
                 </div>
               </div>
@@ -139,7 +139,7 @@ export const TeamSection = () => {
       <div className="flex justify-center mt-8 sm:mt-12">
         <Link to="/team" className="w-full sm:w-auto px-4 sm:px-0">
           <Button className="bg-white text-black hover:bg-gray-200 font-bold px-6 sm:px-8 min-h-[48px] w-full sm:w-auto">
-            {t("team.fullRoster")}
+            {t('team.fullRoster')}
             <ArrowRight className="ml-2 w-4 h-4" />
           </Button>
         </Link>
@@ -150,15 +150,12 @@ export const TeamSection = () => {
         <DialogContent className="max-w-[95vw] md:max-w-6xl lg:max-w-7xl max-h-[90vh] sm:max-h-[95vh] overflow-y-auto bg-black border-white/10 p-0">
           {heroPlayer && (
             <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
+              initial={isMobile ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
-              transition={{ duration: 0.3 }}
+              transition={{ duration: isMobile ? 0 : 0.3 }}
             >
-              <PlayerProfile
-                playerId={heroPlayer.id}
-                initialData={heroPlayer}
-              />
+              <PlayerProfile playerId={heroPlayer.id} initialData={heroPlayer} />
             </motion.div>
           )}
         </DialogContent>

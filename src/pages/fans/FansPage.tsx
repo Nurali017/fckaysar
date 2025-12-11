@@ -4,9 +4,11 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Users, FileText, HelpCircle, ChevronRight } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { useIsMobile } from '@/hooks/useIsMobile';
 
 const FansPage = () => {
   const { t } = useTranslation();
+  const isMobile = useIsMobile();
 
   const sections = [
     {
@@ -30,8 +32,9 @@ const FansPage = () => {
       <section className="pt-32 pb-20">
         <div className="container mx-auto px-4">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={isMobile ? { opacity: 1 } : { opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: isMobile ? 0 : 0.5 }}
             className="text-center mb-16"
           >
             <Users className="w-16 h-16 text-red-500 mx-auto mb-4" />
@@ -47,10 +50,10 @@ const FansPage = () => {
             {sections.map((section, index) => (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, y: 20 }}
+                initial={isMobile ? { opacity: 1 } : { opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
+                transition={{ delay: isMobile ? 0 : index * 0.1 }}
               >
                 <Link
                   to={section.path}

@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { hasVotedInPoll, getPollVote, savePollVote } from '@/lib/voting-storage';
 import { useTranslation } from 'react-i18next';
 import { useActivePolls, useSubmitPollVote } from '@/hooks/api/usePolls';
+import { useIsMobile } from '@/hooks/useIsMobile';
 
 // Icon mapping for different poll types
 const getIconForPoll = (index: number) => {
@@ -47,6 +48,7 @@ const colorSchemes = [
 export const FanZone = () => {
   const { i18n } = useTranslation();
   const lang = (i18n.language || 'ru') as 'ru' | 'kk' | 'en';
+  const isMobile = useIsMobile();
 
   // Fetch active polls from CMS
   const { data: polls = [], isLoading, error } = useActivePolls(10);
@@ -119,8 +121,9 @@ export const FanZone = () => {
       <div className="container mx-auto px-4 relative z-10">
         <div className="text-center mb-8 sm:mb-12 md:mb-16">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={isMobile ? { opacity: 1 } : { opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: isMobile ? 0 : 0.3 }}
             className="inline-flex items-center gap-2 px-3 sm:px-4 py-1 rounded-full bg-white/10 border border-white/20 text-white text-xs sm:text-sm font-bold uppercase tracking-wider mb-3 sm:mb-4"
           >
             <Trophy className="w-3 h-3 sm:w-4 sm:h-4 text-yellow-500" />
@@ -144,8 +147,11 @@ export const FanZone = () => {
             return (
               <motion.div
                 key={poll.id}
-                initial={{ opacity: 0, x: pollIndex % 2 === 0 ? -20 : 20 }}
+                initial={
+                  isMobile ? { opacity: 1 } : { opacity: 0, x: pollIndex % 2 === 0 ? -20 : 20 }
+                }
                 whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: isMobile ? 0 : 0.3 }}
                 className="bg-zinc-900/50 border border-white/10 rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 backdrop-blur-sm"
               >
                 <div className="flex items-start sm:items-center gap-3 sm:gap-4 mb-4 sm:mb-6">
@@ -183,9 +189,9 @@ export const FanZone = () => {
                         {/* Progress bar for results */}
                         {voted && (
                           <motion.div
-                            initial={{ width: 0 }}
+                            initial={{ width: isMobile ? `${percentage}%` : 0 }}
                             animate={{ width: `${percentage}%` }}
-                            transition={{ duration: 0.8, delay: 0.2 }}
+                            transition={{ duration: isMobile ? 0 : 0.8, delay: isMobile ? 0 : 0.2 }}
                             className={`absolute inset-y-0 left-0 ${
                               isSelected ? colors.selectedBg : 'bg-white/5'
                             }`}
@@ -231,8 +237,9 @@ export const FanZone = () => {
 
                 {voted && (
                   <motion.p
-                    initial={{ opacity: 0 }}
+                    initial={{ opacity: isMobile ? 1 : 0 }}
                     animate={{ opacity: 1 }}
+                    transition={{ duration: isMobile ? 0 : 0.3 }}
                     className="text-center text-gray-500 text-xs sm:text-sm mt-3 sm:mt-4"
                   >
                     {lang === 'kk'
