@@ -217,7 +217,9 @@ export const Footer = () => {
 
         {/* Bottom Bar */}
         <div className="border-t border-white/10 mt-8 sm:mt-10 md:mt-12 pt-4 sm:pt-6 flex flex-col sm:flex-row justify-between items-center gap-3 sm:gap-4 text-xs sm:text-sm text-gray-400">
-          <p className="text-center sm:text-left">{t('footer.copyright')}</p>
+          <p className="text-center sm:text-left">
+            {t('footer.copyright', { year: new Date().getFullYear() })}
+          </p>
           <div className="flex gap-4 sm:gap-6">
             <a
               href="/privacy"
