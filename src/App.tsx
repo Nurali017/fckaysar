@@ -51,6 +51,8 @@ const TeamStaffPage = lazy(() => import('./pages/team/TeamStaffPage'));
 // Раздел Болельщику
 const FansPage = lazy(() => import('./pages/fans/FansPage'));
 const RulesPage = lazy(() => import('./pages/fans/RulesPage'));
+const VipBoxPage = lazy(() => import('./pages/fans/VipBoxPage'));
+const SeasonPassPage = lazy(() => import('./pages/fans/SeasonPassPage'));
 
 // Loading fallback component
 const PageLoader = () => (
@@ -123,6 +125,8 @@ const App = () => {
                 {/* Раздел Болельщику */}
                 <Route path="/fans" element={<FansPage />} />
                 <Route path="/fans/rules" element={<RulesPage />} />
+                <Route path="/vip-box" element={<VipBoxPage />} />
+                <Route path="/tickets" element={<SeasonPassPage />} />
 
                 {/* Магазин и Юридические страницы */}
                 <Route path="/shop" element={<ShopPage />} />

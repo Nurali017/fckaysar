@@ -167,6 +167,17 @@ All colors MUST be HSL.
   :focus-visible {
     @apply outline-none ring-2 ring-red-500 ring-offset-2 ring-offset-black;
   }
+
+  /* Date input calendar icon - make it visible on dark background */
+  input[type='date']::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+  }
+  input[type='date']::-webkit-calendar-picker-indicator:hover {
+    opacity: 1;
+  }
 }
 
 @layer utilities {

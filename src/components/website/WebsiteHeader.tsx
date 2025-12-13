@@ -127,6 +127,7 @@ export const WebsiteHeader = () => {
         },
         { key: 'partners', label: t('nav.partners', 'Партнёры'), path: '/club/partners' },
         { key: 'contacts', label: t('nav.contacts', 'Контакты'), path: '/club/contacts' },
+        { key: 'city', label: t('nav.city', 'О городе'), path: '/city' },
       ],
     },
     {
@@ -185,7 +186,8 @@ export const WebsiteHeader = () => {
       hasDropdown: true,
       items: [
         { key: 'stadium', label: t('nav.stadium', 'Стадион'), path: '/stadium' },
-        { key: 'city', label: t('nav.city', 'Кызылорда'), path: '/city' },
+        { key: 'seasonPass', label: t('nav.seasonPass', 'Абонемент'), path: '/tickets' },
+        { key: 'vipBox', label: t('nav.vipBox', 'Ложа VIP'), path: '/vip-box' },
         { key: 'rules', label: t('nav.rules', 'Правила'), path: '/fans/rules' },
       ],
     },
