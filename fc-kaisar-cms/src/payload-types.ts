@@ -83,6 +83,9 @@ export interface Config {
     achievements: Achievement
     veterans: Veteran
     'player-recommendations': PlayerRecommendation
+    'vip-box-requests': VipBoxRequest
+    'season-pass-requests': SeasonPassRequest
+    'partnership-requests': PartnershipRequest
     'payload-kv': PayloadKv
     'payload-locked-documents': PayloadLockedDocument
     'payload-preferences': PayloadPreference
@@ -106,6 +109,9 @@ export interface Config {
     achievements: AchievementsSelect<false> | AchievementsSelect<true>
     veterans: VeteransSelect<false> | VeteransSelect<true>
     'player-recommendations': PlayerRecommendationsSelect<false> | PlayerRecommendationsSelect<true>
+    'vip-box-requests': VipBoxRequestsSelect<false> | VipBoxRequestsSelect<true>
+    'season-pass-requests': SeasonPassRequestsSelect<false> | SeasonPassRequestsSelect<true>
+    'partnership-requests': PartnershipRequestsSelect<false> | PartnershipRequestsSelect<true>
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>
     'payload-locked-documents':
       | PayloadLockedDocumentsSelect<false>
@@ -920,6 +926,76 @@ export interface PlayerRecommendation {
   createdAt: string
 }
 /**
+ * Заявки на бронирование VIP-ложи
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "vip-box-requests".
+ */
+export interface VipBoxRequest {
+  id: string
+  name: string
+  phone: string
+  email?: string | null
+  guests: number
+  matchDate?: string | null
+  comment?: string | null
+  status?: ('new' | 'processing' | 'confirmed' | 'rejected' | 'completed') | null
+  /**
+   * Внутренние заметки (не видны клиентам)
+   */
+  adminNotes?: string | null
+  updatedAt: string
+  createdAt: string
+}
+/**
+ * Заявки на оформление абонемента
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "season-pass-requests".
+ */
+export interface SeasonPassRequest {
+  id: string
+  name: string
+  phone: string
+  email?: string | null
+  quantity: number
+  /**
+   * Например: Сектор A, ряд 5
+   */
+  seatPreference?: string | null
+  comment?: string | null
+  status?: ('new' | 'processing' | 'paid' | 'issued' | 'cancelled') | null
+  /**
+   * Внутренние заметки (не видны клиентам)
+   */
+  adminNotes?: string | null
+  updatedAt: string
+  createdAt: string
+}
+/**
+ * Заявки на партнёрство и спонсорство
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "partnership-requests".
+ */
+export interface PartnershipRequest {
+  id: string
+  companyName: string
+  website?: string | null
+  partnershipType: 'sponsor' | 'media' | 'technical' | 'other'
+  contactPerson: string
+  phone: string
+  email?: string | null
+  proposal: string
+  status?: ('new' | 'reviewing' | 'negotiating' | 'approved' | 'rejected') | null
+  /**
+   * Внутренние заметки (не видны клиентам)
+   */
+  adminNotes?: string | null
+  updatedAt: string
+  createdAt: string
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
@@ -1006,6 +1082,18 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'player-recommendations'
         value: string | PlayerRecommendation
+      } | null)
+    | ({
+        relationTo: 'vip-box-requests'
+        value: string | VipBoxRequest
+      } | null)
+    | ({
+        relationTo: 'season-pass-requests'
+        value: string | SeasonPassRequest
+      } | null)
+    | ({
+        relationTo: 'partnership-requests'
+        value: string | PartnershipRequest
       } | null)
   globalSlug?: string | null
   user: {
@@ -1599,6 +1687,55 @@ export interface PlayerRecommendationsSelect<T extends boolean = true> {
   videoUrl?: T
   comment?: T
   consentGiven?: T
+  status?: T
+  adminNotes?: T
+  updatedAt?: T
+  createdAt?: T
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "vip-box-requests_select".
+ */
+export interface VipBoxRequestsSelect<T extends boolean = true> {
+  name?: T
+  phone?: T
+  email?: T
+  guests?: T
+  matchDate?: T
+  comment?: T
+  status?: T
+  adminNotes?: T
+  updatedAt?: T
+  createdAt?: T
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "season-pass-requests_select".
+ */
+export interface SeasonPassRequestsSelect<T extends boolean = true> {
+  name?: T
+  phone?: T
+  email?: T
+  quantity?: T
+  seatPreference?: T
+  comment?: T
+  status?: T
+  adminNotes?: T
+  updatedAt?: T
+  createdAt?: T
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "partnership-requests_select".
+ */
+export interface PartnershipRequestsSelect<T extends boolean = true> {
+  companyName?: T
+  website?: T
+  partnershipType?: T
+  contactPerson?: T
+  phone?: T
+  email?: T
+  proposal?: T
   status?: T
   adminNotes?: T
   updatedAt?: T

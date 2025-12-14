@@ -236,6 +236,32 @@ export default {
       feature3Title: 'Academy Registration',
       feature3Desc: 'Online form for registration and trials',
     },
+    youthTeamsPage: {
+      title: 'Youth Teams',
+      subtitle: 'Future of the Club',
+      teams: {
+        u21: {
+          name: 'Youth',
+          fullName: 'Kaisar U-21',
+          description: 'Club youth team',
+        },
+        u19: {
+          name: 'Juniors',
+          fullName: 'Kaisar U-19',
+          description: 'Junior team',
+        },
+        u17: {
+          name: 'U-17',
+          fullName: 'Kaisar U-17',
+          description: 'Youth team',
+        },
+        u16: {
+          name: 'U-16',
+          fullName: 'Kaisar U-16',
+          description: 'Youth team',
+        },
+      },
+    },
     instagram: {
       badge: 'Social',
       title: 'FOLLOW',
@@ -941,6 +967,36 @@ export default {
       successTitle: 'Thank You!',
       successMessage: 'Your recommendation has been submitted. We will contact you if needed.',
       submitAnother: 'Submit Another',
+    },
+    partnership: {
+      title: 'Partners',
+      subtitle: 'Become part of FC Kaisar history',
+      description:
+        'FC Kaisar is open to cooperation with companies that share our values and want to develop football in the region together with us.',
+      benefits:
+        'Partnership with the club means brand recognition, access to a loyal audience, and participation in sports development.',
+      types: {
+        title: 'Partnership Types',
+        sponsor: 'Sponsorship',
+        media: 'Media Partnership',
+        technical: 'Technical Partnership',
+        other: 'Other',
+      },
+      form: {
+        title: 'Propose Partnership',
+        subtitle: 'Fill out the form and we will contact you',
+        companyName: 'Company Name',
+        contactPerson: 'Contact Person',
+        phone: 'Phone',
+        email: 'Email',
+        type: 'Partnership Type',
+        selectType: 'Select type',
+        website: 'Company Website',
+        proposal: 'Your Proposal',
+        proposalPlaceholder: 'Describe your partnership proposal...',
+        submit: 'Submit Request',
+        success: 'Request submitted! Our manager will contact you shortly.',
+      },
     },
     seasonPass: {
       title: 'Season Pass',

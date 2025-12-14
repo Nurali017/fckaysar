@@ -24,6 +24,7 @@ import { Veterans } from './collections/Veterans'
 import { PlayerRecommendations } from './collections/PlayerRecommendations'
 import { VipBoxRequests } from './collections/VipBoxRequests'
 import { SeasonPassRequests } from './collections/SeasonPassRequests'
+import { PartnershipRequests } from './collections/PartnershipRequests'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -64,6 +65,7 @@ export default buildConfig({
     PlayerRecommendations,
     VipBoxRequests,
     SeasonPassRequests,
+    PartnershipRequests,
   ],
   localization: {
     locales: [
