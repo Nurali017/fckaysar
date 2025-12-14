@@ -27,7 +27,7 @@ export default {
       staff: 'БАПКЕРЛЕР ҚҰРАМЫ',
       roster: 'ҚҰРАМ',
       academyAbout: 'АКАДЕМИЯ ТУРАЛЫ',
-      youthTeams: 'ЖАСТАР КОМАНДАСЫ',
+      youthTeams: 'КОМАНДАЛАР',
       coaches: 'БАПКЕРЛЕР',
       branches: 'ФИЛИАЛДАР',
       recommendPlayer: 'ОЙЫНШЫ ҰСЫНУ',

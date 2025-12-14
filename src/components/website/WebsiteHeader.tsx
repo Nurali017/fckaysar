@@ -138,6 +138,11 @@ export const WebsiteHeader = () => {
         { key: 'roster', label: t('nav.roster', 'Состав'), path: '/team' },
         { key: 'staff', label: t('nav.staff', 'Тренерский штаб'), path: '/team/staff' },
         { key: 'statistics', label: t('nav.statistics', 'Статистика'), path: '/statistics' },
+        {
+          key: 'youthTeams',
+          label: t('nav.youthTeams', 'Молодёжные команды'),
+          path: '/academy/teams',
+        },
       ],
     },
     {
@@ -146,11 +151,6 @@ export const WebsiteHeader = () => {
       hasDropdown: true,
       items: [
         { key: 'academyMain', label: t('nav.academyAbout', 'Об академии'), path: '/academy' },
-        {
-          key: 'youthTeams',
-          label: t('nav.youthTeams', 'Молодёжные команды'),
-          path: '/academy/teams',
-        },
         { key: 'coaches', label: t('nav.coaches', 'Тренеры'), path: '/academy/coaches' },
         { key: 'branches', label: t('nav.branches', 'Филиалы'), path: '/academy/branches' },
         {
@@ -168,7 +168,6 @@ export const WebsiteHeader = () => {
         { key: 'calendar', label: t('nav.calendar', 'Календарь'), path: '/matches' },
         { key: 'results', label: t('nav.results', 'Результаты'), path: '/matches?tab=results' },
         { key: 'standings', label: t('nav.standings', 'Таблица'), path: '/standings' },
-        { key: 'statistics', label: t('nav.statistics', 'Статистика'), path: '/statistics' },
       ],
     },
     {

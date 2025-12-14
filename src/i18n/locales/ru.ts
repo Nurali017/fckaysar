@@ -27,7 +27,7 @@ export default {
       staff: 'ТРЕНЕРСКИЙ ШТАБ',
       roster: 'СОСТАВ',
       academyAbout: 'ОБ АКАДЕМИИ',
-      youthTeams: 'МОЛОДЁЖНЫЕ КОМАНДЫ',
+      youthTeams: 'КОМАНДЫ',
       coaches: 'ТРЕНЕРЫ',
       branches: 'ФИЛИАЛЫ',
       recommendPlayer: 'РЕКОМЕНДОВАТЬ ИГРОКА',

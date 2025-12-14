@@ -27,7 +27,7 @@ export default {
       staff: 'COACHING STAFF',
       roster: 'ROSTER',
       academyAbout: 'ABOUT ACADEMY',
-      youthTeams: 'YOUTH TEAMS',
+      youthTeams: 'TEAMS',
       coaches: 'COACHES',
       branches: 'BRANCHES',
       calendar: 'CALENDAR',
