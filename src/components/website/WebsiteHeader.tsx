@@ -233,7 +233,7 @@ export const WebsiteHeader = () => {
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b ${
         isScrolled
           ? 'bg-black/80 backdrop-blur-md border-white/10 py-2'
-          : 'bg-transparent border-transparent py-4'
+          : 'bg-black/20 backdrop-blur-sm border-transparent py-4'
       }`}
       style={{ willChange: 'transform' }} // Safari fix for backdrop-blur
     >
@@ -344,7 +344,7 @@ export const WebsiteHeader = () => {
             </span>
           </div>
 
-          <nav className="hidden md:flex items-center gap-3 lg:gap-5 text-[13px] font-semibold text-gray-300 uppercase tracking-wide">
+          <nav className="hidden md:flex items-center gap-4 lg:gap-6 text-[14px] lg:text-[15px] font-semibold text-gray-300 uppercase tracking-wide">
             {navStructure.map(item => (
               <NavDropdown
                 key={item.key}
