@@ -130,10 +130,7 @@ export const WebsiteHeader = () => {
     {
       key: 'stadium',
       label: t('nav.stadium', 'STADIUM'),
-      items: [
-        { label: t('nav.stadiumMain', 'Kaisar Arena'), path: '/stadium' },
-        { label: t('nav.transport', 'How to get there'), path: '/fans/transport' },
-      ],
+      items: [{ label: t('nav.stadiumMain', 'Kaisar Arena'), path: '/stadium' }],
     },
   ];
 
