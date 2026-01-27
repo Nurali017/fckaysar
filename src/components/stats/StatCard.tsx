@@ -17,18 +17,21 @@ interface StatCardProps {
 }
 
 const sizeStyles = {
-  sm: 'p-3 rounded-xl',
-  md: 'p-4 md:p-5 rounded-2xl',
-  lg: 'p-5 md:p-6 rounded-2xl md:rounded-3xl',
-  xl: 'p-6 md:p-8 rounded-3xl',
+  sm: 'p-3',
+  md: 'p-4 md:p-5',
+  lg: 'p-5 md:p-6',
+  xl: 'p-6 md:p-8',
 };
 
 const variantStyles = {
   default: 'border-white/10 hover:border-white/20 hover:shadow-[0_0_30px_rgba(255,255,255,0.05)]',
-  highlight: 'border-red-500/30 hover:border-red-500/50 hover:shadow-[0_0_40px_rgba(220,38,38,0.15)]',
-  success: 'border-green-500/30 hover:border-green-500/50 hover:shadow-[0_0_30px_rgba(22,163,74,0.15)]',
+  highlight:
+    'border-red-500/30 hover:border-red-500/50 hover:shadow-[0_0_40px_rgba(220,38,38,0.15)]',
+  success:
+    'border-green-500/30 hover:border-green-500/50 hover:shadow-[0_0_30px_rgba(22,163,74,0.15)]',
   danger: 'border-red-500/30 hover:border-red-500/50 hover:shadow-[0_0_30px_rgba(220,38,38,0.15)]',
-  warning: 'border-yellow-500/30 hover:border-yellow-500/50 hover:shadow-[0_0_30px_rgba(245,158,11,0.15)]',
+  warning:
+    'border-yellow-500/30 hover:border-yellow-500/50 hover:shadow-[0_0_30px_rgba(245,158,11,0.15)]',
 };
 
 const cardVariants = {
@@ -122,27 +125,17 @@ export const KeyStatCard = ({
   return (
     <StatCard size="md" delay={delay} className="text-center">
       {/* Icon */}
-      <div className={cn(
-        'mb-3 p-2.5 rounded-xl inline-flex mx-auto',
-        iconBgStyles[color]
-      )}>
+      <div className={cn('mb-3 p-2.5 inline-flex mx-auto', iconBgStyles[color])}>
         <div className={colorStyles[color]}>{icon}</div>
       </div>
 
       {/* Value */}
       <div className="flex items-baseline justify-center gap-1">
-        {prefix && (
-          <span className="text-xl font-bold text-gray-400">{prefix}</span>
-        )}
-        <span className={cn(
-          'text-3xl md:text-4xl font-black tabular-nums',
-          colorStyles[color]
-        )}>
+        {prefix && <span className="text-xl font-bold text-gray-400">{prefix}</span>}
+        <span className={cn('text-3xl md:text-4xl font-black tabular-nums', colorStyles[color])}>
           {value}
         </span>
-        {suffix && (
-          <span className="text-lg font-bold text-gray-400">{suffix}</span>
-        )}
+        {suffix && <span className="text-lg font-bold text-gray-400">{suffix}</span>}
       </div>
 
       {/* Label */}
@@ -162,29 +155,23 @@ interface MiniStatCardProps {
   delay?: number;
 }
 
-export const MiniStatCard = ({
-  label,
-  value,
-  icon,
-  trend,
-  delay = 0,
-}: MiniStatCardProps) => {
+export const MiniStatCard = ({ label, value, icon, trend, delay = 0 }: MiniStatCardProps) => {
   return (
     <StatCard size="sm" delay={delay}>
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          {icon && (
-            <div className="text-gray-400">{icon}</div>
-          )}
+          {icon && <div className="text-gray-400">{icon}</div>}
           <span className="text-xs text-gray-400 font-medium">{label}</span>
         </div>
         {trend && (
-          <span className={cn(
-            'text-xs',
-            trend === 'up' && 'text-green-500',
-            trend === 'down' && 'text-red-500',
-            trend === 'neutral' && 'text-gray-500'
-          )}>
+          <span
+            className={cn(
+              'text-xs',
+              trend === 'up' && 'text-green-500',
+              trend === 'down' && 'text-red-500',
+              trend === 'neutral' && 'text-gray-500'
+            )}
+          >
             {trend === 'up' ? '↑' : trend === 'down' ? '↓' : '–'}
           </span>
         )}

@@ -145,7 +145,9 @@ const transformCMSMatch = (match: CMSMatch, locale: string): Match => {
       score: match.awayTeam.score,
     },
     date: formattedDate,
+    rawDate: match.date,
     time: getTimeDisplay(),
+    tour: match.tour,
     stadium: match.venue || `Тур ${match.tour}`,
     league: match.competition || 'Премьер-Лига',
     status,
@@ -214,9 +216,9 @@ export const useFinishedMatches = (
     queryKey: ['matches', 'finished', teamId, limit, i18n.language],
     queryFn: async () => {
       const matches = await fetchMatches({ status: 'finished', limit, teamId });
-      // Sort by date descending (most recent first)
+      // Sort by date ascending (oldest first)
       const sorted = [...matches].sort(
-        (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+        (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
       );
       return sorted.map(match => transformCMSMatch(match, i18n.language));
     },

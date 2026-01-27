@@ -1,283 +1,262 @@
-import { useState, useMemo } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Link, useNavigate } from 'react-router-dom';
-import { Trophy, AlertCircle, ChevronDown, ChevronUp } from 'lucide-react';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table';
-import { Skeleton } from '@/components/ui/skeleton';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Button } from '@/components/ui/button';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Link, useNavigate } from 'react-router-dom';
+import { ChevronRight, ArrowRight, Instagram, Youtube, Facebook } from 'lucide-react';
+import { useQuery } from '@tanstack/react-query';
 import { useLeagueStandings } from '@/hooks/api/useStandings';
-
-const KAYSAR_TEAM_ID = 94;
-const VISIBLE_TEAMS_COUNT = 5;
-
-interface TeamStats {
-  rank: number;
-  teamId: number;
-  name: string;
-  logo: string;
-  played: number;
-  won: number;
-  drawn: number;
-  lost: number;
-  points: number;
-}
+import { Skeleton } from '@/components/ui/skeleton';
+import { Button } from '@/components/ui/button';
+import { TalentRecommendationModal } from '@/components/website/TalentRecommendationModal';
+import { fetchInfrastructure } from '@/api/cms/infrastructure-service';
 
 export const LeagueTable = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const [isExpanded, setIsExpanded] = useState(false);
+  const { data: standings, isLoading } = useLeagueStandings();
+  const { data: infrastructure } = useQuery({
+    queryKey: ['infrastructure'],
+    queryFn: fetchInfrastructure,
+  });
+  const [showRecommendModal, setShowRecommendModal] = useState(false);
 
-  // Get league standings from API
-  const { data: apiStandings = [], isLoading, error } = useLeagueStandings();
+  const academyItem = infrastructure?.find(i => i.type === 'academy');
+  const academyImage = academyItem?.mainImageUrl || academyItem?.galleryUrls?.[0];
 
-  // Transform API standings to TeamStats format
-  const leagueData: TeamStats[] = useMemo(
-    () =>
-      apiStandings.map(standing => ({
-        rank: standing.rank,
-        teamId: standing.teamId,
-        name: standing.teamName,
-        logo: standing.logo,
-        played: standing.played,
-        won: standing.won,
-        drawn: standing.drawn,
-        lost: standing.lost,
-        points: standing.points,
-      })),
-    [apiStandings]
-  );
+  // Find Kaysar or highlight logic
+  const KAYSAR_IDS = [94, '94']; // Adjust based on real ID
 
-  // Get visible teams - either all or 5 teams with Kaysar in the middle
-  const visibleTeams = useMemo(() => {
-    if (isExpanded || leagueData.length <= VISIBLE_TEAMS_COUNT) {
-      return leagueData;
-    }
-
-    // Find Kaysar's position
-    const kaysarIndex = leagueData.findIndex(team => team.teamId === KAYSAR_TEAM_ID);
-
-    if (kaysarIndex === -1) {
-      // Kaysar not found, show top 5
-      return leagueData.slice(0, VISIBLE_TEAMS_COUNT);
-    }
-
-    // Calculate start index to center Kaysar (2 teams above, 2 below)
-    const halfVisible = Math.floor(VISIBLE_TEAMS_COUNT / 2);
-    let startIndex = kaysarIndex - halfVisible;
-
-    // Adjust if at the start
-    if (startIndex < 0) {
-      startIndex = 0;
-    }
-
-    // Adjust if at the end
-    if (startIndex + VISIBLE_TEAMS_COUNT > leagueData.length) {
-      startIndex = leagueData.length - VISIBLE_TEAMS_COUNT;
-    }
-
-    return leagueData.slice(startIndex, startIndex + VISIBLE_TEAMS_COUNT);
-  }, [leagueData, isExpanded]);
-
-  // Loading state
-  if (isLoading) {
+  // Helper to check if row is Kaysar
+  const isKaysar = (team: any) => {
     return (
-      <section className="container mx-auto px-4 py-10 sm:py-12">
-        <div className="flex items-center justify-between mb-6 sm:mb-8">
-          <h2 className="text-2xl sm:text-3xl font-black text-white flex items-center gap-2 sm:gap-3 uppercase italic tracking-tighter">
-            <Trophy className="w-6 h-6 sm:w-8 sm:h-8 text-yellow-500" />
-            {t('league.title')}
-          </h2>
-        </div>
-        <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl sm:rounded-3xl p-4 sm:p-8">
-          <Skeleton className="h-48 sm:h-64 w-full bg-white/10" />
-        </div>
-      </section>
+      KAYSAR_IDS.includes(team.teamId) ||
+      team.teamName?.toLowerCase().includes('kaysar') ||
+      team.teamName?.toLowerCase().includes('кайсар')
     );
-  }
-
-  // Error state
-  if (error) {
-    return (
-      <section className="container mx-auto px-4 py-10 sm:py-12">
-        <Alert className="bg-red-500/10 border-red-500/20">
-          <AlertCircle className="h-4 w-4 text-red-500" />
-          <AlertDescription className="text-white text-sm sm:text-base">
-            {t('league.error')}
-          </AlertDescription>
-        </Alert>
-      </section>
-    );
-  }
-
-  // No data state
-  if (leagueData.length === 0) {
-    return (
-      <section className="container mx-auto px-4 py-10 sm:py-12">
-        <div className="text-center text-gray-400 text-sm sm:text-base">{t('league.noData')}</div>
-      </section>
-    );
-  }
+  };
 
   return (
-    <section className="container mx-auto px-4 py-10 sm:py-12">
-      <div className="flex items-center justify-between mb-6 sm:mb-8">
-        <h2 className="text-2xl sm:text-3xl font-black text-white flex items-center gap-2 sm:gap-3 uppercase italic tracking-tighter">
-          <Trophy className="w-6 h-6 sm:w-8 sm:h-8 text-yellow-500" />
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-yellow-600">
-            {t('league.title')}
-          </span>
-        </h2>
-      </div>
+    <section className="py-8 md:py-12 lg:py-20 px-4 md:px-8 max-w-[1440px] mx-auto">
+      <div className="flex flex-col lg:flex-row gap-6 lg:gap-16">
+        {/* LEFT COLUMN: STANDINGS TABLE (~65%) */}
+        <div className="w-full lg:w-[65%]">
+          {/* Header: Tournament Select + All Tables Link */}
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8 border-b border-white/10 pb-4">
+            <div className="relative">
+              <select className="appearance-none bg-transparent text-white font-display text-xl md:text-2xl uppercase pr-8 cursor-pointer focus:outline-none">
+                <option className="bg-[hsl(222,47%,11%)] text-white">
+                  Qazaqstan Premier League
+                </option>
+                {/* Add more options if available */}
+              </select>
+              <ChevronRight className="absolute right-0 top-1/2 -translate-y-1/2 text-red-600 w-5 h-5 rotate-90" />
+            </div>
 
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl"
-      >
-        <div className="overflow-x-auto">
-          <Table>
-            <TableHeader className="bg-white/5">
-              <TableRow className="border-white/10 hover:bg-transparent">
-                <TableHead className="w-[40px] sm:w-[60px] text-center text-gray-400 font-bold text-xs sm:text-sm">
-                  #
-                </TableHead>
-                <TableHead className="text-gray-400 font-bold text-xs sm:text-sm min-w-[120px]">
-                  {t('league.table.club')}
-                </TableHead>
-                <TableHead className="text-center text-gray-400 font-bold text-xs sm:text-sm">
-                  {t('league.table.played')}
-                </TableHead>
-                <TableHead className="text-center text-gray-400 font-bold text-xs sm:text-sm">
-                  {t('league.table.won')}
-                </TableHead>
-                <TableHead className="text-center text-gray-400 font-bold text-xs sm:text-sm">
-                  {t('league.table.drawn')}
-                </TableHead>
-                <TableHead className="text-center text-gray-400 font-bold text-xs sm:text-sm">
-                  {t('league.table.lost')}
-                </TableHead>
-                <TableHead className="text-center text-white font-black text-sm sm:text-lg">
-                  {t('league.table.points')}
-                </TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              <AnimatePresence mode="popLayout">
-                {visibleTeams.map(team => {
-                  const isKaysar = team.teamId === KAYSAR_TEAM_ID;
-                  const isTopThree = team.rank <= 3;
-                  return (
-                    <motion.tr
-                      key={team.teamId}
-                      initial={{ opacity: 0, height: 0 }}
-                      animate={{ opacity: 1, height: 'auto' }}
-                      exit={{ opacity: 0, height: 0 }}
-                      transition={{ duration: 0.2 }}
-                      onClick={isKaysar ? () => navigate('/statistics') : undefined}
-                      className={`border-white/5 transition-colors ${isKaysar ? 'bg-red-600/20 hover:bg-red-600/30 cursor-pointer' : 'hover:bg-white/5'}`}
-                    >
-                      <TableCell className="font-bold text-center text-gray-300">
-                        {isTopThree ? (
-                          <div className="w-6 h-6 rounded-full bg-yellow-500/20 text-yellow-500 flex items-center justify-center mx-auto text-xs">
+            <Link
+              to="/statistics"
+              className="group flex items-center gap-2 text-white/60 hover:text-white transition-colors"
+            >
+              <span className="font-mono text-xs uppercase tracking-wider">
+                {t('league.allTables', 'All Tables')}
+              </span>
+              <div className="w-6 h-6 bg-white/10 flex items-center justify-center group-hover:bg-red-600 transition-colors">
+                <ChevronRight className="w-3 h-3" />
+              </div>
+            </Link>
+          </div>
+
+          {/* Table */}
+          <div className="overflow-x-auto">
+            {isLoading ? (
+              <div className="space-y-2">
+                {[...Array(6)].map((_, i) => (
+                  <Skeleton key={i} className="h-12 w-full bg-white/5" />
+                ))}
+              </div>
+            ) : (
+              <table className="w-full text-left border-collapse">
+                <thead>
+                  <tr className="text-white/40 font-mono text-xs uppercase border-b border-white/10">
+                    <th className="p-3 pl-0 w-12 text-center">#</th>
+                    <th className="p-3">{t('league.club', 'Club')}</th>
+                    <th className="p-3 text-center w-12">M</th>
+                    <th className="p-3 text-center w-12">W</th>
+                    <th className="p-3 text-center w-12">D</th>
+                    <th className="p-3 text-center w-12">L</th>
+                    <th className="p-3 text-center w-16 hidden sm:table-cell">+/-</th>
+                    <th className="p-3 text-center w-12 font-bold text-white">P</th>
+                  </tr>
+                </thead>
+                <tbody className="font-mono text-sm text-white">
+                  {(() => {
+                    if (!standings || standings.length === 0) return null;
+                    const kayIdx = standings.findIndex(isKaysar);
+                    const lastIdx = standings.length - 1;
+                    // Collect unique indices to show
+                    const indices = new Set<number>([0]);
+                    if (kayIdx > 0) {
+                      indices.add(Math.max(1, kayIdx - 1));
+                      indices.add(kayIdx);
+                      indices.add(Math.min(kayIdx + 1, lastIdx));
+                    }
+                    indices.add(lastIdx);
+                    const sorted = [...indices].sort((a, b) => a - b);
+
+                    const rows: React.ReactNode[] = [];
+                    sorted.forEach((idx, i) => {
+                      // Add ellipsis if gap between indices
+                      if (i > 0 && idx - sorted[i - 1] > 1) {
+                        rows.push(
+                          <tr key={`ellipsis-${idx}`} className="border-b border-white/5">
+                            <td
+                              colSpan={8}
+                              className="py-3 text-center text-white/30 text-lg tracking-widest"
+                            >
+                              • • •
+                            </td>
+                          </tr>
+                        );
+                      }
+                      const team = standings[idx] as any;
+                      const active = isKaysar(team);
+                      rows.push(
+                        <tr
+                          key={team.teamId}
+                          className={`border-b border-white/5 transition-colors ${active ? 'bg-red-600/20 hover:bg-red-600/30' : 'hover:bg-white/5'}`}
+                        >
+                          <td
+                            className={`p-3 pl-0 text-center font-bold ${idx < 3 ? 'text-white' : 'text-white/60'}`}
+                          >
                             {team.rank}
-                          </div>
-                        ) : (
-                          team.rank
-                        )}
-                      </TableCell>
-                      <TableCell>
-                        {isKaysar ? (
-                          <Link to="/statistics" className="flex items-center gap-3 group">
-                            <div className="w-8 h-8 md:w-10 md:h-10 bg-white/10 rounded-full p-1.5 flex items-center justify-center flex-shrink-0 group-hover:bg-red-600/20 transition-colors">
-                              <img
-                                src={team.logo}
-                                alt={team.name}
-                                className="w-full h-full object-contain"
-                                onError={e => {
-                                  e.currentTarget.src = `https://placehold.co/40x40/1f1f1f/888?text=${team.name.substring(0, 2)}`;
-                                  e.currentTarget.onerror = null;
-                                }}
-                              />
-                            </div>
-                            <span className="font-bold uppercase tracking-wide text-sm md:text-base truncate text-red-500 group-hover:text-red-400 transition-colors">
-                              {team.name}
+                          </td>
+                          <td className="p-3 flex items-center gap-3">
+                            <img
+                              src={team.logo}
+                              alt={team.teamName}
+                              className="w-6 h-6 object-contain"
+                              onError={e => {
+                                e.currentTarget.src =
+                                  'https://placehold.co/24x24/transparent/white?text=FC';
+                              }}
+                            />
+                            <span className={active ? 'text-red-500 font-bold' : ''}>
+                              {team.teamName}
                             </span>
-                          </Link>
-                        ) : (
-                          <div className="flex items-center gap-3">
-                            <div className="w-8 h-8 md:w-10 md:h-10 bg-white/10 rounded-full p-1.5 flex items-center justify-center flex-shrink-0">
-                              <img
-                                src={team.logo}
-                                alt={team.name}
-                                className="w-full h-full object-contain"
-                                onError={e => {
-                                  e.currentTarget.src = `https://placehold.co/40x40/1f1f1f/888?text=${team.name.substring(0, 2)}`;
-                                  e.currentTarget.onerror = null;
-                                }}
-                              />
-                            </div>
-                            <span className="font-bold uppercase tracking-wide text-sm md:text-base truncate text-white">
-                              {team.name}
-                            </span>
-                          </div>
-                        )}
-                      </TableCell>
-                      <TableCell className="text-center text-gray-400 font-mono text-xs sm:text-sm">
-                        {team.played}
-                      </TableCell>
-                      <TableCell className="text-center text-gray-400 font-mono text-xs sm:text-sm">
-                        {team.won}
-                      </TableCell>
-                      <TableCell className="text-center text-gray-400 font-mono text-xs sm:text-sm">
-                        {team.drawn}
-                      </TableCell>
-                      <TableCell className="text-center text-gray-400 font-mono text-xs sm:text-sm">
-                        {team.lost}
-                      </TableCell>
-                      <TableCell className="text-center font-black text-base sm:text-xl text-white">
-                        {team.points}
-                      </TableCell>
-                    </motion.tr>
-                  );
-                })}
-              </AnimatePresence>
-            </TableBody>
-          </Table>
+                          </td>
+                          <td className="p-3 text-center">{team.played}</td>
+                          <td className="p-3 text-center text-white/60">{team.won}</td>
+                          <td className="p-3 text-center text-white/60">{team.drawn}</td>
+                          <td className="p-3 text-center text-white/60">{team.lost}</td>
+                          <td className="p-3 text-center text-white/60 hidden sm:table-cell">
+                            {team.goalsFor - team.goalsAgainst}
+                          </td>
+                          <td className="p-3 text-center font-bold text-lg">{team.points}</td>
+                        </tr>
+                      );
+                    });
+                    return rows;
+                  })()}
+                </tbody>
+              </table>
+            )}
+          </div>
+
+          <div className="mt-6 flex justify-center">
+            <Link to="/statistics">
+              <Button
+                variant="outline"
+                className="border-white/20 text-white font-mono uppercase text-xs hover:bg-white/10 rounded-none px-8"
+              >
+                {t('league.showFullTable', 'Show Full Table')}
+              </Button>
+            </Link>
+          </div>
         </div>
 
-        {/* Expand/Collapse Button */}
-        {leagueData.length > VISIBLE_TEAMS_COUNT && (
-          <div className="border-t border-white/10 p-3 sm:p-4">
-            <Button
-              variant="ghost"
-              onClick={() => setIsExpanded(!isExpanded)}
-              className="w-full text-gray-400 hover:text-white hover:bg-white/5 min-h-[44px] text-sm sm:text-base"
-            >
-              {isExpanded ? (
-                <>
-                  <ChevronUp className="w-4 h-4 mr-2" />
-                  {t('league.showLess')}
-                </>
-              ) : (
-                <>
-                  <ChevronDown className="w-4 h-4 mr-2" />
-                  {t('league.showAll')} {leagueData.length} {t('league.teams')}
-                </>
-              )}
-            </Button>
+        {/* RIGHT COLUMN: SIDEBAR (~35%) */}
+        <div className="w-full lg:w-[35%] flex flex-col gap-6">
+          {/* CTA 1: ACADEMY */}
+          <div
+            className="group relative flex-1 min-h-[200px] w-full overflow-hidden bg-zinc-900 cursor-pointer"
+            onClick={() => setShowRecommendModal(true)}
+          >
+            <img
+              src={academyImage || '/images/academy-bg.jpg'}
+              alt="Academy"
+              className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-60 group-hover:opacity-50"
+              onError={e => {
+                e.currentTarget.style.display = 'none';
+              }}
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/90 to-transparent" />
+
+            <div className="absolute bottom-0 left-0 right-0 p-4 md:p-6 flex items-end justify-between">
+              <h3 className="text-2xl md:text-3xl font-display text-white uppercase leading-none max-w-[70%]">
+                {t('sidebar.academy', 'Join the Academy')}
+              </h3>
+              <div className="w-10 h-10 md:w-12 md:h-12 bg-red-600 flex items-center justify-center transition-colors group-hover:bg-red-500">
+                <ArrowRight className="text-white w-6 h-6" />
+              </div>
+            </div>
           </div>
-        )}
-      </motion.div>
+
+          {/* CTA 2: STADIUM */}
+          <div
+            className="group relative flex-1 min-h-[200px] w-full overflow-hidden bg-zinc-900 cursor-pointer"
+            onClick={() => navigate('/stadium')}
+          >
+            <img
+              src="/images/stadium/stadium-night.jpg"
+              alt="Stadium"
+              className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-60 group-hover:opacity-50"
+              onError={e => {
+                e.currentTarget.style.display = 'none';
+              }}
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/90 to-transparent" />
+
+            <div className="absolute bottom-0 left-0 right-0 p-4 md:p-6 flex items-end justify-between">
+              <h3 className="text-2xl md:text-3xl font-display text-white uppercase leading-none max-w-[70%]">
+                {t('sidebar.school', 'Kaysar School')}
+              </h3>
+              <div className="w-10 h-10 md:w-12 md:h-12 bg-red-600 flex items-center justify-center transition-colors group-hover:bg-red-500">
+                <ArrowRight className="text-white w-6 h-6" />
+              </div>
+            </div>
+          </div>
+
+          {/* SOCIALS */}
+          <div className="bg-white/5 p-4 md:p-6 border border-white/5 flex flex-col gap-4">
+            <span className="text-white/50 font-mono text-xs uppercase tracking-wider">
+              {t('sidebar.followUs', 'Follow Us')}
+            </span>
+            <div className="flex items-center gap-3">
+              <a
+                href="#"
+                className="w-10 h-10 bg-white/10 flex items-center justify-center hover:bg-[#E1306C] transition-colors text-white"
+              >
+                <Instagram className="w-5 h-5" />
+              </a>
+              <a
+                href="#"
+                className="w-10 h-10 bg-white/10 flex items-center justify-center hover:bg-[#FF0000] transition-colors text-white"
+              >
+                <Youtube className="w-5 h-5" />
+              </a>
+              <a
+                href="#"
+                className="w-10 h-10 bg-white/10 flex items-center justify-center hover:bg-[#1877F2] transition-colors text-white"
+              >
+                <Facebook className="w-5 h-5" />
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <TalentRecommendationModal
+        isOpen={showRecommendModal}
+        onClose={() => setShowRecommendModal(false)}
+      />
     </section>
   );
 };

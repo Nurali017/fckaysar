@@ -11,7 +11,9 @@ export interface Match {
     score?: number;
   };
   date: string;
+  rawDate?: string;
   time: string;
+  tour?: number;
   stadium: string;
   league: string;
   status: 'upcoming' | 'live' | 'finished';

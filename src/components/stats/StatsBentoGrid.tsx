@@ -39,7 +39,7 @@ export const StatsBentoGrid = ({ stats, className }: StatsBentoGridProps) => {
       viewport={{ once: true, margin: '-50px' }}
       className={cn(
         'grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-5',
-        'auto-rows-[140px] md:auto-rows-[160px]',
+        'auto-rows-[120px] md:auto-rows-[160px]',
         className
       )}
     >
@@ -58,23 +58,31 @@ export const StatsBentoGrid = ({ stats, className }: StatsBentoGridProps) => {
         />
         <div className="mt-4 flex items-center gap-6">
           <div className="text-center">
-            <span className="text-2xl font-black text-green-500">{stats.raw.win}</span>
-            <span className="block text-[10px] text-gray-400 uppercase">{t('stats.labels.wins')}</span>
+            <span className="text-xl md:text-2xl font-black text-green-500">{stats.raw.win}</span>
+            <span className="block text-[10px] text-gray-400 uppercase">
+              {t('stats.labels.wins')}
+            </span>
           </div>
           <div className="text-center">
-            <span className="text-2xl font-black text-yellow-500">{stats.raw.draw}</span>
-            <span className="block text-[10px] text-gray-400 uppercase">{t('stats.labels.draws')}</span>
+            <span className="text-xl md:text-2xl font-black text-yellow-500">{stats.raw.draw}</span>
+            <span className="block text-[10px] text-gray-400 uppercase">
+              {t('stats.labels.draws')}
+            </span>
           </div>
           <div className="text-center">
-            <span className="text-2xl font-black text-red-500">{stats.raw.match_loss}</span>
-            <span className="block text-[10px] text-gray-400 uppercase">{t('stats.labels.losses')}</span>
+            <span className="text-xl md:text-2xl font-black text-red-500">
+              {stats.raw.match_loss}
+            </span>
+            <span className="block text-[10px] text-gray-400 uppercase">
+              {t('stats.labels.losses')}
+            </span>
           </div>
         </div>
       </StatCard>
 
       {/* Points Card */}
       <StatCard size="md" className="flex flex-col items-center justify-center" delay={1}>
-        <div className="p-2.5 rounded-xl bg-yellow-500/10 mb-2">
+        <div className="p-2.5 bg-yellow-500/10 mb-2">
           <Trophy className="w-5 h-5 text-yellow-500" />
         </div>
         <AnimatedCounter
@@ -88,7 +96,7 @@ export const StatsBentoGrid = ({ stats, className }: StatsBentoGridProps) => {
 
       {/* Goals Card */}
       <StatCard size="md" className="flex flex-col items-center justify-center" delay={2}>
-        <div className="p-2.5 rounded-xl bg-green-500/10 mb-2">
+        <div className="p-2.5 bg-green-500/10 mb-2">
           <Target className="w-5 h-5 text-green-500" />
         </div>
         <AnimatedCounter
@@ -102,7 +110,7 @@ export const StatsBentoGrid = ({ stats, className }: StatsBentoGridProps) => {
 
       {/* Goal Difference Card */}
       <StatCard size="md" className="flex flex-col items-center justify-center" delay={3}>
-        <div className="p-2.5 rounded-xl bg-blue-500/10 mb-2">
+        <div className="p-2.5 bg-blue-500/10 mb-2">
           <TrendingUp className="w-5 h-5 text-blue-500" />
         </div>
         <div className="flex items-baseline">
@@ -153,21 +161,19 @@ export const StatsBentoGridSimple = ({ stats, className }: StatsBentoGridProps) 
       {/* Points */}
       <StatCard size="md" className="text-center" delay={0}>
         <Trophy className="w-6 h-6 text-yellow-500 mx-auto mb-2" />
-        <AnimatedCounter
-          value={stats.raw.points}
-          className="text-3xl font-black text-white"
-        />
-        <span className="text-xs text-gray-400 uppercase mt-1 block">{t('stats.labels.points')}</span>
+        <AnimatedCounter value={stats.raw.points} className="text-3xl font-black text-white" />
+        <span className="text-xs text-gray-400 uppercase mt-1 block">
+          {t('stats.labels.points')}
+        </span>
       </StatCard>
 
       {/* Goals */}
       <StatCard size="md" className="text-center" delay={1}>
         <Target className="w-6 h-6 text-green-500 mx-auto mb-2" />
-        <AnimatedCounter
-          value={stats.raw.goals}
-          className="text-3xl font-black text-green-500"
-        />
-        <span className="text-xs text-gray-400 uppercase mt-1 block">{t('stats.labels.goals')}</span>
+        <AnimatedCounter value={stats.raw.goals} className="text-3xl font-black text-green-500" />
+        <span className="text-xs text-gray-400 uppercase mt-1 block">
+          {t('stats.labels.goals')}
+        </span>
       </StatCard>
 
       {/* Win Rate */}
@@ -178,7 +184,9 @@ export const StatsBentoGridSimple = ({ stats, className }: StatsBentoGridProps) 
           suffix="%"
           className="text-3xl font-black text-red-500"
         />
-        <span className="text-xs text-gray-400 uppercase mt-1 block">{t('stats.labels.winRate')}</span>
+        <span className="text-xs text-gray-400 uppercase mt-1 block">
+          {t('stats.labels.winRate')}
+        </span>
       </StatCard>
 
       {/* Games */}
@@ -187,7 +195,9 @@ export const StatsBentoGridSimple = ({ stats, className }: StatsBentoGridProps) 
         <span className="text-3xl font-black text-white">
           {stats.raw.games_played}/{stats.raw.games_total}
         </span>
-        <span className="text-xs text-gray-400 uppercase mt-1 block">{t('stats.labels.matches')}</span>
+        <span className="text-xs text-gray-400 uppercase mt-1 block">
+          {t('stats.labels.matches')}
+        </span>
       </StatCard>
     </motion.div>
   );

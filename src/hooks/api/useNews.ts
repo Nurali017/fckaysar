@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 import {
   fetchNews,
   fetchFeaturedNews,
+  fetchRegularNews,
   fetchNewsBySlug,
   fetchNewsByCategory,
   type NewsItem,
@@ -18,16 +19,19 @@ import {
 export const useNews = (
   page: number = 1,
   limit: number = 10
-): UseQueryResult<{
-  news: NewsItem[];
-  pagination: {
-    total: number;
-    page: number;
-    totalPages: number;
-    hasNext: boolean;
-    hasPrev: boolean;
-  };
-}, Error> => {
+): UseQueryResult<
+  {
+    news: NewsItem[];
+    pagination: {
+      total: number;
+      page: number;
+      totalPages: number;
+      hasNext: boolean;
+      hasPrev: boolean;
+    };
+  },
+  Error
+> => {
   const { i18n } = useTranslation();
 
   return useQuery({
@@ -47,6 +51,20 @@ export const useFeaturedNews = (limit: number = 5): UseQueryResult<NewsItem[], E
   return useQuery({
     queryKey: ['cms', 'news', 'featured', limit, i18n.language],
     queryFn: () => fetchFeaturedNews(limit),
+    staleTime: 5 * 60 * 1000,
+    gcTime: 15 * 60 * 1000,
+  });
+};
+
+/**
+ * Hook to get regular (non-featured) news
+ */
+export const useRegularNews = (limit: number = 4): UseQueryResult<NewsItem[], Error> => {
+  const { i18n } = useTranslation();
+
+  return useQuery({
+    queryKey: ['cms', 'news', 'regular', limit, i18n.language],
+    queryFn: () => fetchRegularNews(limit),
     staleTime: 5 * 60 * 1000,
     gcTime: 15 * 60 * 1000,
   });

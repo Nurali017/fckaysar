@@ -19,8 +19,9 @@ export default {
       },
     },
     fontFamily: {
-      sans: ['Montserrat', 'system-ui', '-apple-system', 'sans-serif'],
-      mono: ['ui-monospace', 'SFMono-Regular', 'monospace'],
+      sans: ['"IBM Plex Mono"', 'monospace'],
+      mono: ['"IBM Plex Mono"', 'monospace'],
+      display: ['"IBM Plex Mono"', 'monospace'], // Headings (alias kept for compatibility)
     },
     extend: {
       colors: {

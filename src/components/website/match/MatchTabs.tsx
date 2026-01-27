@@ -1,20 +1,20 @@
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
-import { BarChart3, Users, Eye } from 'lucide-react';
+import { BarChart3, Eye } from 'lucide-react';
 
 export type MatchTab = 'overview' | 'lineups' | 'stats';
 
 interface MatchTabsProps {
   activeTab: MatchTab;
   onTabChange: (tab: MatchTab) => void;
-  hasLineup?: boolean;
+  _hasLineup?: boolean;
   hasStats?: boolean;
 }
 
 export const MatchTabs = ({
   activeTab,
   onTabChange,
-  hasLineup = true,
+  _hasLineup = true,
   hasStats = true,
 }: MatchTabsProps) => {
   const { t } = useTranslation();
@@ -25,12 +25,6 @@ export const MatchTabs = ({
       label: t('match.tabs.overview', 'Обзор'),
       icon: <Eye className="w-4 h-4" />,
       available: true,
-    },
-    {
-      id: 'lineups',
-      label: t('match.tabs.lineups', 'Составы'),
-      icon: <Users className="w-4 h-4" />,
-      available: hasLineup,
     },
     {
       id: 'stats',
@@ -53,7 +47,7 @@ export const MatchTabs = ({
                 key={tab.id}
                 onClick={() => tab.available && onTabChange(tab.id)}
                 disabled={!tab.available}
-                className={`relative px-6 py-3 rounded-lg font-medium text-sm transition-all flex items-center gap-2 ${
+                className={`relative px-3 py-2 md:px-6 md:py-3 rounded-lg font-medium text-xs md:text-sm transition-all flex items-center gap-2 ${
                   !tab.available
                     ? 'text-gray-600 cursor-not-allowed'
                     : activeTab === tab.id

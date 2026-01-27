@@ -40,7 +40,7 @@ export const GoalsBarChart = ({ goalsScored, goalsConceded, className }: GoalsBa
       whileInView={{ opacity: 1, x: 0 }}
       viewport={{ once: true }}
       transition={{ duration: isMobile ? 0 : 0.6 }}
-      className={cn('h-[200px] w-full', className)}
+      className={cn('h-[150px] md:h-[200px] w-full', className)}
     >
       <ResponsiveContainer width="100%" height="100%">
         <BarChart
@@ -56,11 +56,11 @@ export const GoalsBarChart = ({ goalsScored, goalsConceded, className }: GoalsBa
             axisLine={false}
             tickLine={false}
             tick={{ fill: '#9ca3af', fontSize: 13, fontWeight: 600 }}
-            width={80}
+            width={60}
           />
           <Bar
             dataKey="value"
-            radius={[0, 8, 8, 0]}
+            radius={[0, 0, 0, 0]}
             animationDuration={isMobile ? 0 : 1500}
             animationEasing="ease-out"
           >

@@ -1,163 +1,81 @@
-import { memo, useCallback } from 'react';
-import { ArrowRight, Loader2 } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { motion } from 'framer-motion';
-import { useTranslation } from 'react-i18next';
-import { useNews } from '@/hooks/api/useNews';
 import { Link } from 'react-router-dom';
-import { useIsMobile } from '@/hooks/useIsMobile';
-
-interface NewsCardProps {
-  news: {
-    id: string;
-    slug: string;
-    title: string;
-    excerpt: string;
-    imageUrl: string;
-    category: string;
-    publishedAt: string;
-  };
-  index: number;
-  formatDate: (date: string) => string;
-  readMoreText: string;
-  isMobile: boolean;
-}
-
-// Memoized news card to prevent re-renders
-const NewsCard = memo(({ news, index, formatDate, readMoreText, isMobile }: NewsCardProps) => (
-  <motion.div
-    initial={isMobile ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    transition={{ delay: isMobile ? 0 : index * 0.1 }}
-    viewport={{ once: true }}
-  >
-    <Link to={`/news/${news.slug}`}>
-      <Card className="bg-white/5 border-white/10 hover:bg-white/10 transition-all duration-300 overflow-hidden group cursor-pointer h-full">
-        <CardHeader className="p-0">
-          <div className="relative aspect-video sm:aspect-square overflow-hidden">
-            <img
-              src={news.imageUrl}
-              alt={news.title}
-              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-              loading="lazy"
-              onError={e => {
-                e.currentTarget.src = '/placeholder.svg';
-                e.currentTarget.onerror = null;
-              }}
-            />
-            <div className="absolute top-3 left-3 sm:top-4 sm:left-4">
-              <Badge className="bg-red-600 text-white text-xs">{news.category}</Badge>
-            </div>
-          </div>
-        </CardHeader>
-        <CardContent className="p-4 sm:p-6">
-          <p className="text-[10px] sm:text-xs text-gray-400 mb-1 sm:mb-2">
-            {formatDate(news.publishedAt)}
-          </p>
-          <h3 className="text-lg sm:text-xl font-bold text-white mb-2 line-clamp-2">
-            {news.title}
-          </h3>
-          <p className="text-gray-400 text-sm line-clamp-2 sm:line-clamp-3">{news.excerpt}</p>
-        </CardContent>
-        <CardFooter className="p-4 sm:p-6 pt-0">
-          <Button variant="ghost" className="text-red-500 hover:text-red-400 p-0 h-auto text-sm">
-            {readMoreText} <ArrowRight className="ml-2 w-3 h-3 sm:w-4 sm:h-4" />
-          </Button>
-        </CardFooter>
-      </Card>
-    </Link>
-  </motion.div>
-));
-NewsCard.displayName = 'NewsCard';
+import { useTranslation } from 'react-i18next';
+import { ArrowRight, Loader2 } from 'lucide-react';
+import { useRegularNews } from '@/hooks/api/useNews';
 
 export const NewsSection = () => {
   const { t, i18n } = useTranslation();
-  const isMobile = useIsMobile();
-  const { data, isLoading, isError } = useNews(1, 4);
+  // Fetch regular (non-featured) news for the grid
+  const { data: news = [], isLoading } = useRegularNews(4);
 
-  const newsItems = data?.news || [];
+  const formatDate = (dateString: string) => {
+    return new Intl.DateTimeFormat(
+      i18n.language === 'en' ? 'en-US' : i18n.language === 'ru' ? 'ru-RU' : 'kk-KZ',
+      {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric',
+      }
+    ).format(new Date(dateString));
+  };
 
-  // Memoized date formatter
-  const formatDate = useCallback(
-    (dateStr: string) => {
-      const date = new Date(dateStr);
-      const locale = i18n.language === 'kk' ? 'kk-KZ' : i18n.language === 'ru' ? 'ru-RU' : 'en-US';
-      return date.toLocaleDateString(locale, { day: 'numeric', month: 'long', year: 'numeric' });
-    },
-    [i18n.language]
-  );
+  if (isLoading) {
+    return (
+      <div className="py-20 flex justify-center">
+        <Loader2 className="w-8 h-8 animate-spin text-red-600" />
+      </div>
+    );
+  }
 
   return (
-    <section className="relative py-12 sm:py-16 md:py-20 bg-zinc-900/80 overflow-hidden">
-      {/* Top Border Line */}
-      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
-
-      {/* Corner Glow - very subtle */}
-      <div className="absolute top-0 right-0 w-64 h-64 bg-[radial-gradient(circle_at_top_right,rgba(220,38,38,0.04),transparent_70%)]" />
-
-      <div className="container mx-auto px-4">
-        {/* Header */}
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 mb-8 sm:mb-12">
-          <div>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-2 text-white">
-              {t('news.title')}
-            </h2>
-            <p className="text-gray-400 text-base sm:text-lg">{t('news.subtitle')}</p>
+    <section className="py-8 md:py-12 lg:py-20 px-4 md:px-8 max-w-[1440px] mx-auto border-t border-white/5">
+      {/* Header */}
+      <div className="flex justify-between items-end mb-6 md:mb-12">
+        <h2 className="text-2xl sm:text-3xl md:text-5xl font-display uppercase text-white">
+          {t('media.title', 'Media')}
+        </h2>
+        <Link
+          to="/news"
+          className="group flex items-center gap-2 text-white/60 hover:text-white transition-colors pb-1"
+        >
+          <span className="font-mono text-xs uppercase tracking-wider">
+            {t('media.viewAll', 'View All')}
+          </span>
+          <div className="w-6 h-6 bg-white/10 flex items-center justify-center group-hover:bg-red-600 transition-colors">
+            <ArrowRight className="w-3 h-3" />
           </div>
-          <Link to="/news">
-            <Button
-              variant="outline"
-              className="hidden md:flex border-white/20 text-white hover:bg-white/10 min-h-[44px]"
-            >
-              {t('news.viewAll')}
-              <ArrowRight className="ml-2 w-4 h-4" />
-            </Button>
-          </Link>
-        </div>
+        </Link>
+      </div>
 
-        {/* Loading State */}
-        {isLoading && (
-          <div className="flex justify-center items-center py-12 sm:py-20">
-            <Loader2 className="w-6 h-6 sm:w-8 sm:h-8 animate-spin text-red-500" />
-          </div>
-        )}
-
-        {/* Error State */}
-        {isError && (
-          <div className="text-center py-12 sm:py-20 text-gray-400 text-sm sm:text-base">
-            {t('common.error')}
-          </div>
-        )}
-
-        {/* News Grid */}
-        {!isLoading && !isError && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-            {newsItems.map((news, index) => (
-              <NewsCard
-                key={news.id}
-                news={news}
-                index={index}
-                formatDate={formatDate}
-                readMoreText={t('news.readMore')}
-                isMobile={isMobile}
+      {/* Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 lg:gap-8">
+        {news.map(item => (
+          <Link to={`/news/${item.slug}`} key={item.id} className="group flex flex-col gap-3">
+            {/* Image Container */}
+            <div className="relative aspect-[4/3] w-full overflow-hidden bg-white/5">
+              <img
+                src={item.imageUrl}
+                alt={item.title}
+                className="w-full h-full object-cover object-[center_20%] transition-transform duration-700 group-hover:scale-105"
               />
-            ))}
-          </div>
-        )}
+              <div className="absolute top-3 left-3">
+                <span className="bg-red-600 text-white text-[10px] font-mono font-bold uppercase px-2 py-1 tracking-wide">
+                  {item.category || 'News'}
+                </span>
+              </div>
+            </div>
 
-        <div className="flex justify-center mt-6 sm:mt-8 md:hidden">
-          <Link to="/news" className="w-full">
-            <Button
-              variant="outline"
-              className="border-white/20 text-white hover:bg-white/10 w-full min-h-[48px]"
-            >
-              {t('news.viewAll')}
-              <ArrowRight className="ml-2 w-4 h-4" />
-            </Button>
+            {/* Content */}
+            <div className="flex flex-col gap-2">
+              <span className="text-white/40 font-mono text-xs">
+                {formatDate(item.publishedAt)}
+              </span>
+              <h3 className="text-xl md:text-2xl font-display uppercase leading-tight text-white group-hover:text-red-500 transition-colors line-clamp-3">
+                {item.title}
+              </h3>
+            </div>
           </Link>
-        </div>
+        ))}
       </div>
     </section>
   );

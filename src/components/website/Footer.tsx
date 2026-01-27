@@ -1,7 +1,6 @@
-import { Facebook, Instagram, Twitter, Youtube, Mail, Phone, MapPin } from 'lucide-react';
+import { Instagram, Mail, MapPin } from 'lucide-react';
 import kaisarLogo from '@/assets/kaisar-logo.jpg';
 import { useTranslation } from 'react-i18next';
-import { env } from '@/lib/env';
 
 export const Footer = () => {
   const { t } = useTranslation();
@@ -24,21 +23,9 @@ export const Footer = () => {
                 />
                 <span className="text-xl sm:text-2xl font-bold">FC KAYSAR</span>
               </div>
-              <p className="text-gray-400 text-sm leading-relaxed" id="footer-about">
-                {t('footer.description')}
-              </p>
               {/* Social Links */}
               <nav aria-label="Social media links">
                 <div className="flex gap-3 justify-center sm:justify-start flex-wrap">
-                  <a
-                    href="https://www.facebook.com/fckyzylzhar"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-11 h-11 rounded-full bg-white/5 hover:bg-red-600 flex items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95"
-                    aria-label="Follow FC Kaisar on Facebook"
-                  >
-                    <Facebook className="w-5 h-5" />
-                  </a>
                   <a
                     href="https://www.instagram.com/fckaysar_official"
                     target="_blank"
@@ -49,22 +36,26 @@ export const Footer = () => {
                     <Instagram className="w-5 h-5" />
                   </a>
                   <a
-                    href="https://twitter.com/fc_kaisar"
+                    href="https://www.threads.net/@fckaysar_official"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="w-11 h-11 rounded-full bg-white/5 hover:bg-red-600 flex items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95"
-                    aria-label="Follow FC Kaisar on Twitter"
+                    aria-label="Follow FC Kaisar on Threads"
                   >
-                    <Twitter className="w-5 h-5" />
+                    <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M12.186 24h-.007c-3.581-.024-6.334-1.205-8.184-3.509C2.35 18.44 1.5 15.586 1.472 12.01v-.017c.03-3.579.879-6.43 2.525-8.482C5.845 1.205 8.6.024 12.18 0h.014c2.746.02 5.043.725 6.826 2.098 1.677 1.29 2.858 3.13 3.509 5.467l-2.04.569c-1.104-3.96-3.898-5.984-8.304-6.015-2.91.022-5.11.936-6.54 2.717C4.307 6.504 3.616 8.914 3.59 12c.025 3.086.718 5.496 2.057 7.164 1.43 1.783 3.631 2.698 6.54 2.717 2.623-.02 4.358-.631 5.8-2.045 1.647-1.613 1.618-3.593 1.09-4.798-.31-.71-.873-1.3-1.634-1.75-.192 1.352-.622 2.446-1.284 3.272-.886 1.102-2.14 1.704-3.73 1.79-1.202.065-2.361-.218-3.259-.801-1.063-.689-1.685-1.74-1.752-2.96-.065-1.187.408-2.26 1.33-3.017.88-.724 2.104-1.126 3.449-1.13h.026c1.053.006 1.96.246 2.707.715.248.155.477.335.684.54l-.07-3.497 2.12-.042.107 5.322c.005.208.01.417.01.626 0 .098-.002.196-.005.294.112.476.164.982.152 1.514-.094 2.487-1.025 4.48-2.77 5.923C16.883 23.159 14.738 23.98 12.186 24zm.323-7.41c-.095 0-.19.002-.285.007-1.476.08-2.315.88-2.268 1.738.028.49.335.95.87 1.296.613.399 1.434.59 2.312.543 1.079-.058 1.9-.45 2.44-1.121.424-.527.73-1.255.894-2.125-.53-.284-1.147-.384-1.83-.384l-.024.003c-.746 0-1.475.015-2.109.043z" />
+                    </svg>
                   </a>
                   <a
-                    href="https://www.youtube.com/@fckaisar"
+                    href="https://t.me/fckaysar"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="w-11 h-11 rounded-full bg-white/5 hover:bg-red-600 flex items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95"
-                    aria-label="Subscribe to FC Kaisar on YouTube"
+                    aria-label="Join FC Kaisar on Telegram"
                   >
-                    <Youtube className="w-5 h-5" />
+                    <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.479.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z" />
+                    </svg>
                   </a>
                 </div>
               </nav>
@@ -74,10 +65,13 @@ export const Footer = () => {
           {/* Quick Links */}
           <section aria-labelledby="footer-quick-links" className="text-center sm:text-left">
             <nav>
-              <h3 id="footer-quick-links" className="font-bold text-base sm:text-lg mb-3 sm:mb-4">
+              <h3
+                id="footer-quick-links"
+                className="font-display font-bold text-xl mb-4 text-white uppercase"
+              >
                 {t('footer.quickLinks')}
               </h3>
-              <ul className="space-y-2 sm:space-y-2.5 text-gray-400 text-sm sm:text-base">
+              <ul className="space-y-2 sm:space-y-2.5 text-gray-400 text-sm sm:text-base font-mono">
                 <li>
                   <a
                     href="/news"
@@ -86,6 +80,7 @@ export const Footer = () => {
                     {t('footer.links.news')}
                   </a>
                 </li>
+                {/* ... (other items) */}
                 <li>
                   <a
                     href="/team"
@@ -108,22 +103,6 @@ export const Footer = () => {
                     className="hover:text-red-500 transition-all duration-200 sm:hover:translate-x-1 inline-block py-1 active:text-red-500"
                   >
                     {t('footer.links.statistics')}
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="/gallery"
-                    className="hover:text-red-500 transition-all duration-200 sm:hover:translate-x-1 inline-block py-1 active:text-red-500"
-                  >
-                    {t('footer.links.gallery')}
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="/shop"
-                    className="hover:text-red-500 transition-all duration-200 sm:hover:translate-x-1 inline-block py-1 active:text-red-500"
-                  >
-                    {t('footer.links.shop')}
                   </a>
                 </li>
               </ul>
@@ -193,21 +172,12 @@ export const Footer = () => {
                   <span className="text-left">{t('footer.address')}</span>
                 </li>
                 <li className="flex items-center gap-2 justify-center sm:justify-start">
-                  <Phone className="w-5 h-5 text-red-500 flex-shrink-0" />
-                  <a
-                    href={`tel:${env.VITE_FC_KAISAR_PHONE}`}
-                    className="hover:text-red-500 transition-colors active:text-red-500"
-                  >
-                    {env.VITE_FC_KAISAR_PHONE}
-                  </a>
-                </li>
-                <li className="flex items-center gap-2 justify-center sm:justify-start">
                   <Mail className="w-5 h-5 text-red-500 flex-shrink-0" />
                   <a
-                    href={`mailto:${env.VITE_FC_KAISAR_EMAIL}`}
+                    href="mailto:info@kaysar.kz"
                     className="hover:text-red-500 transition-colors active:text-red-500"
                   >
-                    {env.VITE_FC_KAISAR_EMAIL}
+                    info@kaysar.kz
                   </a>
                 </li>
               </ul>

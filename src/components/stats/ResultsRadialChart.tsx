@@ -3,12 +3,7 @@
  * Shows wins, draws, losses as stacked radial bars
  */
 
-import {
-  RadialBarChart,
-  RadialBar,
-  ResponsiveContainer,
-  PolarAngleAxis,
-} from 'recharts';
+import { RadialBarChart, RadialBar, ResponsiveContainer, PolarAngleAxis } from 'recharts';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/utils';
@@ -61,7 +56,7 @@ export const ResultsRadialChart = ({
       whileInView={{ opacity: 1, scale: 1 }}
       viewport={{ once: true }}
       transition={{ duration: 0.6 }}
-      className={cn('h-[280px] w-full', className)}
+      className={cn('h-[200px] md:h-[280px] w-full', className)}
     >
       <ResponsiveContainer width="100%" height="100%">
         <RadialBarChart
@@ -74,16 +69,11 @@ export const ResultsRadialChart = ({
           startAngle={90}
           endAngle={-270}
         >
-          <PolarAngleAxis
-            type="number"
-            domain={[0, 100]}
-            angleAxisId={0}
-            tick={false}
-          />
+          <PolarAngleAxis type="number" domain={[0, 100]} angleAxisId={0} tick={false} />
           <RadialBar
             background={{ fill: 'rgba(255,255,255,0.05)' }}
             dataKey="value"
-            cornerRadius={10}
+            cornerRadius={0}
             animationDuration={1500}
             animationEasing="ease-out"
           />
@@ -123,18 +113,28 @@ export const MatchResultsCard = ({
         </span>
       </div>
 
-      <ResultsRadialChart
-        wins={wins}
-        draws={draws}
-        losses={losses}
-        gamesPlayed={gamesPlayed}
-      />
+      <ResultsRadialChart wins={wins} draws={draws} losses={losses} gamesPlayed={gamesPlayed} />
 
       {/* Legend */}
-      <div className="mt-4 flex justify-around">
-        <LegendItem color="bg-green-500" label={t('stats.labels.wins')} value={wins} percent={winPercent} />
-        <LegendItem color="bg-yellow-500" label={t('stats.labels.draws')} value={draws} percent={drawPercent} />
-        <LegendItem color="bg-red-500" label={t('stats.labels.losses')} value={losses} percent={lossPercent} />
+      <div className="mt-2 md:mt-4 flex justify-around">
+        <LegendItem
+          color="bg-green-500"
+          label={t('stats.labels.wins')}
+          value={wins}
+          percent={winPercent}
+        />
+        <LegendItem
+          color="bg-yellow-500"
+          label={t('stats.labels.draws')}
+          value={draws}
+          percent={drawPercent}
+        />
+        <LegendItem
+          color="bg-red-500"
+          label={t('stats.labels.losses')}
+          value={losses}
+          percent={lossPercent}
+        />
       </div>
     </StatCard>
   );

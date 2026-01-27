@@ -1,11 +1,10 @@
 import { Button } from '@/components/ui/button';
-import { Search, Menu, ChevronDown, ChevronRight } from 'lucide-react';
+import { Search, Menu, X, ChevronDown } from 'lucide-react';
 import kaisarLogo from '@/assets/kaysar-logo-nobg.png';
-import { useNavigate } from 'react-router-dom';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { useState, useEffect, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import { motion, useScroll, useMotionValueEvent } from 'framer-motion';
+import { motion, useScroll, useMotionValueEvent, AnimatePresence } from 'framer-motion';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,212 +13,134 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { SearchModal } from './SearchModal';
 
-// Компонент NavDropdown с hover-эффектом для классического меню ФК
-interface NavItem {
-  key: string;
-  label: string;
-  path?: string;
-}
-
-interface NavDropdownProps {
-  label: string;
-  items: NavItem[];
-  onNavigate: (path: string) => void;
-}
-
-const NavDropdown = ({ label, items, onNavigate }: NavDropdownProps) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
-
-  const handleMouseEnter = () => {
-    if (timeoutRef.current) clearTimeout(timeoutRef.current);
-    setIsOpen(true);
-  };
-
-  const handleMouseLeave = () => {
-    timeoutRef.current = setTimeout(() => setIsOpen(false), 150);
-  };
-
-  return (
-    <div className="relative" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-      <button
-        className={`relative py-3 flex items-center gap-1.5 transition-colors ${isOpen ? 'text-white' : 'hover:text-white'}`}
-      >
-        <span>{label}</span>
-        <ChevronDown
-          className={`w-3.5 h-3.5 transition-transform duration-200 ${isOpen ? 'rotate-180 text-red-500' : ''}`}
-        />
-      </button>
-
-      {/* Dropdown с CSS анимацией */}
-      <div
-        className={`absolute top-full left-0 pt-1 z-50 transition-all duration-200 ${
-          isOpen ? 'opacity-100 visible translate-y-0' : 'opacity-0 invisible -translate-y-2'
-        }`}
-      >
-        <div
-          className="bg-black/95 backdrop-blur-md border border-white/10 rounded-lg overflow-hidden min-w-[200px] shadow-xl shadow-black/50"
-          style={{ willChange: 'transform' }} // Safari fix for backdrop-blur
-        >
-          {/* Красная линия сверху */}
-          <div className="h-0.5 bg-gradient-to-r from-red-600 to-red-500" />
-          <div className="py-1.5">
-            {items.map(item => (
-              <button
-                key={item.key}
-                onClick={() => {
-                  onNavigate(item.path || '');
-                  setIsOpen(false);
-                }}
-                className="w-full text-left px-4 py-2.5 text-[13px] font-semibold uppercase tracking-wide text-gray-300 hover:text-white hover:bg-white/5 transition-all relative group/item flex items-center"
-              >
-                {/* Красная полоска слева при hover */}
-                <span className="absolute left-0 top-0 bottom-0 w-0.5 bg-red-600 scale-y-0 group-hover/item:scale-y-100 transition-transform origin-center" />
-                <span className="relative">{item.label}</span>
-              </button>
-            ))}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
 export const WebsiteHeader = () => {
   const navigate = useNavigate();
-  const [isOpen, setIsOpen] = useState(false);
+  const location = useLocation();
+  const [menuOpen, setMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const { t, i18n } = useTranslation();
   const { scrollY } = useScroll();
   const [isScrolled, setIsScrolled] = useState(false);
 
   useMotionValueEvent(scrollY, 'change', latest => {
-    setIsScrolled(latest > 50);
+    setIsScrolled(latest > 20);
   });
 
-  // Keyboard shortcut for search (Cmd/Ctrl + K)
-  const handleKeyDown = useCallback((e: KeyboardEvent) => {
-    if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
-      e.preventDefault();
-      setIsSearchOpen(true);
+  // Close menu on route change
+  useEffect(() => {
+    setMenuOpen(false);
+  }, [location.pathname]);
+
+  // Lock body scroll when menu is open
+  useEffect(() => {
+    if (menuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
     }
-  }, []);
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [menuOpen]);
+
+  // Keyboard shortcut for search
+  const handleKeyDown = useCallback(
+    (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        setIsSearchOpen(true);
+      }
+      if (e.key === 'Escape' && menuOpen) {
+        setMenuOpen(false);
+      }
+    },
+    [menuOpen]
+  );
 
   useEffect(() => {
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, [handleKeyDown]);
 
-  // Новая структура навигации по образцу ФК Краснодар
-  const navStructure = [
+  // Navigation structure for the top bar (simple links)
+  const topNavItems = [
+    { key: 'club', label: t('nav.club', 'CLUB'), path: '/club' },
+    { key: 'team', label: t('nav.team', 'TEAM'), path: '/team' },
+    { key: 'matches', label: t('nav.matches', 'MATCHES'), path: '/matches' },
+    { key: 'news', label: t('nav.news', 'NEWS'), path: '/news' },
+    { key: 'fans', label: t('nav.fans', 'FANS'), path: '/fans' },
+    { key: 'stadium', label: t('nav.stadium', 'STADIUM'), path: '/stadium' },
+  ];
+
+  // Mega menu structure — 2 rows x 4 columns
+  const megaMenuSections = [
+    // Row 1
     {
       key: 'club',
-      label: t('nav.club', 'Клуб'),
-      hasDropdown: true,
+      label: t('nav.club', 'CLUB'),
       items: [
-        { key: 'about', label: t('nav.about', 'О клубе'), path: '/club' },
-        { key: 'leadership', label: t('nav.leadership', 'Руководство'), path: '/club/leadership' },
-        { key: 'history', label: t('nav.history', 'История'), path: '/club/history' },
-        {
-          key: 'infrastructure',
-          label: t('nav.infrastructure', 'Инфраструктура'),
-          path: '/club/infrastructure',
-        },
-        { key: 'partners', label: t('nav.partners', 'Партнёры'), path: '/club/partners' },
-        { key: 'contacts', label: t('nav.contacts', 'Контакты'), path: '/club/contacts' },
-        { key: 'city', label: t('nav.city', 'О городе'), path: '/city' },
-      ],
-    },
-    {
-      key: 'team',
-      label: t('nav.team', 'Команда'),
-      hasDropdown: true,
-      items: [
-        { key: 'roster', label: t('nav.roster', 'Состав'), path: '/team' },
-        { key: 'staff', label: t('nav.staff', 'Тренерский штаб'), path: '/team/staff' },
-        { key: 'statistics', label: t('nav.statistics', 'Статистика'), path: '/statistics' },
-        {
-          key: 'youthTeams',
-          label: t('nav.youthTeams', 'Молодёжные команды'),
-          path: '/academy/teams',
-        },
-      ],
-    },
-    {
-      key: 'academy',
-      label: t('nav.academy', 'Академия'),
-      hasDropdown: true,
-      items: [
-        { key: 'academyMain', label: t('nav.academyAbout', 'Об академии'), path: '/academy' },
-        { key: 'coaches', label: t('nav.coaches', 'Тренеры'), path: '/academy/coaches' },
-        { key: 'branches', label: t('nav.branches', 'Филиалы'), path: '/academy/branches' },
-        {
-          key: 'recommend',
-          label: t('nav.recommendPlayer', 'Рекомендовать игрока'),
-          path: '/academy/recommend',
-        },
-      ],
-    },
-    {
-      key: 'matches',
-      label: t('nav.matches', 'Ойындар'),
-      hasDropdown: true,
-      items: [
-        { key: 'calendar', label: t('nav.calendar', 'Календарь'), path: '/matches' },
-        { key: 'results', label: t('nav.results', 'Результаты'), path: '/matches?tab=results' },
-        { key: 'standings', label: t('nav.standings', 'Таблица'), path: '/standings' },
-      ],
-    },
-    {
-      key: 'news',
-      label: t('nav.news', 'Жаңалықтар'),
-      hasDropdown: true,
-      items: [
-        { key: 'allNews', label: t('nav.allNews', 'Все новости'), path: '/news' },
-        { key: 'media', label: t('nav.media', 'Медиа'), path: '/media' },
+        { label: t('nav.about', 'About Club'), path: '/club' },
+        { label: t('nav.leadership', 'Management'), path: '/club/leadership' },
+        { label: t('nav.history', 'History'), path: '/club/history' },
+        { label: t('nav.infrastructure', 'Infrastructure'), path: '/club/infrastructure' },
+        { label: t('nav.partners', 'Partners'), path: '/club/partners' },
+        { label: t('nav.contacts', 'Contacts'), path: '/club/contacts' },
       ],
     },
     {
       key: 'fans',
-      label: t('nav.fans', 'Жанкүйерге'),
-      hasDropdown: true,
+      label: t('nav.fans', 'FANS'),
       items: [
-        { key: 'stadium', label: t('nav.stadium', 'Стадион'), path: '/stadium' },
-        { key: 'seasonPass', label: t('nav.seasonPass', 'Абонемент'), path: '/tickets' },
-        { key: 'vipBox', label: t('nav.vipBox', 'Ложа VIP'), path: '/vip-box' },
-        { key: 'rules', label: t('nav.rules', 'Правила'), path: '/fans/rules' },
+        { label: t('nav.city', 'City'), path: '/city' },
+        { label: t('nav.seasonPass', 'Tickets'), path: '/tickets' },
+      ],
+    },
+    // Row 2
+    {
+      key: 'team',
+      label: t('nav.team', 'TEAM'),
+      items: [
+        { label: t('nav.roster', 'Roster'), path: '/team' },
+        { label: t('nav.staff', 'Coaching Staff'), path: '/team/staff' },
+        { label: t('nav.statistics', 'Statistics'), path: '/statistics' },
+      ],
+    },
+    {
+      key: 'matches',
+      label: t('nav.matches', 'MATCHES'),
+      items: [
+        { label: t('nav.calendar', 'Calendar'), path: '/matches' },
+        { label: t('nav.results', 'Results'), path: '/matches?tab=results' },
+        { label: t('nav.standings', 'Table'), path: '/standings' },
+      ],
+    },
+    {
+      key: 'news-media',
+      label: t('nav.news', 'NEWS'),
+      items: [
+        { label: t('nav.allNews', 'All News'), path: '/news' },
+        { label: t('nav.media', 'Media'), path: '/media' },
+      ],
+    },
+    {
+      key: 'fans-extra',
+      label: t('nav.fans', 'FANS'),
+      items: [{ label: t('nav.city', 'City'), path: '/city' }],
+    },
+    {
+      key: 'stadium',
+      label: t('nav.stadium', 'STADIUM'),
+      items: [
+        { label: t('nav.stadiumMain', 'Kaisar Arena'), path: '/stadium' },
+        { label: t('nav.transport', 'How to get there'), path: '/fans/transport' },
       ],
     },
   ];
 
-  // State для раскрытых подменю в мобильном меню
-  const [expandedMobileMenu, setExpandedMobileMenu] = useState<string | null>(null);
-
-  const toggleMobileSubmenu = (key: string) => {
-    setExpandedMobileMenu(prev => (prev === key ? null : key));
-  };
-
-  const handleNavClick = (path: string) => {
-    if (path.startsWith('/#')) {
-      // Scroll to section on home page
-      navigate('/');
-      setTimeout(() => {
-        const sectionId = path.replace('/#', '');
-        const element = document.getElementById(sectionId);
-        if (element) {
-          element.scrollIntoView({ behavior: 'smooth' });
-        }
-      }, 100);
-    } else {
-      // Navigate to page
-      navigate(path);
-    }
-  };
-
   const languages = [
-    { code: 'kk', name: 'ҚАЗ', flag: '🇰🇿' },
-    { code: 'ru', name: 'РУС', flag: '🇷🇺' },
-    { code: 'en', name: 'ENG', flag: '🇬🇧' },
+    { code: 'kk', name: 'KZ', flag: '🇰🇿' },
+    { code: 'ru', name: 'RU', flag: '🇷🇺' },
+    { code: 'en', name: 'EN', flag: '🇬🇧' },
   ];
 
   const currentLang = languages.find(lang => lang.code === i18n.language) || languages[0];
@@ -228,178 +149,166 @@ export const WebsiteHeader = () => {
     i18n.changeLanguage(lng);
   };
 
+  const isActive = (path?: string) => {
+    if (!path) return false;
+    return location.pathname.startsWith(path);
+  };
+
   return (
-    <motion.header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b ${
-        isScrolled
-          ? 'bg-black/80 backdrop-blur-md border-white/10 py-2'
-          : 'bg-black/20 backdrop-blur-sm border-transparent py-4'
-      }`}
-      style={{ willChange: 'transform' }} // Safari fix for backdrop-blur
-    >
-      <div className="relative container mx-auto px-3 sm:px-4 flex items-center justify-between">
-        <div className="flex items-center gap-2 sm:gap-4 md:gap-6">
-          {/* Mobile Menu */}
-          <Sheet open={isOpen} onOpenChange={setIsOpen}>
-            <SheetTrigger asChild>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="md:hidden text-white hover:bg-white/10 min-w-[44px] min-h-[44px]"
-              >
-                <Menu className="w-5 h-5 sm:w-6 sm:h-6" />
-              </Button>
-            </SheetTrigger>
-            <SheetContent
-              side="left"
-              className="bg-black/95 border-r-white/10 text-white w-[min(300px,85vw)]"
+    <>
+      <motion.header
+        className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-300 ${
+          menuOpen
+            ? 'bg-[#1a1a1a]'
+            : isScrolled
+              ? 'bg-black/95 backdrop-blur-md'
+              : 'bg-gradient-to-b from-black/80 to-transparent'
+        }`}
+      >
+        <div className="container mx-auto px-4 flex items-center justify-between h-16">
+          {/* Left: Logo & Nav */}
+          <div className="flex items-center gap-10 h-full">
+            <div
+              onClick={() => navigate('/')}
+              className="flex items-center gap-3 cursor-pointer group"
             >
-              <div
-                className="flex items-center gap-3 mt-8 mb-8 cursor-pointer"
-                onClick={() => {
-                  navigate('/');
-                  setIsOpen(false);
-                }}
+              <img
+                src={kaisarLogo}
+                alt="FC KAYSAR"
+                className="h-10 w-10 object-contain transition-all duration-300 group-hover:scale-105"
+              />
+            </div>
+
+            {/* Desktop top nav links */}
+            <nav className="hidden lg:flex items-center gap-6 h-full">
+              {topNavItems.map(item => (
+                <button
+                  key={item.key}
+                  onClick={() => navigate(item.path)}
+                  className={`font-display text-base uppercase tracking-wider transition-colors ${
+                    isActive(item.path) ? 'text-red-500' : 'text-white hover:text-red-500'
+                  }`}
+                >
+                  {item.label}
+                </button>
+              ))}
+            </nav>
+          </div>
+
+          {/* Right: Actions */}
+          <div className="flex items-center gap-3">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="text-white hover:bg-white/10 hover:text-red-500 rounded-none transition-colors"
+              onClick={() => setIsSearchOpen(true)}
+            >
+              <Search className="w-5 h-5" />
+            </Button>
+
+            {/* Language Switcher */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="ghost"
+                  className="hidden sm:flex items-center gap-2 text-white hover:bg-white/10 hover:text-red-500 rounded-none h-10 px-3 font-mono text-sm"
+                >
+                  <span>{currentLang.name}</span>
+                  <ChevronDown className="w-4 h-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent
+                align="end"
+                className="bg-black/95 border-white/10 p-0 rounded-none w-32"
               >
-                <img src={kaisarLogo} alt="FC KAYSAR" className="h-10 w-10 object-contain" />
-                <span className="font-bold text-xl tracking-tighter text-white">FC KAYSAR</span>
-              </div>
-              <nav className="flex flex-col gap-1">
-                {navStructure.map(section => (
+                <div className="h-0.5 bg-red-600 w-full" />
+                {languages.map(lang => (
+                  <DropdownMenuItem
+                    key={lang.code}
+                    onClick={() => changeLanguage(lang.code)}
+                    className={`rounded-none py-3 px-4 font-mono text-sm uppercase cursor-pointer hover:bg-white/5 focus:bg-white/5 ${
+                      i18n.language === lang.code ? 'text-red-500' : 'text-gray-400'
+                    }`}
+                  >
+                    <span className="mr-3 text-base">{lang.flag}</span>
+                    {lang.name}
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+
+            {/* Hamburger / Close */}
+            <Button
+              variant="ghost"
+              size="icon"
+              className="text-white hover:bg-white/10 rounded-none"
+              onClick={() => setMenuOpen(prev => !prev)}
+            >
+              {menuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            </Button>
+          </div>
+        </div>
+      </motion.header>
+
+      {/* Full-screen Mega Menu Overlay */}
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.25 }}
+            className="fixed inset-0 z-[99] bg-[#1a1a1a] pt-16 overflow-y-auto"
+          >
+            <div className="container mx-auto px-4 py-12">
+              {/* Mega menu grid: 4 cols on desktop, 2 on tablet, 1 on mobile */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-12 gap-y-10">
+                {megaMenuSections.map(section => (
                   <div key={section.key}>
-                    <button
-                      className="w-full text-lg font-medium hover:text-red-500 transition-colors text-left py-3 min-h-[48px] active:bg-white/5 rounded-lg px-2 -mx-2 flex items-center justify-between"
-                      onClick={() => toggleMobileSubmenu(section.key)}
-                    >
-                      <span>{section.label}</span>
-                      <ChevronRight
-                        className={`w-5 h-5 transition-transform duration-200 ${
-                          expandedMobileMenu === section.key ? 'rotate-90 text-red-500' : ''
-                        }`}
-                      />
-                    </button>
-                    {/* Подменю */}
-                    <div
-                      className={`overflow-hidden transition-all duration-200 ${
-                        expandedMobileMenu === section.key
-                          ? 'max-h-[500px] opacity-100'
-                          : 'max-h-0 opacity-0'
-                      }`}
-                    >
-                      <div className="pl-4 border-l-2 border-red-500/30 ml-2 space-y-1 pb-2">
-                        {section.items.map(item => (
+                    <h3 className="font-display text-2xl uppercase tracking-wider text-white mb-4">
+                      {section.label}
+                    </h3>
+                    <ul className="flex flex-col gap-2">
+                      {section.items.map((item, idx) => (
+                        <li key={idx}>
                           <button
-                            key={item.key}
-                            className="w-full text-left py-2.5 px-2 text-gray-400 hover:text-white hover:bg-white/5 rounded-lg transition-colors min-h-[44px] text-sm"
                             onClick={() => {
-                              handleNavClick(item.path || '');
-                              setIsOpen(false);
-                              setExpandedMobileMenu(null);
+                              navigate(item.path);
+                              setMenuOpen(false);
                             }}
+                            className="text-gray-400 hover:text-white font-mono text-sm uppercase tracking-wide transition-colors"
                           >
                             {item.label}
                           </button>
-                        ))}
-                      </div>
-                    </div>
+                        </li>
+                      ))}
+                    </ul>
                   </div>
                 ))}
-              </nav>
-
-              {/* Mobile Language Switcher */}
-              <div className="mt-6 border-t border-white/10 pt-4">
-                <p className="text-sm text-gray-400 mb-3">Тіл / Язык / Language</p>
-                <div className="flex flex-col gap-1">
-                  {languages.map(lang => (
-                    <button
-                      key={lang.code}
-                      onClick={() => {
-                        changeLanguage(lang.code);
-                        setIsOpen(false);
-                      }}
-                      className={`flex items-center gap-3 py-3 px-2 -mx-2 rounded-lg min-h-[48px] hover:bg-white/10 active:bg-white/15 transition-colors ${
-                        i18n.language === lang.code ? 'bg-white/10 text-red-500' : ''
-                      }`}
-                    >
-                      <span className="text-xl">{lang.flag}</span>
-                      <span className="font-medium">{lang.name}</span>
-                    </button>
-                  ))}
-                </div>
               </div>
-            </SheetContent>
-          </Sheet>
 
-          <div
-            onClick={() => navigate('/')}
-            className="flex items-center gap-3 cursor-pointer hover:opacity-80 transition-opacity"
-          >
-            <img
-              src={kaisarLogo}
-              alt="FC KAYSAR"
-              className="h-8 w-8 sm:h-10 sm:w-10 md:h-12 md:w-12 object-contain"
-            />
-            <span className="text-lg sm:text-xl md:text-2xl font-bold tracking-tighter uppercase text-white hidden sm:block">
-              FC KAYSAR
-            </span>
-          </div>
+              {/* Mobile language switcher at bottom */}
+              <div className="mt-12 flex sm:hidden gap-2 justify-center">
+                {languages.map(lang => (
+                  <button
+                    key={lang.code}
+                    onClick={() => changeLanguage(lang.code)}
+                    className={`px-4 py-2 border ${
+                      i18n.language === lang.code
+                        ? 'border-red-600 bg-red-600/10 text-white'
+                        : 'border-white/10 text-gray-400'
+                    } font-mono uppercase text-sm transition-all`}
+                  >
+                    {lang.name}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
-          <nav className="hidden md:flex items-center gap-4 lg:gap-6 text-[14px] lg:text-[15px] font-semibold text-gray-300 uppercase tracking-wide">
-            {navStructure.map(item => (
-              <NavDropdown
-                key={item.key}
-                label={item.label}
-                items={item.items}
-                onNavigate={handleNavClick}
-              />
-            ))}
-          </nav>
-        </div>
-
-        <div className="flex items-center gap-1 sm:gap-2 md:gap-3">
-          <Button
-            variant="ghost"
-            size="icon"
-            className="text-white hover:bg-white/10 min-w-[44px] min-h-[44px]"
-            onClick={() => setIsSearchOpen(true)}
-            title="Поиск (Ctrl+K)"
-          >
-            <Search className="w-5 h-5" />
-          </Button>
-
-          {/* Desktop Language Switcher */}
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button
-                variant="ghost"
-                className="text-white hover:bg-white/10 hidden sm:flex gap-1 px-3"
-              >
-                <span className="text-sm font-bold">
-                  {currentLang.flag} {currentLang.name}
-                </span>
-                <ChevronDown className="w-4 h-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="bg-black/95 border-white/10 text-white">
-              {languages.map(lang => (
-                <DropdownMenuItem
-                  key={lang.code}
-                  onClick={() => changeLanguage(lang.code)}
-                  className={`cursor-pointer hover:bg-white/10 focus:bg-white/10 ${
-                    i18n.language === lang.code ? 'text-red-500' : ''
-                  }`}
-                >
-                  <span className="mr-2">{lang.flag}</span>
-                  <span>{lang.name}</span>
-                </DropdownMenuItem>
-              ))}
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
-      </div>
-
-      {/* Search Modal */}
       <SearchModal isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
-    </motion.header>
+    </>
   );
 };

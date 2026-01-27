@@ -124,6 +124,23 @@ export const fetchFeaturedNews = async (limit = 5): Promise<NewsItem[]> => {
 };
 
 /**
+ * Fetch regular (non-featured) news
+ */
+export const fetchRegularNews = async (limit = 4): Promise<NewsItem[]> => {
+  const response = await cmsApiClient.get<CMSPaginatedResponse<CMSNews>>(`/${COLLECTION}`, {
+    params: {
+      limit,
+      'where[status][equals]': 'published',
+      'where[featured][not_equals]': true,
+      sort: '-publishedAt',
+      depth: 1,
+    },
+  });
+
+  return response.data.docs.map(n => transformNews(n));
+};
+
+/**
  * Fetch single news by slug
  */
 export const fetchNewsBySlug = async (slug: string): Promise<NewsItem | null> => {
