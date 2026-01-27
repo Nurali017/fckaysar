@@ -13,6 +13,9 @@
     <!-- Security: Content Security Policy (frame-ancestors must be in HTTP header, see nginx.conf) -->
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://static.elfsight.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com https://r2cdn.perplexity.ai data:; img-src 'self' data: https: blob:; connect-src 'self' https://kaysar.kz https://sota.id https://core.service.elfsight.com http://localhost:* wss: ws:; base-uri 'self'; form-action 'self';" />
 
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
     <!-- Note: X-Frame-Options is set via HTTP header in nginx.conf -->
 
     <!-- Security: XSS Protection -->
@@ -24,11 +27,39 @@
     <meta property="og:title" content="FC Kaisar - Официальный сайт" />
     <meta property="og:description" content="Официальный сайт футбольного клуба Кайсар. Новости, матчи, команда, статистика и галерея." />
     <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://kaysar.kz" />
+    <meta property="og:image" content="https://kaysar.kz/og-image.png" />
     <meta property="og:locale" content="ru_RU" />
     <meta property="og:site_name" content="FC Kaisar" />
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@fc_kaisar" />
+    <meta name="twitter:image" content="https://kaysar.kz/og-image.png" />
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SportsTeam",
+      "name": "ФК Кайсар",
+      "alternateName": "FC Kaisar",
+      "url": "https://kaysar.kz",
+      "logo": "https://kaysar.kz/favicon.png",
+      "sport": "Football",
+      "memberOf": {
+        "@type": "SportsOrganization",
+        "name": "Қазақстан Премьер-Лигасы"
+      },
+      "location": {
+        "@type": "Place",
+        "name": "Кызылорда",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Кызылорда",
+          "addressCountry": "KZ"
+        }
+      }
+    }
+    </script>
 
     <link rel="icon" type="image/png" href="/favicon.png" />
     <link rel="apple-touch-icon" href="/favicon.png" />

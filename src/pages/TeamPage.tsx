@@ -1,33 +1,28 @@
 import { useState } from 'react';
+import { SEO } from '@/components/SEO';
 import { PageWrapper } from '@/components/website/PageWrapper';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Skeleton } from '@/components/ui/skeleton';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Dialog, DialogContent } from '@/components/ui/dialog';
-import { Users, AlertCircle } from 'lucide-react';
+import { Loader2, AlertCircle } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { motion, AnimatePresence } from 'framer-motion';
+import { AnimatePresence } from 'framer-motion';
 import { useTeamPlayers } from '@/hooks/api/useSotaPlayers';
 import { PlayerProfile } from '@/components/website/PlayerProfile';
-import { useIsMobile } from '@/hooks/useIsMobile';
+import { Dialog, DialogContent } from '@/components/ui/dialog';
 
 type Position = 'all' | 'GK' | 'DEF' | 'MID' | 'FWD';
 
 const TeamPage = () => {
   const { t } = useTranslation();
   const { data: players = [], isLoading, error } = useTeamPlayers();
-  const isMobile = useIsMobile();
 
   const [selectedPosition, setSelectedPosition] = useState<Position>('all');
   const [selectedPlayer, setSelectedPlayer] = useState<(typeof players)[0] | null>(null);
 
   const positions: { key: Position; label: string }[] = [
-    { key: 'all', label: t('team.filterAll', 'Все') },
-    { key: 'GK', label: t('team.filterGK', 'Вратари') },
-    { key: 'DEF', label: t('team.filterDEF', 'Защитники') },
-    { key: 'MID', label: t('team.filterMID', 'Полузащитники') },
-    { key: 'FWD', label: t('team.filterFWD', 'Нападающие') },
+    { key: 'all', label: t('team.filterAll', 'All') },
+    { key: 'GK', label: t('team.filterGK', 'Goalkeepers') },
+    { key: 'DEF', label: t('team.filterDEF', 'Defenders') },
+    { key: 'MID', label: t('team.filterMID', 'Midfielders') },
+    { key: 'FWD', label: t('team.filterFWD', 'Forwards') },
   ];
 
   const mapPositionKey = (positionKey?: string): Position => {
@@ -52,142 +47,109 @@ const TeamPage = () => {
 
   return (
     <PageWrapper>
-      <main className="pt-20">
-        {/* Hero Section */}
-        <section className="relative py-16 md:py-24 overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-b from-red-900/30 via-black to-black" />
-
-          <div className="relative z-10 container mx-auto px-4 text-center">
-            <motion.div
-              initial={isMobile ? { opacity: 1 } : { opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: isMobile ? 0 : 0.6 }}
-            >
-              <Badge className="bg-red-600/20 text-red-400 border-red-600/30 mb-4">
-                <Users className="w-4 h-4 mr-2" />
-                {t('team.badge', 'Команда')}
-              </Badge>
-
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4">
-                <span className="bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent">
-                  {t('team.heroTitle1', 'Полный')}
-                </span>
-                <br />
-                <span className="text-red-500">{t('team.heroTitle2', 'Состав')}</span>
+      <SEO
+        title="Команда"
+        description="Состав футбольного клуба Кайсар — игроки и позиции"
+        path="/team"
+      />
+      <main className="bg-[hsl(222,47%,11%)] min-h-screen pt-24 md:pt-32 pb-20">
+        <div className="max-w-[1440px] mx-auto px-4 md:px-8">
+          {/* Header */}
+          <div className="mb-12 border-b border-white/10 pb-6 flex flex-col md:flex-row md:items-end justify-between gap-6">
+            <div>
+              <h1 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-display uppercase text-white mb-2 leading-none">
+                {t('team.heroTitle1', 'Full')}{' '}
+                <span className="text-red-600">{t('team.heroTitle2', 'Squad')}</span>
               </h1>
-            </motion.div>
-          </div>
-        </section>
+              <p className="font-mono text-white/50 text-sm md:text-base max-w-2xl uppercase tracking-wider">
+                {t('team.subtitle', 'First Team Squad 2025')}
+              </p>
+            </div>
 
-        {/* Position Filter */}
-        <section className="py-4 px-4">
-          <div className="container mx-auto max-w-6xl">
-            <div className="flex flex-wrap justify-center gap-2">
+            {/* Filters */}
+            <div className="flex flex-wrap gap-2">
               {positions.map(pos => (
-                <Button
+                <button
                   key={pos.key}
-                  variant={selectedPosition === pos.key ? 'default' : 'outline'}
-                  size="sm"
                   onClick={() => setSelectedPosition(pos.key)}
-                  className={
+                  className={`px-3 py-2 md:px-4 text-xs md:text-sm font-mono uppercase tracking-wider transition-all border ${
                     selectedPosition === pos.key
-                      ? 'bg-red-600 hover:bg-red-700'
-                      : 'border-gray-700 hover:border-gray-600'
-                  }
+                      ? 'bg-red-600 border-red-600 text-white'
+                      : 'bg-transparent border-white/20 text-white/60 hover:border-white hover:text-white'
+                  }`}
                 >
                   {pos.label}
-                </Button>
+                </button>
               ))}
             </div>
           </div>
-        </section>
 
-        {/* Players Grid */}
-        <section className="py-8 px-4">
-          <div className="container mx-auto max-w-6xl">
-            {isLoading ? (
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                {[...Array(8)].map((_, i) => (
-                  <div key={i} className="bg-gray-900/50 rounded-xl overflow-hidden">
-                    <Skeleton className="aspect-[3/4] w-full bg-gray-800" />
-                    <div className="p-4 space-y-2">
-                      <Skeleton className="h-4 w-3/4 bg-gray-800" />
-                      <Skeleton className="h-3 w-1/2 bg-gray-800" />
-                    </div>
-                  </div>
-                ))}
-              </div>
-            ) : error ? (
-              <Alert className="bg-red-500/10 border-red-500/20">
-                <AlertCircle className="h-4 w-4 text-red-500" />
-                <AlertDescription className="text-white">
-                  {t('team.loadError', 'Не удалось загрузить игроков')}
-                </AlertDescription>
-              </Alert>
-            ) : filteredPlayers.length === 0 ? (
-              <div className="text-center py-12">
-                <Users className="w-16 h-16 text-gray-700 mx-auto mb-4" />
-                <p className="text-gray-500">{t('team.noPlayers', 'Игроки не найдены')}</p>
-              </div>
-            ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                {filteredPlayers.map((player, index) => (
-                  <motion.div
-                    key={player.id}
-                    initial={isMobile ? { opacity: 1 } : { opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{
-                      duration: isMobile ? 0 : 0.4,
-                      delay: isMobile ? 0 : index * 0.05,
-                    }}
-                    className="group bg-gray-900/50 rounded-xl overflow-hidden border border-gray-800 hover:border-red-500/50 transition-all cursor-pointer"
-                    onClick={() => setSelectedPlayer(player)}
-                  >
-                    <div className="relative aspect-[3/4] overflow-hidden">
-                      <img
-                        src={player.photoUrl || '/placeholder.svg'}
-                        alt={player.name}
-                        onError={e => {
-                          const target = e.target as HTMLImageElement;
-                          if (target.src !== window.location.origin + '/placeholder.svg') {
-                            target.src = '/placeholder.svg';
-                          }
-                        }}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                      />
-                      {player.number && (
-                        <div className="absolute top-3 right-3 w-10 h-10 rounded-full bg-red-600 flex items-center justify-center font-bold text-lg">
-                          {player.number}
-                        </div>
-                      )}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-                      <div className="absolute bottom-0 left-0 right-0 p-4">
-                        <h3 className="font-bold text-lg text-white group-hover:text-red-400 transition-colors">
-                          {player.name}
-                        </h3>
-                        <p className="text-gray-400 text-sm">{player.position}</p>
+          {/* Content */}
+          {isLoading ? (
+            <div className="py-20 flex justify-center">
+              <Loader2 className="w-8 h-8 animate-spin text-red-600" />
+            </div>
+          ) : error ? (
+            <div className="py-20 flex flex-col items-center text-center text-white/60 gap-4">
+              <AlertCircle className="w-10 h-10 text-red-600" />
+              <p>{t('team.loadError', 'Failed to load players')}</p>
+            </div>
+          ) : filteredPlayers.length === 0 ? (
+            <div className="py-20 text-center text-white/40 font-mono">
+              {t('team.noPlayers', 'No players found')}
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {filteredPlayers.map(player => (
+                <div
+                  key={player.id}
+                  className="group relative cursor-pointer bg-white/5 border border-white/5 hover:border-red-600/50 transition-colors"
+                  onClick={() => setSelectedPlayer(player)}
+                >
+                  {/* Image Container */}
+                  <div className="relative aspect-[3/4] w-full overflow-hidden transition-all duration-500">
+                    <img
+                      src={player.photoUrl || '/placeholder.svg'}
+                      alt={player.name}
+                      className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
+                      onError={e => {
+                        const target = e.target as HTMLImageElement;
+                        if (target.src !== '/placeholder.svg') {
+                          target.src = '/placeholder.svg';
+                        }
+                      }}
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent opacity-80" />
+
+                    {/* Number Badge */}
+                    {player.number && (
+                      <div className="absolute top-0 right-0 bg-white/10 backdrop-blur-md px-3 py-2 border-l border-b border-white/10">
+                        <span className="text-2xl font-display text-white">{player.number}</span>
                       </div>
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-            )}
-          </div>
-        </section>
+                    )}
+                  </div>
+
+                  {/* Info */}
+                  <div className="absolute bottom-0 left-0 w-full p-5">
+                    <span className="block text-red-500 font-mono text-xs uppercase tracking-wider mb-1">
+                      {player.position}
+                    </span>
+                    <h3 className="text-xl md:text-2xl font-display uppercase text-white leading-none group-hover:text-red-500 transition-colors">
+                      {player.name}
+                    </h3>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
 
         {/* Player Profile Modal */}
         <Dialog open={!!selectedPlayer} onOpenChange={() => setSelectedPlayer(null)}>
-          <DialogContent className="max-w-[95vw] md:max-w-6xl lg:max-w-7xl max-h-[95vh] overflow-y-auto bg-black border-white/10 p-0">
+          <DialogContent className="max-w-[95vw] md:max-w-6xl lg:max-w-7xl max-h-[95vh] overflow-y-auto bg-[hsl(222,47%,11%)] border-white/10 p-0 rounded-none sm:rounded-none">
             <AnimatePresence>
               {selectedPlayer && (
-                <motion.div
-                  initial={isMobile ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.95 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={isMobile ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.95 }}
-                  transition={{ duration: isMobile ? 0 : 0.3 }}
-                >
-                  <PlayerProfile playerId={selectedPlayer.id} initialData={selectedPlayer} />
-                </motion.div>
+                <PlayerProfile playerId={selectedPlayer.id} initialData={selectedPlayer} />
               )}
             </AnimatePresence>
           </DialogContent>

@@ -1,5 +1,6 @@
 import { PageWrapper } from '@/components/website/PageWrapper';
-import { motion } from 'framer-motion';
+import { SEO } from '@/components/SEO';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
   Users,
   Car,
@@ -11,6 +12,7 @@ import {
   Thermometer,
   Droplets,
   Camera,
+  X,
 } from 'lucide-react';
 import {
   Accordion,
@@ -42,413 +44,328 @@ const StadiumPage = () => {
     {
       icon: Users,
       title: '11 000',
-      subtitle: t('stadium.spectators', 'зрителей'),
+      subtitle: t('stadium.spectators', 'spectators'),
       description: t(
         'stadium.capacityDesc',
-        'Вместимость превышает минимальные требования УЕФА на 3 000 мест'
+        'Capacity exceeds UEFA minimum requirements by 3,000 seats'
       ),
     },
     {
       icon: Trophy,
-      title: t('stadium.categoryValue', '4-я категория'),
-      subtitle: t('stadium.uefa', 'УЕФА'),
+      title: t('stadium.categoryValue', 'Category 4'),
+      subtitle: t('stadium.uefa', 'UEFA'),
       description: t(
         'stadium.categoryDesc',
-        'Способен принимать матчи группового этапа Лиги чемпионов'
+        'Capable of hosting Champions League group stage matches'
       ),
     },
     {
       icon: Car,
       title: '500-700',
-      subtitle: t('stadium.parkingSpots', 'парковочных мест'),
+      subtitle: t('stadium.parkingSpots', 'parking spots'),
       description: t(
         'stadium.parkingDesc',
-        'Удобная транспортная развязка с заездом и выездом с 6 улиц'
+        'Convenient transport interchange with entry/exit from 6 streets'
       ),
     },
     {
       icon: Lightbulb,
-      title: '2000+ люкс',
-      subtitle: t('stadium.lightingLabel', 'освещение'),
-      description: t('stadium.lightingDescFull', 'Philips ArenaVision — трансляции в формате 4K'),
+      title: '2000+ lux',
+      subtitle: t('stadium.lightingLabel', 'lighting'),
+      description: t('stadium.lightingDescFull', 'Philips ArenaVision — 4K broadcasting'),
     },
     {
       icon: Monitor,
-      title: t('stadium.ledScreens', 'LED-экраны'),
-      subtitle: t('stadium.ledScreensDesc', 'как на ЧМ-2022'),
+      title: t('stadium.ledScreens', 'LED Screens'),
+      subtitle: t('stadium.ledScreensDesc', 'like at WC-2022'),
       description: t(
         'stadium.ledScreensDescFull',
-        'Оборудование от поставщика стадионов чемпионата мира в Катаре'
+        'Equipment from World Cup Qatar stadium supplier'
       ),
     },
     {
       icon: Shield,
       title: 'Skidata',
-      subtitle: t('stadium.turnstiles', 'турникеты'),
+      subtitle: t('stadium.turnstiles', 'turnstiles'),
       description: t(
         'stadium.turnstilesDescFull',
-        'Австрийская система безопасности — одна из лучших в мире'
+        'Austrian security system — one of the best in the world'
       ),
     },
     {
       icon: Accessibility,
-      title: t('stadium.vip', 'VIP и SkyBox'),
-      subtitle: t('stadium.vipCabins', '5+ кабин'),
-      description: t('stadium.accessibilityDescFull', 'Зоны для инвалидов с подъёмными лифтами'),
+      title: t('stadium.vip', 'VIP & SkyBox'),
+      subtitle: t('stadium.vipCabins', '5+ cabins'),
+      description: t('stadium.accessibilityDescFull', 'Areas for disabled people with elevators'),
     },
   ];
 
   const fieldFeatures = [
     {
       icon: Trophy,
-      title: t('stadium.fifaCertificate', 'Сертификат ФИФА'),
-      description: t('stadium.fifaCertificateDesc', 'Поле сертифицировано как на «Астана Арене»'),
+      title: t('stadium.fifaCertificate', 'FIFA Certificate'),
+      description: t('stadium.fifaCertificateDesc', 'Field certified like Astana Arena'),
     },
     {
       icon: Droplets,
       title: 'FieldTurf',
-      description: t('stadium.fieldTurfDesc', 'Мировой лидер синтетических покрытий — ворс 6 см'),
+      description: t('stadium.fieldTurfDesc', 'Global leader in synthetic turf — 6cm pile height'),
     },
     {
       icon: Thermometer,
-      title: t('stadium.heatingRehau', 'Подогрев REHAU'),
+      title: t('stadium.heatingRehau', 'REHAU Heating'),
       description: t(
         'stadium.heatingDesc',
-        'Система подогрева по стандартам ведущих европейских стадионов'
+        'Heating system according to leading European stadium standards'
       ),
     },
     {
       icon: Droplets,
-      title: t('stadium.wateringPerrot', 'Полив Perrot'),
-      description: t('stadium.wateringDesc', 'Немецкая система полива'),
+      title: t('stadium.wateringPerrot', 'Perrot Watering'),
+      description: t('stadium.wateringDesc', 'German watering system'),
     },
   ];
 
   const faqItems = [
     {
       value: 'item-1',
-      question: t('stadium.faq.tickets.q', 'Как купить билеты?'),
+      question: t('stadium.faq.tickets.q', 'How to buy tickets?'),
       answer: t(
         'stadium.faq.tickets.a',
-        'Билеты можно купить онлайн на нашем сайте или в кассах стадиона в день матча. Продажа открывается за 3 дня до игры.'
+        'Tickets can be purchased online on our website or at the stadium box office on match day.'
       ),
     },
     {
       value: 'item-2',
-      question: t('stadium.faq.parking.q', 'Есть ли парковка на стадионе?'),
-      answer: t(
-        'stadium.faq.parking.a',
-        'Да, стадион располагает парковкой на 700 мест. Доступна с 6 улиц. Рекомендуем приезжать за час до матча, чтобы занять удобное место.'
-      ),
+      question: t('stadium.faq.parking.q', 'Is there parking?'),
+      answer: t('stadium.faq.parking.a', 'Yes, parking for 700 cars is available.'),
     },
     {
       value: 'item-3',
-      question: t('stadium.faq.food.q', 'Можно ли проносить еду и напитки?'),
+      question: t('stadium.faq.food.q', 'Can I bring food?'),
       answer: t(
         'stadium.faq.food.a',
-        'Пронос своей еды и напитков запрещен в целях безопасности. На территории стадиона работают фудкорты с широким выбором еды и напитков.'
-      ),
-    },
-    {
-      value: 'item-4',
-      question: t('stadium.faq.kids.q', 'Нужен ли билет для ребенка?'),
-      answer: t(
-        'stadium.faq.kids.a',
-        'Детям до 7 лет вход бесплатный без предоставления отдельного места (на руках у родителей). Для детей старше 7 лет необходимо приобретать детский билет.'
-      ),
-    },
-    {
-      value: 'item-5',
-      question: t('stadium.faq.items.q', 'Что запрещено проносить на стадион?'),
-      answer: t(
-        'stadium.faq.items.a',
-        'Запрещено проносить оружие, пиротехнику, стеклянную тару, алкоголь, профессиональную фото-видео технику без аккредитации.'
+        'Outside food and drinks are prohibited. Food courts are available inside.'
       ),
     },
   ];
 
   return (
     <PageWrapper>
-      {/* Hero Section */}
-      <section className="relative h-[clamp(350px,70vh,90vh)] flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black z-10" />
-        <div className="absolute inset-0">
-          <video
-            autoPlay
-            muted
-            loop
-            playsInline
-            webkit-playsinline="true"
-            poster="/images/hero-poster.jpg"
-            preload="auto"
-            className="w-full h-full object-cover"
-          >
-            <source src="/videos/hero-main.mp4" type="video/mp4" />
-          </video>
-        </div>
-        <div className="relative z-20 text-center px-4">
-          <motion.div
-            initial={isMobile ? { opacity: 1 } : { opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: isMobile ? 0 : 0.8 }}
-          >
-            <span className="inline-block px-4 py-2 bg-red-600 text-white text-sm font-bold uppercase tracking-wider mb-6">
-              {t('stadium.homeArena', 'Домашняя арена')}
-            </span>
-            <h1 className="text-5xl md:text-7xl lg:text-8xl font-black uppercase tracking-tighter mb-4">
-              {t('stadium.kaisar', 'Кайсар')}
-              <span className="text-red-500"> {t('stadium.arena', 'Арена')}</span>
-            </h1>
-            <p className="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto">
-              {t('stadium.modernCenter', 'Современный центр футбольной жизни региона')}
-            </p>
-          </motion.div>
-        </div>
-      </section>
+      <SEO title="Стадион" description="Стадион ФК Кайсар — информация и фото" path="/stadium" />
+      <main className="min-h-screen bg-[hsl(222,47%,11%)]">
+        {/* Hero Section */}
+        <section className="relative h-[clamp(350px,70vh,90vh)] flex items-center justify-center overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-[hsl(222,47%,11%)] z-10" />
+          <div className="absolute inset-0">
+            <video
+              autoPlay
+              muted
+              loop
+              playsInline
+              webkit-playsinline="true"
+              poster="/images/hero-poster.jpg"
+              preload="auto"
+              className="w-full h-full object-cover"
+            >
+              <source src="/videos/hero-main.mp4" type="video/mp4" />
+            </video>
+          </div>
+          <div className="relative z-20 text-center px-4 pt-20">
+            <motion.div
+              initial={isMobile ? { opacity: 1 } : { opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: isMobile ? 0 : 0.8 }}
+            >
+              <span className="inline-block px-4 py-2 bg-red-600 text-white font-mono text-xs uppercase tracking-widest mb-6">
+                {t('stadium.homeArena', 'Home Arena')}
+              </span>
+              <h1 className="text-3xl sm:text-5xl md:text-8xl lg:text-9xl font-display uppercase tracking-tighter mb-4 text-white leading-none">
+                {t('stadium.kaisar', 'Kaisar')}
+                <span className="text-red-500"> {t('stadium.arena', 'Arena')}</span>
+              </h1>
+              <p className="font-mono text-sm md:text-base text-gray-300 max-w-3xl mx-auto uppercase tracking-wider">
+                {t('stadium.modernCenter', 'Modern sports facility of the region')}
+              </p>
+            </motion.div>
+          </div>
+        </section>
 
-      {/* UEFA Category Badge */}
-      <section className="py-12 bg-gradient-to-r from-red-600 to-red-700">
-        <div className="container mx-auto px-4">
-          <div className="flex flex-col md:flex-row items-center justify-center gap-8 text-center md:text-left">
-            <Trophy className="w-16 h-16 text-white" />
-            <div>
-              <h2 className="text-2xl md:text-3xl font-bold mb-2">
-                {t('stadium.uefaCategory', '4-я категория УЕФА')}
+        {/* UEFA Category Badge */}
+        <section className="py-12 bg-red-900/20 border-y border-red-900/30">
+          <div className="container mx-auto px-4">
+            <div className="flex flex-col md:flex-row items-center justify-center gap-8 text-center md:text-left">
+              <Trophy className="w-16 h-16 text-white" />
+              <div>
+                <h2 className="text-3xl md:text-5xl font-display uppercase text-white mb-2">
+                  {t('stadium.uefaCategory', 'UEFA Category 4')}
+                </h2>
+                <p className="text-lg text-white/60 font-mono">
+                  {t(
+                    'stadium.uefaCategoryDesc',
+                    'Capable of hosting Champions League group stage matches'
+                  )}
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Photo Gallery */}
+        <section className="py-20 bg-black/20">
+          <div className="container mx-auto px-4">
+            <div className="text-center mb-12">
+              <Camera className="w-12 h-12 text-red-500 mx-auto mb-4" />
+              <h2 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-display uppercase text-white mb-4">
+                {t('stadium.photoGallery', 'Photo Gallery')}
               </h2>
-              <p className="text-lg text-white/80">
+            </div>
+
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-px md:gap-1">
+              {stadiumPhotos.map((photo, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0 }}
+                  whileInView={{ opacity: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.1 }}
+                  className="relative aspect-[4/3] overflow-hidden cursor-pointer group"
+                  onClick={() => setSelectedImage(photo)}
+                >
+                  <img
+                    src={photo}
+                    alt={`Stadium ${index + 1}`}
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-red-600/0 group-hover:bg-red-600/20 transition-colors duration-300" />
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Lightbox */}
+        <AnimatePresence>
+          {selectedImage && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center p-4 backdrop-blur-xl"
+              onClick={() => setSelectedImage(null)}
+            >
+              <motion.img
+                initial={{ scale: 0.9 }}
+                animate={{ scale: 1 }}
+                src={selectedImage}
+                alt="Overview"
+                className="max-w-full max-h-[90vh] object-contain shadow-2xl"
+              />
+              <button
+                className="absolute top-4 right-4 text-white/50 hover:text-white transition-colors"
+                onClick={() => setSelectedImage(null)}
+              >
+                <X className="w-8 h-8" />
+              </button>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Features Grid */}
+        <section className="py-20">
+          <div className="container mx-auto px-4">
+            <div className="text-center mb-16">
+              <h2 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-display uppercase text-white mb-4">
+                {t('stadium.specifications', 'Specifications')}
+              </h2>
+              <p className="font-mono text-white/50 text-sm uppercase tracking-wider">
                 {t(
-                  'stadium.uefaCategoryDesc',
-                  'Способен принимать матчи группового этапа Лиги чемпионов и отборочные игры национальной сборной'
+                  'stadium.bestInCentralAsia',
+                  'One of the best sports facilities in Central Asia'
                 )}
               </p>
             </div>
-          </div>
-        </div>
-      </section>
 
-      {/* Photo Gallery */}
-      <section className="py-20 bg-black">
-        <div className="container mx-auto px-4">
-          <motion.div
-            initial={isMobile ? { opacity: 1 } : { opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-12"
-          >
-            <Camera className="w-12 h-12 text-red-500 mx-auto mb-4" />
-            <h2 className="text-4xl md:text-5xl font-bold uppercase mb-4">
-              {t('stadium.photoGallery', 'Фотогалерея')}
-            </h2>
-            <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-              {t('stadium.photoGalleryDesc', 'Современная арена мирового уровня')}
-            </p>
-          </motion.div>
-
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {stadiumPhotos.map((photo, index) => (
-              <motion.div
-                key={index}
-                initial={isMobile ? { opacity: 1 } : { opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: isMobile ? 0 : index * 0.1 }}
-                className="relative aspect-[4/3] overflow-hidden rounded-xl cursor-pointer group"
-                onClick={() => setSelectedImage(photo)}
-              >
-                <img
-                  src={photo}
-                  alt={`Кайсар Арена ${index + 1}`}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-300" />
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Lightbox */}
-      {selectedImage && (
-        <motion.div
-          initial={isMobile ? { opacity: 1 } : { opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-4"
-          onClick={() => setSelectedImage(null)}
-        >
-          <motion.img
-            initial={isMobile ? { scale: 1 } : { scale: 0.8 }}
-            animate={{ scale: 1 }}
-            src={selectedImage}
-            alt="Кайсар Арена"
-            className="max-w-full max-h-[90vh] object-contain rounded-lg"
-          />
-          <button
-            className="absolute top-4 right-4 text-white text-4xl hover:text-red-500 transition-colors"
-            onClick={() => setSelectedImage(null)}
-          >
-            ×
-          </button>
-        </motion.div>
-      )}
-
-      {/* Features Grid */}
-      <section className="py-20 bg-gradient-to-b from-black to-gray-900">
-        <div className="container mx-auto px-4">
-          <motion.div
-            initial={isMobile ? { opacity: 1 } : { opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-4xl md:text-5xl font-bold uppercase mb-4">
-              {t('stadium.specifications', 'Характеристики')}
-            </h2>
-            <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-              {t(
-                'stadium.bestInCentralAsia',
-                'Один из лучших спортивных объектов в Центральной Азии'
-              )}
-            </p>
-          </motion.div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {features.map((feature, index) => (
-              <motion.div
-                key={index}
-                initial={isMobile ? { opacity: 1 } : { opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: isMobile ? 0 : index * 0.1 }}
-                className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 hover:bg-white/10 transition-all duration-300"
-              >
-                <feature.icon className="w-10 h-10 text-red-500 mb-4" />
-                <div className="text-3xl font-black text-white mb-1">{feature.title}</div>
-                <div className="text-sm text-red-400 font-semibold uppercase tracking-wider mb-3">
-                  {feature.subtitle}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {features.map((feature, index) => (
+                <div
+                  key={index}
+                  className="bg-white/5 border border-white/5 p-4 md:p-6 lg:p-8 hover:bg-white/10 hover:border-red-600/50 transition-all duration-300 group"
+                >
+                  <feature.icon className="w-10 h-10 text-red-500 mb-6" />
+                  <div className="text-4xl font-display text-white mb-1">{feature.title}</div>
+                  <div className="text-xs font-mono text-white/40 uppercase tracking-widest mb-4">
+                    {feature.subtitle}
+                  </div>
+                  <p className="text-white/60 text-sm leading-relaxed">{feature.description}</p>
                 </div>
-                <p className="text-gray-400 text-sm">{feature.description}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Field Section */}
-      <section className="py-20 bg-gray-900">
-        <div className="container mx-auto px-4">
-          <motion.div
-            initial={isMobile ? { opacity: 1 } : { opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-4xl md:text-5xl font-bold uppercase mb-4">
-              {t('stadium.footballPitch', 'Футбольное поле')}
-            </h2>
-            <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-              {t('stadium.certifiedTurf', 'Сертифицированное покрытие мирового уровня')}
-            </p>
-          </motion.div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {fieldFeatures.map((feature, index) => (
-              <motion.div
-                key={index}
-                initial={isMobile ? { opacity: 1 } : { opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: isMobile ? 0 : index * 0.1 }}
-                className="bg-gradient-to-br from-green-900/30 to-green-800/10 border border-green-500/20 rounded-2xl p-6 text-center"
-              >
-                <feature.icon className="w-12 h-12 text-green-500 mx-auto mb-4" />
-                <h3 className="text-xl font-bold mb-2">{feature.title}</h3>
-                <p className="text-gray-400 text-sm">{feature.description}</p>
-              </motion.div>
-            ))}
-          </div>
-
-          <motion.div
-            initial={isMobile ? { opacity: 1 } : { opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            className="mt-12 p-6 bg-white/5 rounded-2xl border border-white/10"
-          >
-            <p className="text-gray-300 text-center">
-              {t('stadium.fieldTurfFullDesc', 'Покрытие')}{' '}
-              <span className="text-green-400 font-bold">FieldTurf</span> —{' '}
-              {t(
-                'stadium.fieldTurfDetails',
-                'мировой лидер в области синтетических спортивных покрытий: ворс высотой 6 см, многослойная структура с наполнителем из кварцевого песка и резиновой крошки английского производства.'
-              )}
-            </p>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* FAQ Section */}
-      <section className="py-20 bg-black">
-        <div className="container mx-auto px-4">
-          <motion.div
-            initial={isMobile ? { opacity: 1 } : { opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-4xl md:text-5xl font-bold uppercase mb-4">
-              {t('stadium.faqTitle', 'Часто задаваемые вопросы')}
-            </h2>
-            <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-              {t('stadium.faqSubtitle', 'Ответы на популярные вопросы болельщиков')}
-            </p>
-          </motion.div>
-
-          <div className="max-w-3xl mx-auto">
-            <Accordion type="single" collapsible className="w-full">
-              {faqItems.map(item => (
-                <AccordionItem key={item.value} value={item.value} className="border-white/10">
-                  <AccordionTrigger className="text-xl font-bold hover:text-red-500 hover:no-underline text-left">
-                    {item.question}
-                  </AccordionTrigger>
-                  <AccordionContent className="text-gray-400 text-lg">
-                    {item.answer}
-                  </AccordionContent>
-                </AccordionItem>
               ))}
-            </Accordion>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Infrastructure Note */}
-      <section className="py-16 bg-gradient-to-r from-gray-900 to-black">
-        <div className="container mx-auto px-4">
-          <motion.div
-            initial={isMobile ? { opacity: 1 } : { opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            className="text-center max-w-4xl mx-auto"
-          >
-            <p className="text-lg text-gray-300">
-              {t(
-                'stadium.infraNote1',
-                'Дополняет инфраструктуру города строительство трёх пятизвёздочных гостиниц, включая'
-              )}
-              <span className="text-yellow-400 font-bold"> «Rixos»</span>,{' '}
-              {t(
-                'stadium.infraNote2',
-                'что создаёт полноценную инфраструктуру для приёма болельщиков и делегаций.'
-              )}
-            </p>
-            <p className="text-gray-400 mt-4">
-              {t(
-                'stadium.infraNote3',
-                'Высокие стандарты безопасности, комфорта и технического оснащения делают «Кайсар Арену» одним из лучших спортивных объектов в Центральной Азии и новым символом модернизации казахстанского футбола.'
-              )}
-            </p>
-          </motion.div>
-        </div>
-      </section>
+        {/* Field Section */}
+        <section className="py-20 bg-white/5">
+          <div className="container mx-auto px-4">
+            <div className="text-center mb-16">
+              <h2 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-display uppercase text-white mb-4">
+                {t('stadium.footballPitch', 'Football Pitch')}
+              </h2>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-px bg-white/10 border border-white/10 mb-12">
+              {fieldFeatures.map((feature, index) => (
+                <div
+                  key={index}
+                  className="bg-[hsl(222,47%,11%)] p-8 text-center hover:bg-white/5 transition-colors group"
+                >
+                  <feature.icon className="w-12 h-12 text-green-500 mx-auto mb-6 opacity-80 group-hover:opacity-100 transition-opacity" />
+                  <h3 className="text-xl font-display uppercase text-white mb-2">
+                    {feature.title}
+                  </h3>
+                  <p className="text-white/40 text-xs font-mono uppercase tracking-wide">
+                    {feature.description}
+                  </p>
+                </div>
+              ))}
+            </div>
+
+            <div className="p-8 border border-green-500/20 bg-green-900/10 text-center max-w-4xl mx-auto">
+              <p className="text-white/80 font-mono text-sm leading-relaxed">
+                <span className="text-green-500 font-bold">FieldTurf</span> — global leader in
+                synthetic sports surfaces. 6cm pile height, multi-layer structure with environmental
+                fill. Certified for high-level competitions.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* FAQ Section */}
+        <section className="py-20 bg-black">
+          <div className="container mx-auto px-4">
+            <div className="text-center mb-16">
+              <h2 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-display uppercase text-white mb-4">
+                {t('stadium.faqTitle', 'FAQ')}
+              </h2>
+            </div>
+
+            <div className="max-w-3xl mx-auto">
+              <Accordion type="single" collapsible className="w-full">
+                {faqItems.map(item => (
+                  <AccordionItem key={item.value} value={item.value} className="border-white/10">
+                    <AccordionTrigger className="text-xl font-display uppercase text-white hover:text-red-500 hover:no-underline text-left py-6">
+                      {item.question}
+                    </AccordionTrigger>
+                    <AccordionContent className="text-white/60 font-mono text-sm leading-relaxed pb-6">
+                      {item.answer}
+                    </AccordionContent>
+                  </AccordionItem>
+                ))}
+              </Accordion>
+            </div>
+          </div>
+        </section>
+      </main>
     </PageWrapper>
   );
 };

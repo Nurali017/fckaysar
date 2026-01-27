@@ -1,24 +1,18 @@
-import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { ChevronLeft, Trophy, AlertCircle, Loader2 } from 'lucide-react';
+import { ChevronLeft, Loader2, AlertCircle } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { WebsiteHeader } from '@/components/website/WebsiteHeader';
-import { Footer } from '@/components/website/Footer';
-import { Skeleton } from '@/components/ui/skeleton';
-import { Alert, AlertDescription } from '@/components/ui/alert';
+import { PageWrapper } from '@/components/website/PageWrapper';
+import { SEO } from '@/components/SEO';
 import { useLeagueStandings } from '@/hooks/api/useStandings';
-import { useIsMobile } from '@/hooks/useIsMobile';
 
 const StandingsPage = () => {
   const { i18n } = useTranslation();
   const { data: standings = [], isLoading, error } = useLeagueStandings();
   const lang = i18n.language as 'ru' | 'kk' | 'en';
-  const isMobile = useIsMobile();
 
   const labels = {
     ru: {
-      title: 'Турнирная',
-      titleHighlight: 'Таблица',
+      title: 'Турнирная Таблица',
       subtitle: 'Премьер-Лига Казахстана 2025',
       backToHome: 'На главную',
       position: '#',
@@ -36,8 +30,7 @@ const StandingsPage = () => {
       noData: 'Нет данных',
     },
     kk: {
-      title: 'Турнирлік',
-      titleHighlight: 'Кесте',
+      title: 'Турнирлік Кесте',
       subtitle: 'Қазақстан Премьер-Лигасы 2025',
       backToHome: 'Басты бетке',
       position: '#',
@@ -55,8 +48,7 @@ const StandingsPage = () => {
       noData: 'Деректер жоқ',
     },
     en: {
-      title: 'League',
-      titleHighlight: 'Standings',
+      title: 'Expert League Standings',
       subtitle: 'Kazakhstan Premier League 2025',
       backToHome: 'Back to Home',
       position: '#',
@@ -77,168 +69,143 @@ const StandingsPage = () => {
   const l = labels[lang] || labels.ru;
 
   return (
-    <div className="min-h-screen bg-black text-white">
-      <WebsiteHeader />
-      <section className="relative pt-24 pb-12 bg-gradient-to-b from-red-900/20 via-red-900/5 to-black overflow-hidden">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[min(600px,100vw)] h-[min(400px,60vh)] bg-red-500/10 rounded-full blur-[120px] pointer-events-none" />
-        <div className="container mx-auto px-4 relative z-10">
-          <Link
-            to="/"
-            className="inline-flex items-center gap-2 text-gray-400 hover:text-white mb-6 transition-colors"
-          >
-            <ChevronLeft className="w-4 h-4" />
-            <span>{l.backToHome}</span>
-          </Link>
-          <motion.div
-            initial={isMobile ? { opacity: 1 } : { opacity: 0, x: -30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: isMobile ? 0 : 0.6 }}
-          >
-            <div className="flex items-center gap-4 mb-2">
-              <Trophy className="w-10 h-10 text-red-500" />
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-black uppercase italic tracking-tighter">
-                {l.title} <span className="text-red-500">{l.titleHighlight}</span>
-              </h1>
-            </div>
-            <p className="text-gray-400 text-lg md:text-xl">{l.subtitle}</p>
-          </motion.div>
-        </div>
-      </section>
-
-      <main className="container mx-auto px-4 py-12">
-        {isLoading && (
-          <div className="space-y-4">
-            <div className="flex items-center justify-center gap-3 text-gray-400 mb-8">
-              <Loader2 className="w-5 h-5 animate-spin" />
-              <span>{l.loading}</span>
-            </div>
-            {[...Array(12)].map((_, i) => (
-              <Skeleton key={i} className="h-14 w-full bg-white/10 rounded-lg" />
-            ))}
+    <PageWrapper>
+      <SEO
+        title="Турнирная таблица"
+        description="Турнирная таблица Премьер-Лиги Казахстана"
+        path="/standings"
+      />
+      <main className="bg-[hsl(222,47%,11%)] min-h-screen pt-24 md:pt-32 pb-20">
+        <div className="max-w-[1440px] mx-auto px-4 md:px-8">
+          {/* Header */}
+          <div className="mb-12 border-b border-white/10 pb-6">
+            <Link
+              to="/"
+              className="inline-flex items-center gap-2 text-red-500 hover:text-white mb-4 transition-colors font-mono text-xs uppercase tracking-wider"
+            >
+              <ChevronLeft className="w-3 h-3" /> {l.backToHome}
+            </Link>
+            <h1 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-display uppercase text-white mb-2 leading-none">
+              {l.title.split(' ')[0]}{' '}
+              <span className="text-red-600">{l.title.split(' ').slice(1).join(' ')}</span>
+            </h1>
+            <p className="font-mono text-white/50 text-sm md:text-base max-w-2xl uppercase tracking-wider">
+              {l.subtitle}
+            </p>
           </div>
-        )}
-        {error && (
-          <Alert className="bg-red-500/10 border-red-500/20">
-            <AlertCircle className="h-4 w-4 text-red-500" />
-            <AlertDescription className="text-white">{l.error}</AlertDescription>
-          </Alert>
-        )}
-        {!isLoading && !error && standings.length === 0 && (
-          <div className="text-center py-20">
-            <Trophy className="w-16 h-16 text-gray-600 mx-auto mb-4" />
-            <p className="text-gray-400 text-lg">{l.noData}</p>
-          </div>
-        )}
 
-        {standings.length > 0 && (
-          <motion.div
-            initial={isMobile ? { opacity: 1 } : { opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: isMobile ? 0 : 0.3 }}
-            className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden"
-          >
-            <div className="overflow-x-auto">
-              <table className="w-full">
+          {/* Table */}
+          {isLoading ? (
+            <div className="py-20 flex justify-center">
+              <Loader2 className="w-8 h-8 animate-spin text-red-600" />
+            </div>
+          ) : error ? (
+            <div className="py-20 flex flex-col items-center text-center text-white/60 gap-4">
+              <AlertCircle className="w-10 h-10 text-red-600" />
+              <p>{l.error}</p>
+            </div>
+          ) : standings.length === 0 ? (
+            <div className="py-20 text-center text-white/40 font-mono">{l.noData}</div>
+          ) : (
+            <div className="overflow-x-auto bg-white/5 border border-white/10">
+              <table className="w-full text-left border-collapse">
                 <thead>
-                  <tr className="border-b border-white/10 bg-white/5">
-                    <th className="px-4 py-4 text-left text-xs font-bold text-gray-400 uppercase w-12">
-                      {l.position}
-                    </th>
-                    <th className="px-4 py-4 text-left text-xs font-bold text-gray-400 uppercase min-w-[200px]">
-                      {l.team}
-                    </th>
-                    <th className="px-4 py-4 text-center text-xs font-bold text-gray-400 uppercase w-12">
-                      {l.played}
-                    </th>
-                    <th className="px-4 py-4 text-center text-xs font-bold text-gray-400 uppercase w-12">
+                  <tr className="border-b border-white/10 bg-white/5 text-white/40 font-mono text-xs uppercase tracking-wider">
+                    <th className="p-2 md:p-4 w-10 md:w-16 text-center">{l.position}</th>
+                    <th className="p-2 md:p-4">{l.team}</th>
+                    <th className="p-2 md:p-4 w-10 md:w-16 text-center">{l.played}</th>
+                    <th className="p-2 md:p-4 w-10 md:w-16 text-center text-green-500/70">
                       {l.won}
                     </th>
-                    <th className="px-4 py-4 text-center text-xs font-bold text-gray-400 uppercase w-12">
+                    <th className="p-2 md:p-4 w-10 md:w-16 text-center hidden sm:table-cell">
                       {l.drawn}
                     </th>
-                    <th className="px-4 py-4 text-center text-xs font-bold text-gray-400 uppercase w-12">
+                    <th className="p-2 md:p-4 w-10 md:w-16 text-center text-red-500/70 hidden sm:table-cell">
                       {l.lost}
                     </th>
-                    <th className="px-4 py-4 text-center text-xs font-bold text-gray-400 uppercase w-12">
+                    <th className="p-2 md:p-4 w-10 md:w-16 text-center hidden md:table-cell">
                       {l.gf}
                     </th>
-                    <th className="px-4 py-4 text-center text-xs font-bold text-gray-400 uppercase w-12">
+                    <th className="p-2 md:p-4 w-10 md:w-16 text-center hidden md:table-cell">
                       {l.ga}
                     </th>
-                    <th className="px-4 py-4 text-center text-xs font-bold text-gray-400 uppercase w-16">
+                    <th className="p-2 md:p-4 w-10 md:w-16 text-center hidden sm:table-cell">
                       {l.gd}
                     </th>
-                    <th className="px-4 py-4 text-center text-xs font-bold text-gray-400 uppercase w-16">
+                    <th className="p-2 md:p-4 w-12 md:w-20 text-center text-white font-bold">
                       {l.points}
                     </th>
                   </tr>
                 </thead>
                 <tbody>
-                  {standings.map((team, index) => (
-                    <motion.tr
+                  {standings.map((team, _index) => (
+                    <tr
                       key={team.teamId}
-                      initial={isMobile ? { opacity: 1 } : { opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: isMobile ? 0 : index * 0.03 }}
-                      className={`border-b border-white/5 hover:bg-white/5 ${team.isKaisar ? 'bg-red-500/10 hover:bg-red-500/20' : ''}`}
+                      className={`border-b border-white/5 hover:bg-white/5 transition-colors group ${
+                        team.isKaisar ? 'bg-red-900/10' : ''
+                      }`}
                     >
-                      <td className="px-4 py-4">
-                        <span
-                          className={`inline-flex items-center justify-center w-8 h-8 rounded-full text-sm font-bold ${team.rank <= 3 ? 'bg-yellow-500/20 text-yellow-500' : team.rank >= standings.length - 1 ? 'bg-red-500/20 text-red-500' : 'bg-white/10 text-gray-400'}`}
-                        >
-                          {team.rank}
-                        </span>
+                      <td className="p-2 md:p-4 text-center font-mono text-white/60">
+                        {team.rank}
                       </td>
-                      <td className="px-4 py-4">
-                        <div className="flex items-center gap-3">
+                      <td className="p-2 md:p-4">
+                        <div className="flex items-center gap-2 md:gap-4">
                           <img
                             src={team.logo}
                             alt={team.teamName}
-                            className="w-8 h-8 object-contain"
-                            onError={e =>
-                              (e.currentTarget.src = '/images/teams/placeholder-team.svg')
-                            }
+                            className="w-6 h-6 md:w-8 md:h-8 object-contain transition-all"
+                            onError={e => {
+                              e.currentTarget.src = '/images/placeholder-team.svg';
+                            }}
                           />
                           <span
-                            className={`font-bold ${team.isKaisar ? 'text-red-500' : 'text-white'}`}
+                            className={`font-display uppercase text-sm md:text-lg tracking-wide ${
+                              team.isKaisar
+                                ? 'text-red-500'
+                                : 'text-white group-hover:text-white/80'
+                            }`}
                           >
                             {team.teamName}
                           </span>
                         </div>
                       </td>
-                      <td className="px-4 py-4 text-center text-gray-400">{team.played}</td>
-                      <td className="px-4 py-4 text-center text-green-500 font-medium">
+                      <td className="p-2 md:p-4 text-center font-mono text-white/60">
+                        {team.played}
+                      </td>
+                      <td className="p-2 md:p-4 text-center font-mono text-green-500">
                         {team.won}
                       </td>
-                      <td className="px-4 py-4 text-center text-gray-400">{team.drawn}</td>
-                      <td className="px-4 py-4 text-center text-red-500 font-medium">
+                      <td className="p-2 md:p-4 text-center font-mono text-white/40 hidden sm:table-cell">
+                        {team.drawn}
+                      </td>
+                      <td className="p-2 md:p-4 text-center font-mono text-red-500 hidden sm:table-cell">
                         {team.lost}
                       </td>
-                      <td className="px-4 py-4 text-center text-gray-400">{team.goalsFor}</td>
-                      <td className="px-4 py-4 text-center text-gray-400">{team.goalsAgainst}</td>
-                      <td
-                        className={`px-4 py-4 text-center font-bold ${team.goalDifference > 0 ? 'text-green-500' : team.goalDifference < 0 ? 'text-red-500' : 'text-gray-400'}`}
-                      >
-                        {team.goalDifference > 0 ? '+' : ''}
-                        {team.goalDifference}
+                      <td className="p-2 md:p-4 text-center font-mono text-white/40 hidden md:table-cell">
+                        {team.goalsFor}
                       </td>
-                      <td className="px-4 py-4 text-center">
+                      <td className="p-2 md:p-4 text-center font-mono text-white/40 hidden md:table-cell">
+                        {team.goalsAgainst}
+                      </td>
+                      <td className="p-2 md:p-4 text-center font-mono text-white/60 hidden sm:table-cell">
+                        {team.goalDifference > 0 ? `+${team.goalDifference}` : team.goalDifference}
+                      </td>
+                      <td className="p-2 md:p-4 text-center">
                         <span
-                          className={`inline-flex items-center justify-center w-10 h-10 rounded-lg text-lg font-black ${team.isKaisar ? 'bg-red-500 text-white' : 'bg-white/10 text-white'}`}
+                          className={`font-display text-2xl ${team.isKaisar ? 'text-red-500' : 'text-white'}`}
                         >
                           {team.points}
                         </span>
                       </td>
-                    </motion.tr>
+                    </tr>
                   ))}
                 </tbody>
               </table>
             </div>
-          </motion.div>
-        )}
+          )}
+        </div>
       </main>
-      <Footer />
-    </div>
+    </PageWrapper>
   );
 };
 

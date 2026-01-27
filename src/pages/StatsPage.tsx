@@ -1,16 +1,9 @@
-/**
- * StatsPage - Team Statistics Page
- * Modern, premium sports portal design with Bento Grid layout
- */
-
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { ChevronLeft, BarChart3, AlertCircle, Loader2 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { WebsiteHeader } from '@/components/website/WebsiteHeader';
-import { Footer } from '@/components/website/Footer';
-import { Skeleton } from '@/components/ui/skeleton';
-import { Alert, AlertDescription } from '@/components/ui/alert';
+import { PageWrapper } from '@/components/website/PageWrapper';
+import { SEO } from '@/components/SEO';
 import { FadeInWhenVisible } from '@/components/animations/FadeInWhenVisible';
 import { useTeamStatsWithForm } from '@/hooks/api/useTeamStats';
 import { useIsMobile } from '@/hooks/useIsMobile';
@@ -31,211 +24,184 @@ const StatsPage = () => {
   const isMobile = useIsMobile();
 
   return (
-    <div className="min-h-screen bg-black text-white">
-      <WebsiteHeader />
-
-      {/* Hero Section */}
-      <section className="relative pt-24 pb-12 bg-gradient-to-b from-red-900/20 via-red-900/5 to-black overflow-hidden">
-        {/* Background glow */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[min(600px,100vw)] h-[min(400px,60vh)] bg-red-500/10 rounded-full blur-[120px] pointer-events-none" />
-
-        <div className="container mx-auto px-4 relative z-10">
-          {/* Back link */}
-          <Link
-            to="/"
-            className="inline-flex items-center gap-2 text-gray-400 hover:text-white mb-6 transition-colors"
-          >
-            <ChevronLeft className="w-4 h-4" />
-            <span>{t('stats.backToHome')}</span>
-          </Link>
-
-          {/* Title with season progress */}
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
-            <motion.div
-              initial={isMobile ? { opacity: 1 } : { opacity: 0, x: -30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: isMobile ? 0 : 0.6 }}
+    <PageWrapper>
+      <SEO
+        title="Статистика"
+        description="Статистика игроков и команды ФК Кайсар"
+        path="/statistics"
+      />
+      <main className="min-h-screen bg-[hsl(222,47%,11%)] pt-20 pb-20">
+        {/* Hero Section */}
+        <section className="relative pt-12 pb-12 border-b border-white/10 mb-12">
+          <div className="container mx-auto px-4 relative z-10">
+            <Link
+              to="/"
+              className="inline-flex items-center gap-2 text-red-500 hover:text-white mb-6 transition-colors font-mono text-xs uppercase tracking-wider"
             >
-              <div className="flex items-center gap-4 mb-2">
-                <BarChart3 className="w-10 h-10 text-red-500" />
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-black uppercase italic tracking-tighter">
-                  {t('stats.title').split(' ')[0]}{' '}
-                  <span className="text-red-500">
-                    {t('stats.title').split(' ').slice(1).join(' ')}
-                  </span>
-                </h1>
-              </div>
-              <p className="text-gray-400 text-lg md:text-xl">{t('stats.subtitle')}</p>
-            </motion.div>
+              <ChevronLeft className="w-3 h-3" />
+              <span>{t('stats.backToHome', 'Back to Home')}</span>
+            </Link>
 
-            {/* Season Progress Ring */}
-            {stats && (
+            <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
               <motion.div
-                initial={isMobile ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: isMobile ? 0 : 0.6, delay: isMobile ? 0 : 0.2 }}
-                className="flex-shrink-0"
+                initial={isMobile ? { opacity: 1 } : { opacity: 0, x: -30 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: isMobile ? 0 : 0.6 }}
               >
-                <SeasonProgressRing
-                  gamesPlayed={stats.raw.games_played}
-                  totalGames={stats.raw.games_total}
-                  size="lg"
-                />
-              </motion.div>
-            )}
-          </div>
-        </div>
-      </section>
-
-      {/* Main Content */}
-      <main className="container mx-auto px-4 py-12 space-y-16">
-        {/* Loading State */}
-        {isLoading && <LoadingState />}
-
-        {/* Error State */}
-        {error && (
-          <Alert className="bg-red-500/10 border-red-500/20">
-            <AlertCircle className="h-4 w-4 text-red-500" />
-            <AlertDescription className="text-white">{t('stats.errorLoading')}</AlertDescription>
-          </Alert>
-        )}
-
-        {/* Stats Content */}
-        {stats && (
-          <>
-            {/* Bento Grid - Key Stats */}
-            <FadeInWhenVisible>
-              <section>
-                <SectionHeader
-                  title={t('stats.sections.keyStats')}
-                  subtitle={t('stats.sections.keyStatsSubtitle')}
-                />
-                <StatsBentoGrid stats={stats} />
-              </section>
-            </FadeInWhenVisible>
-
-            {/* Performance Charts Section */}
-            <FadeInWhenVisible delay={0.1}>
-              <section>
-                <SectionHeader
-                  title={t('stats.sections.performanceAnalysis')}
-                  subtitle={t('stats.sections.performanceSubtitle')}
-                />
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                  <MatchResultsCard
-                    wins={stats.raw.win}
-                    draws={stats.raw.draw}
-                    losses={stats.raw.match_loss}
-                    gamesPlayed={stats.raw.games_played}
-                  />
-                  <GoalsAnalysisCard
-                    goalsScored={stats.raw.goals}
-                    goalsConceded={stats.raw.goals_conceded}
-                    goalsPerGame={stats.goalsPerGame}
-                    concededPerGame={stats.goalsConcededPerGame}
-                  />
+                <div className="flex items-center gap-4 mb-2">
+                  <BarChart3 className="w-8 h-8 text-red-600" />
+                  <h1 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-display uppercase text-white leading-none">
+                    {t('stats.title', 'Season Stats')} <span className="text-red-600">2025</span>
+                  </h1>
                 </div>
-              </section>
-            </FadeInWhenVisible>
+                <p className="font-mono text-white/50 text-sm uppercase tracking-wider pl-12">
+                  {t('stats.subtitle', 'Comprehensive team performance analysis')}
+                </p>
+              </motion.div>
 
-            {/* Form Section (if available) */}
-            {stats.form.length > 0 && (
-              <FadeInWhenVisible delay={0.2}>
+              {/* Season Progress Ring */}
+              {stats && (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  className="flex-shrink-0"
+                >
+                  <div className="bg-white/5 border border-white/10 p-4">
+                    <SeasonProgressRing
+                      gamesPlayed={stats.raw.games_played}
+                      totalGames={stats.raw.games_total}
+                      size="lg"
+                    />
+                  </div>
+                </motion.div>
+              )}
+            </div>
+          </div>
+        </section>
+
+        {/* Main Content */}
+        <div className="container mx-auto px-4 space-y-16">
+          {/* Loading State */}
+          {isLoading && <LoadingState />}
+
+          {/* Error State */}
+          {error && (
+            <div className="py-20 flex flex-col items-center text-center text-white/60 gap-4">
+              <AlertCircle className="w-10 h-10 text-red-600" />
+              <p>{t('stats.errorLoading', 'Failed to load stats')}</p>
+            </div>
+          )}
+
+          {/* Stats Content */}
+          {stats && (
+            <>
+              {/* Bento Grid - Key Stats */}
+              <FadeInWhenVisible>
                 <section>
                   <SectionHeader
-                    title={t('stats.sections.recentForm')}
-                    subtitle={t('stats.sections.recentFormSubtitle')}
+                    title={t('stats.sections.keyStats', 'Key Stats')}
+                    subtitle={t('stats.sections.keyStatsSubtitle', 'Primary Indicators')}
                   />
-                  <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-6 md:p-8">
-                    <FormWithLegend form={stats.form} />
+                  <StatsBentoGrid stats={stats} />
+                </section>
+              </FadeInWhenVisible>
+
+              {/* Performance Charts Section */}
+              <FadeInWhenVisible delay={0.1}>
+                <section>
+                  <SectionHeader
+                    title={t('stats.sections.performanceAnalysis', 'Performance Analysis')}
+                    subtitle={t(
+                      'stats.sections.performanceSubtitle',
+                      'Win rate & Goal distribution'
+                    )}
+                  />
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div className="bg-white/5 border border-white/10 p-6">
+                      <MatchResultsCard
+                        wins={stats.raw.win}
+                        draws={stats.raw.draw}
+                        losses={stats.raw.match_loss}
+                        gamesPlayed={stats.raw.games_played}
+                      />
+                    </div>
+                    <div className="bg-white/5 border border-white/10 p-6">
+                      <GoalsAnalysisCard
+                        goalsScored={stats.raw.goals}
+                        goalsConceded={stats.raw.goals_conceded}
+                        goalsPerGame={stats.goalsPerGame}
+                        concededPerGame={stats.goalsConcededPerGame}
+                      />
+                    </div>
                   </div>
                 </section>
               </FadeInWhenVisible>
-            )}
 
-            {/* Detailed Stats Grid */}
-            <FadeInWhenVisible delay={0.3}>
-              <section>
-                <SectionHeader
-                  title={t('stats.sections.detailedStats')}
-                  subtitle={t('stats.sections.detailedStatsSubtitle')}
-                />
-                <DetailedStatsGrid stats={stats} />
-              </section>
-            </FadeInWhenVisible>
+              {/* Form Section */}
+              {stats.form.length > 0 && (
+                <FadeInWhenVisible delay={0.2}>
+                  <section>
+                    <SectionHeader
+                      title={t('stats.sections.recentForm', 'Recent Form')}
+                      subtitle={t('stats.sections.recentFormSubtitle', 'Last 5 Matches')}
+                    />
+                    <div className="bg-white/5 border border-white/10 p-8">
+                      <FormWithLegend form={stats.form} />
+                    </div>
+                  </section>
+                </FadeInWhenVisible>
+              )}
 
-            {/* Last Updated */}
-            {stats.raw.lastUpdated && (
-              <motion.p
-                initial={isMobile ? { opacity: 1 } : { opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                viewport={{ once: true }}
-                className="text-center text-gray-500 text-sm"
-              >
-                {t('stats.lastUpdated')}:{' '}
-                {new Date(stats.raw.lastUpdated).toLocaleDateString('ru-RU', {
-                  year: 'numeric',
-                  month: 'long',
-                  day: 'numeric',
-                  hour: '2-digit',
-                  minute: '2-digit',
-                })}
-              </motion.p>
-            )}
-          </>
-        )}
+              {/* Detailed Stats Grid */}
+              <FadeInWhenVisible delay={0.3}>
+                <section>
+                  <SectionHeader
+                    title={t('stats.sections.detailedStats', 'Detailed Stats')}
+                    subtitle={t('stats.sections.detailedStatsSubtitle', 'In-depth breakdown')}
+                  />
+                  <DetailedStatsGrid stats={stats} />
+                </section>
+              </FadeInWhenVisible>
+
+              {/* Last Updated */}
+              {stats.raw.lastUpdated && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  whileInView={{ opacity: 1 }}
+                  viewport={{ once: true }}
+                  className="text-center pt-12 border-t border-white/10"
+                >
+                  <p className="font-mono text-white/40 text-xs uppercase tracking-widest">
+                    {t('stats.lastUpdated', 'Last Updated')}:{' '}
+                    {new Date(stats.raw.lastUpdated).toLocaleDateString()}
+                  </p>
+                </motion.div>
+              )}
+            </>
+          )}
+        </div>
       </main>
-
-      <Footer />
-    </div>
+    </PageWrapper>
   );
 };
 
 // Section Header Component
-interface SectionHeaderProps {
-  title: string;
-  subtitle?: string;
-}
-
-const SectionHeader = ({ title, subtitle }: SectionHeaderProps) => (
-  <div className="mb-6">
-    <h2 className="text-2xl md:text-3xl font-black text-white uppercase tracking-tight">{title}</h2>
-    {subtitle && <p className="text-gray-400 mt-1">{subtitle}</p>}
+const SectionHeader = ({ title, subtitle }: { title: string; subtitle?: string }) => (
+  <div className="mb-8 border-l-4 border-red-600 pl-4">
+    <h2 className="text-2xl md:text-3xl font-display text-white uppercase leading-none mb-1">
+      {title}
+    </h2>
+    {subtitle && (
+      <p className="font-mono text-white/40 text-xs uppercase tracking-wider">{subtitle}</p>
+    )}
   </div>
 );
 
 // Loading State Component
 const LoadingState = () => {
-  const { t } = useTranslation();
-
   return (
     <div className="space-y-12">
-      {/* Bento Grid Skeleton */}
-      <div>
-        <Skeleton className="h-8 w-48 bg-white/10 mb-6" />
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-          <Skeleton className="h-[320px] sm:col-span-2 sm:row-span-2 bg-white/10 rounded-3xl" />
-          <Skeleton className="h-[150px] bg-white/10 rounded-2xl" />
-          <Skeleton className="h-[150px] bg-white/10 rounded-2xl" />
-          <Skeleton className="h-[150px] bg-white/10 rounded-2xl" />
-          <Skeleton className="h-[150px] bg-white/10 rounded-2xl" />
-        </div>
-      </div>
-
-      {/* Charts Skeleton */}
-      <div>
-        <Skeleton className="h-8 w-56 bg-white/10 mb-6" />
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <Skeleton className="h-[400px] bg-white/10 rounded-3xl" />
-          <Skeleton className="h-[400px] bg-white/10 rounded-3xl" />
-        </div>
-      </div>
-
-      {/* Loading indicator */}
-      <div className="flex items-center justify-center gap-3 text-gray-400">
-        <Loader2 className="w-5 h-5 animate-spin" />
-        <span>{t('stats.loadingStats')}</span>
-      </div>
+      <Loader2 className="w-10 h-10 text-red-600 animate-spin mx-auto" />
     </div>
   );
 };

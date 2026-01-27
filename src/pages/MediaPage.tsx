@@ -1,161 +1,110 @@
-import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { ChevronLeft, Video, Image, Play, Camera } from 'lucide-react';
+import { PageWrapper } from '@/components/website/PageWrapper';
+import { SEO } from '@/components/SEO';
 import { useTranslation } from 'react-i18next';
-import { WebsiteHeader } from '@/components/website/WebsiteHeader';
-import { Footer } from '@/components/website/Footer';
-import { Badge } from '@/components/ui/badge';
-import { useIsMobile } from '@/hooks/useIsMobile';
+import { Camera, Video } from 'lucide-react';
 
 const MediaPage = () => {
-  const { i18n } = useTranslation();
-  const lang = i18n.language as 'ru' | 'kk' | 'en';
-  const isMobile = useIsMobile();
+  const { t } = useTranslation();
 
-  const labels = {
-    ru: {
-      title: 'Медиа',
-      titleHighlight: 'Центр',
-      subtitle: 'Фото и видео материалы ФК Кайсар',
-      backToHome: 'На главную',
-      photos: 'Фотогалерея',
-      videos: 'Видео',
-      viewAll: 'Смотреть все',
-      comingSoon: 'Видео скоро появятся',
-      photoDesc: 'Лучшие моменты матчей и тренировок',
-      videoDesc: 'Обзоры матчей, интервью и закулисье',
+  const sections = [
+    {
+      id: 'photos',
+      title: t('media.photos', 'Photo Gallery'),
+      icon: Camera,
+      link: '/gallery',
+      items: [
+        {
+          id: 1,
+          title: t('media.gallery.title', 'Matchday Gallery'),
+          image: 'https://placehold.co/600x400/1a1a1a/ffffff?text=Gallery+1',
+          count: 12,
+        },
+        // Add more placeholders if needed
+      ],
     },
-    kk: {
-      title: 'Медиа',
-      titleHighlight: 'Орталығы',
-      subtitle: 'ФК Қайсар фото және видео материалдары',
-      backToHome: 'Басты бетке',
-      photos: 'Фотогалерея',
-      videos: 'Видео',
-      viewAll: 'Барлығын көру',
-      comingSoon: 'Видео жақында қосылады',
-      photoDesc: 'Матчтар мен жаттығулардың үздік сәттері',
-      videoDesc: 'Матч шолулары, сұхбаттар және сахна артында',
+    {
+      id: 'videos',
+      title: t('media.videos', 'Videos'),
+      icon: Video,
+      link: '/videos',
+      items: [
+        {
+          id: 1,
+          title: t('media.video.title', 'Match Highlights'),
+          image: 'https://placehold.co/600x400/1a1a1a/ffffff?text=Video+1',
+          duration: '05:30',
+        },
+      ],
     },
-    en: {
-      title: 'Media',
-      titleHighlight: 'Center',
-      subtitle: 'Photos and videos of FC Kaisar',
-      backToHome: 'Back to Home',
-      photos: 'Photo Gallery',
-      videos: 'Videos',
-      viewAll: 'View all',
-      comingSoon: 'Videos coming soon',
-      photoDesc: 'Best moments from matches and training',
-      videoDesc: 'Match reviews, interviews and behind the scenes',
-    },
-  };
-  const l = labels[lang] || labels.ru;
+  ];
 
   return (
-    <div className="min-h-screen bg-black text-white">
-      <WebsiteHeader />
-
-      <section className="relative pt-24 pb-12 bg-gradient-to-b from-red-900/20 via-red-900/5 to-black overflow-hidden">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[min(600px,100vw)] h-[min(400px,60vh)] bg-red-500/10 rounded-full blur-[120px] pointer-events-none" />
-        <div className="container mx-auto px-4 relative z-10">
-          <Link
-            to="/"
-            className="inline-flex items-center gap-2 text-gray-400 hover:text-white mb-6 transition-colors"
-          >
-            <ChevronLeft className="w-4 h-4" />
-            <span>{l.backToHome}</span>
-          </Link>
-          <motion.div
-            initial={isMobile ? { opacity: 1 } : { opacity: 0, x: -30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: isMobile ? 0 : 0.6 }}
-          >
-            <div className="flex items-center gap-4 mb-2">
-              <Video className="w-10 h-10 text-red-500" />
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-black uppercase italic tracking-tighter">
-                {l.title} <span className="text-red-500">{l.titleHighlight}</span>
-              </h1>
-            </div>
-            <p className="text-gray-400 text-lg md:text-xl">{l.subtitle}</p>
-          </motion.div>
-        </div>
-      </section>
-
-      <main className="container mx-auto px-4 py-12 space-y-12">
-        {/* Photo Gallery Section */}
-        <motion.section
-          initial={isMobile ? { opacity: 1 } : { opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: isMobile ? 0 : 0.1 }}
-        >
-          <div className="flex items-center justify-between mb-6">
-            <div className="flex items-center gap-3">
-              <Camera className="w-6 h-6 text-red-500" />
-              <h2 className="text-2xl md:text-3xl font-black uppercase">{l.photos}</h2>
-            </div>
-            <Link
-              to="/gallery"
-              className="text-red-500 hover:text-red-400 transition-colors flex items-center gap-2"
-            >
-              {l.viewAll} <ChevronLeft className="w-4 h-4 rotate-180" />
-            </Link>
+    <PageWrapper>
+      <SEO title="Медиа" description="Фото и видео материалы ФК Кайсар" path="/media" />
+      <main className="bg-[hsl(222,47%,11%)] min-h-screen pt-24 md:pt-32 pb-20">
+        <div className="max-w-[1440px] mx-auto px-4 md:px-8">
+          {/* Header */}
+          <div className="mb-12 border-b border-white/10 pb-6">
+            <h1 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-display uppercase text-white mb-2">
+              {t('media.title', 'Media Center')}
+            </h1>
+            <p className="font-mono text-white/50 text-sm md:text-base max-w-2xl">
+              {t('media.subtitle', 'Photos and videos of FC Kaisar')}
+            </p>
           </div>
-          <p className="text-gray-400 mb-6">{l.photoDesc}</p>
-          <Link to="/gallery" className="block group">
-            <div className="relative bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden h-64 md:h-80">
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent z-10" />
-              <div className="absolute inset-0 flex items-center justify-center">
-                <Image className="w-20 h-20 text-gray-600" />
-              </div>
-              <div className="absolute bottom-0 left-0 right-0 p-6 z-20">
-                <Badge className="bg-red-600/20 text-red-400 border-red-600/30 mb-2">
-                  <Camera className="w-3 h-3 mr-1" /> {l.photos}
-                </Badge>
-                <p className="text-white font-bold text-lg group-hover:text-red-500 transition-colors">
-                  {l.viewAll} →
-                </p>
-              </div>
-            </div>
-          </Link>
-        </motion.section>
 
-        {/* Videos Section */}
-        <motion.section
-          initial={isMobile ? { opacity: 1 } : { opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: isMobile ? 0 : 0.2 }}
-        >
-          <div className="flex items-center gap-3 mb-6">
-            <Play className="w-6 h-6 text-red-500" />
-            <h2 className="text-2xl md:text-3xl font-black uppercase">{l.videos}</h2>
-          </div>
-          <p className="text-gray-400 mb-6">{l.videoDesc}</p>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[1, 2, 3].map(i => (
-              <motion.div
-                key={i}
-                initial={isMobile ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: isMobile ? 0 : 0.1 * i }}
-                className="relative bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden aspect-video group cursor-pointer hover:border-red-500/50 transition-all"
-              >
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="w-16 h-16 rounded-full bg-red-500/20 flex items-center justify-center group-hover:bg-red-500/40 transition-colors">
-                    <Play className="w-8 h-8 text-red-500 ml-1" />
-                  </div>
+          {/* Sections */}
+          <div className="space-y-20">
+            {sections.map(section => (
+              <section key={section.id}>
+                <div className="flex items-center justify-between mb-8">
+                  <h2 className="text-2xl md:text-3xl font-display uppercase text-white flex items-center gap-3">
+                    <section.icon className="w-6 h-6 text-red-600" />
+                    {section.title}
+                  </h2>
+                  <Link
+                    to={section.link}
+                    className="font-mono text-sm text-red-500 hover:text-white transition-colors"
+                  >
+                    {t('common.viewAll', 'View All')} →
+                  </Link>
                 </div>
-                <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent">
-                  <p className="text-gray-400 text-sm">{l.comingSoon}</p>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                  {section.items.map(item => (
+                    <div key={item.id} className="group relative cursor-pointer">
+                      <div className="relative aspect-video w-full overflow-hidden bg-white/5 mb-3">
+                        <img
+                          src={item.image}
+                          alt={item.title}
+                          className="w-full h-full object-cover object-[center_10%] transition-transform duration-700 group-hover:scale-105"
+                        />
+                        {/* Overlay Icon */}
+                        <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                          <section.icon className="w-10 h-10 text-white" />
+                        </div>
+
+                        {/* Badge */}
+                        <div className="absolute top-0 left-0 bg-red-600 px-2 py-1">
+                          <span className="text-white text-[10px] font-mono font-bold">
+                            {item.count ? `${item.count} Photos` : item.duration}
+                          </span>
+                        </div>
+                      </div>
+
+                      <h3 className="text-lg font-display uppercase text-white group-hover:text-red-500 transition-colors">
+                        {item.title}
+                      </h3>
+                    </div>
+                  ))}
                 </div>
-              </motion.div>
+              </section>
             ))}
           </div>
-        </motion.section>
+        </div>
       </main>
-
-      <Footer />
-    </div>
+    </PageWrapper>
   );
 };
 

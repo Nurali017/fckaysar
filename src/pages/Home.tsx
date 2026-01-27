@@ -1,60 +1,41 @@
+import { SEO } from '@/components/SEO';
 import { HeroSlider } from '@/components/website/HeroSlider';
-import { NewsSection } from '@/components/website/NewsSection';
-import { MatchCenter } from '@/components/website/MatchCenter';
-import { FanZone } from '@/components/website/FanZone';
+import { MatchSlider } from '@/components/website/MatchSlider';
 import { LeagueTable } from '@/components/website/LeagueTable';
-import { TeamSection } from '@/components/website/TeamSection';
-import { GallerySection } from '@/components/website/GallerySection';
+import { NewsSection } from '@/components/website/NewsSection';
+
+import { PartnersSection } from '@/components/website/PartnersSection';
 import { FadeInWhenVisible } from '@/components/animations/FadeInWhenVisible';
-import { NewLeadershipSection } from '@/components/website/NewLeadershipSection';
 import { PageWrapper } from '@/components/website/PageWrapper';
 
 const Home = () => {
   return (
     <PageWrapper>
-      <main>
-        {/* Hero Section - Full Screen */}
+      <SEO path="/" />
+      <main className="bg-black min-h-screen">
+        {/* Hero Section - Full Screen News Slider */}
         <HeroSlider />
 
-        {/* New Leadership Section */}
+        {/* Match Center */}
         <FadeInWhenVisible>
-          <NewLeadershipSection />
+          <MatchSlider />
         </FadeInWhenVisible>
 
-        {/* Match Center (Replaces MatchesSection) */}
-        <div id="matches">
-          <FadeInWhenVisible delay={0.2}>
-            <MatchCenter />
-          </FadeInWhenVisible>
-        </div>
-
-        {/* Fan Zone */}
-        <FadeInWhenVisible>
-          <FanZone />
-        </FadeInWhenVisible>
-
-        {/* League Table */}
+        {/* League Table & Sidebar Section */}
         <FadeInWhenVisible>
           <LeagueTable />
         </FadeInWhenVisible>
 
-        {/* News Section */}
+        {/* Media Section (News Grid) */}
         <div id="news">
           <FadeInWhenVisible>
             <NewsSection />
           </FadeInWhenVisible>
         </div>
 
-        {/* Team Section */}
-        <div id="team">
-          <FadeInWhenVisible>
-            <TeamSection />
-          </FadeInWhenVisible>
-        </div>
-
-        {/* Gallery Section */}
+        {/* Partners Section */}
         <FadeInWhenVisible>
-          <GallerySection />
+          <PartnersSection />
         </FadeInWhenVisible>
       </main>
     </PageWrapper>

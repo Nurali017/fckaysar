@@ -1,4 +1,5 @@
 import { lazy, Suspense } from 'react';
+import { HelmetProvider } from 'react-helmet-async';
 import { Toaster } from '@/components/ui/toaster';
 import { Toaster as Sonner } from '@/components/ui/sonner';
 import { TooltipProvider } from '@/components/ui/tooltip';
@@ -22,6 +23,7 @@ const NewsPage = lazy(() => import('./pages/NewsPage'));
 const NewsDetailPage = lazy(() => import('./pages/NewsDetailPage'));
 const GalleryPage = lazy(() => import('./pages/GalleryPage'));
 const TeamPage = lazy(() => import('./pages/TeamPage'));
+const TeamsPage = lazy(() => import('./pages/TeamsPage')); // New Teams List Page
 const PrivacyPage = lazy(() => import('./pages/PrivacyPage'));
 const TermsPage = lazy(() => import('./pages/TermsPage'));
 const StandingsPage = lazy(() => import('./pages/StandingsPage'));
@@ -76,71 +78,74 @@ const queryClient = new QueryClient({
 
 const App = () => {
   return (
-    <ErrorBoundary>
-      <QueryClientProvider client={queryClient}>
-        <TooltipProvider>
-          <Toaster />
-          <Sonner />
-          <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
-            <ScrollToTop />
-            <Suspense fallback={<PageLoader />}>
-              <Routes>
-                <Route path="/" element={<Home />} />
+    <HelmetProvider>
+      <ErrorBoundary>
+        <QueryClientProvider client={queryClient}>
+          <TooltipProvider>
+            <Toaster />
+            <Sonner />
+            <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+              <ScrollToTop />
+              <Suspense fallback={<PageLoader />}>
+                <Routes>
+                  <Route path="/" element={<Home />} />
 
-                {/* Раздел Клуб */}
-                <Route path="/club" element={<ClubPage />} />
-                <Route path="/club/leadership" element={<LeadershipPage />} />
-                <Route path="/club/history" element={<HistoryPage />} />
-                <Route path="/club/partners" element={<PartnersPage />} />
-                <Route path="/club/contacts" element={<ContactsPage />} />
-                <Route path="/club/infrastructure" element={<InfrastructurePage />} />
+                  {/* Раздел Клуб */}
+                  <Route path="/club" element={<ClubPage />} />
+                  <Route path="/club/leadership" element={<LeadershipPage />} />
+                  <Route path="/club/history" element={<HistoryPage />} />
+                  <Route path="/club/partners" element={<PartnersPage />} />
+                  <Route path="/club/contacts" element={<ContactsPage />} />
+                  <Route path="/club/infrastructure" element={<InfrastructurePage />} />
 
-                {/* Раздел Команда */}
-                <Route path="/team" element={<TeamPage />} />
-                <Route path="/team/staff" element={<TeamStaffPage />} />
-                <Route path="/statistics" element={<StatsPage />} />
+                  {/* Раздел Команда */}
+                  <Route path="/team" element={<TeamPage />} />
+                  <Route path="/teams" element={<TeamsPage />} />
+                  <Route path="/team/staff" element={<TeamStaffPage />} />
+                  <Route path="/statistics" element={<StatsPage />} />
 
-                {/* Раздел Академия */}
-                <Route path="/academy" element={<AcademyPage />} />
-                <Route path="/academy/teams" element={<AcademyTeamsPage />} />
-                <Route path="/academy/coaches" element={<AcademyCoachesPage />} />
-                <Route path="/academy/branches" element={<AcademyBranchesPage />} />
-                <Route path="/academy/recommend" element={<RecommendPlayerPage />} />
+                  {/* Раздел Академия */}
+                  <Route path="/academy" element={<AcademyPage />} />
+                  <Route path="/academy/teams" element={<AcademyTeamsPage />} />
+                  <Route path="/academy/coaches" element={<AcademyCoachesPage />} />
+                  <Route path="/academy/branches" element={<AcademyBranchesPage />} />
+                  <Route path="/academy/recommend" element={<RecommendPlayerPage />} />
 
-                {/* Стадион и Город */}
-                <Route path="/stadium" element={<StadiumPage />} />
-                <Route path="/city" element={<CityPage />} />
+                  {/* Стадион и Город */}
+                  <Route path="/stadium" element={<StadiumPage />} />
+                  <Route path="/city" element={<CityPage />} />
 
-                {/* Матчи */}
-                <Route path="/matches" element={<MatchesPage />} />
-                <Route path="/match/:id" element={<MatchPage />} />
-                <Route path="/standings" element={<StandingsPage />} />
+                  {/* Матчи */}
+                  <Route path="/matches" element={<MatchesPage />} />
+                  <Route path="/match/:id" element={<MatchPage />} />
+                  <Route path="/standings" element={<StandingsPage />} />
 
-                {/* Новости и Галерея */}
-                <Route path="/news" element={<NewsPage />} />
-                <Route path="/news/:slug" element={<NewsDetailPage />} />
-                <Route path="/gallery" element={<GalleryPage />} />
-                <Route path="/media" element={<MediaPage />} />
+                  {/* Новости и Галерея */}
+                  <Route path="/news" element={<NewsPage />} />
+                  <Route path="/news/:slug" element={<NewsDetailPage />} />
+                  <Route path="/gallery" element={<GalleryPage />} />
+                  <Route path="/media" element={<MediaPage />} />
 
-                {/* Раздел Болельщику */}
-                <Route path="/fans" element={<FansPage />} />
-                <Route path="/fans/rules" element={<RulesPage />} />
-                <Route path="/vip-box" element={<VipBoxPage />} />
-                <Route path="/tickets" element={<SeasonPassPage />} />
+                  {/* Раздел Болельщику */}
+                  <Route path="/fans" element={<FansPage />} />
+                  <Route path="/fans/rules" element={<RulesPage />} />
+                  <Route path="/vip-box" element={<VipBoxPage />} />
+                  <Route path="/tickets" element={<SeasonPassPage />} />
 
-                {/* Магазин и Юридические страницы */}
-                <Route path="/shop" element={<ShopPage />} />
-                <Route path="/privacy" element={<PrivacyPage />} />
-                <Route path="/terms" element={<TermsPage />} />
+                  {/* Магазин и Юридические страницы */}
+                  <Route path="/shop" element={<ShopPage />} />
+                  <Route path="/privacy" element={<PrivacyPage />} />
+                  <Route path="/terms" element={<TermsPage />} />
 
-                {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            </Suspense>
-          </BrowserRouter>
-        </TooltipProvider>
-      </QueryClientProvider>
-    </ErrorBoundary>
+                  {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </Suspense>
+            </BrowserRouter>
+          </TooltipProvider>
+        </QueryClientProvider>
+      </ErrorBoundary>
+    </HelmetProvider>
   );
 };
 

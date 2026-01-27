@@ -1,145 +1,92 @@
 import { Link } from 'react-router-dom';
+import { SEO } from '@/components/SEO';
 import { PageWrapper } from '@/components/website/PageWrapper';
-import { Badge } from '@/components/ui/badge';
-import { Skeleton } from '@/components/ui/skeleton';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Newspaper, AlertCircle, Calendar } from 'lucide-react';
+import { Loader2, AlertCircle } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { motion } from 'framer-motion';
 import { useNews } from '@/hooks/api/useNews';
-import { useIsMobile } from '@/hooks/useIsMobile';
 
 const NewsPage = () => {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
+  // Fetch more items for the main page
   const { data, isLoading, error } = useNews(1, 20);
   const news = data?.news || [];
-  const lang = i18n.language as 'ru' | 'kk' | 'en';
-  const isMobile = useIsMobile();
 
   const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString(lang === 'kk' ? 'kk-KZ' : lang === 'en' ? 'en-US' : 'ru-RU', {
-      day: 'numeric',
-      month: 'long',
-      year: 'numeric',
-    });
+    return new Intl.DateTimeFormat(
+      i18n.language === 'en' ? 'en-US' : i18n.language === 'ru' ? 'ru-RU' : 'kk-KZ',
+      {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric',
+      }
+    ).format(new Date(dateString));
   };
 
   return (
     <PageWrapper>
-      <main className="pt-20">
-        {/* Hero Section */}
-        <section className="relative py-16 md:py-24 overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-b from-red-900/30 via-black to-black" />
-
-          <div className="relative z-10 container mx-auto px-4 text-center">
-            <motion.div
-              initial={isMobile ? { opacity: 1 } : { opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: isMobile ? 0 : 0.6 }}
-            >
-              <Badge className="bg-red-600/20 text-red-400 border-red-600/30 mb-4">
-                <Newspaper className="w-4 h-4 mr-2" />
-                {lang === 'kk' ? 'Жаңалықтар' : lang === 'en' ? 'News' : 'Новости'}
-              </Badge>
-
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4">
-                <span className="bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent">
-                  {lang === 'kk' ? 'Барлық' : lang === 'en' ? 'All' : 'Все'}
-                </span>
-                <br />
-                <span className="text-red-500">
-                  {lang === 'kk' ? 'Жаңалықтар' : lang === 'en' ? 'News' : 'Новости'}
-                </span>
-              </h1>
-            </motion.div>
+      <SEO title="Новости" description="Последние новости футбольного клуба Кайсар" path="/news" />
+      <main className="bg-[hsl(222,47%,11%)] min-h-screen pt-24 md:pt-32 pb-20">
+        <div className="max-w-[1440px] mx-auto px-4 md:px-8">
+          {/* Header */}
+          <div className="mb-12 border-b border-white/10 pb-6">
+            <h1 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-display uppercase text-white mb-2">
+              {t('news.title', 'News')}
+            </h1>
+            <p className="font-mono text-white/50 text-sm md:text-base max-w-2xl">
+              {t('news.subtitle', 'Stay updated with latest club news')}
+            </p>
           </div>
-        </section>
 
-        {/* News Grid */}
-        <section className="py-8 px-4">
-          <div className="container mx-auto max-w-6xl">
-            {isLoading ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {[...Array(6)].map((_, i) => (
-                  <div key={i} className="bg-gray-900/50 rounded-xl overflow-hidden">
-                    <Skeleton className="h-48 w-full bg-gray-800" />
-                    <div className="p-4 space-y-3">
-                      <Skeleton className="h-4 w-3/4 bg-gray-800" />
-                      <Skeleton className="h-3 w-full bg-gray-800" />
-                      <Skeleton className="h-3 w-2/3 bg-gray-800" />
+          {/* Content */}
+          {isLoading ? (
+            <div className="py-20 flex justify-center">
+              <Loader2 className="w-8 h-8 animate-spin text-red-600" />
+            </div>
+          ) : error ? (
+            <div className="py-20 flex flex-col items-center text-center text-white/60 gap-4">
+              <AlertCircle className="w-10 h-10 text-red-600" />
+              <p>{t('common.error', 'An error occurred')}</p>
+            </div>
+          ) : news.length === 0 ? (
+            <div className="py-20 text-center text-white/40 font-mono">
+              {t('news.noNews', 'No news available')}
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-4 gap-y-8 md:gap-x-6 md:gap-y-10 lg:gap-x-8 lg:gap-y-12">
+              {news.map(item => (
+                <Link to={`/news/${item.slug}`} key={item.id} className="group flex flex-col gap-3">
+                  {/* Image Container */}
+                  <div className="relative aspect-[4/3] w-full overflow-hidden bg-white/5">
+                    <img
+                      src={item.imageUrl}
+                      alt={item.title}
+                      className="w-full h-full object-cover object-[center_20%] transition-transform duration-700 group-hover:scale-105"
+                      onError={e => {
+                        e.currentTarget.src =
+                          'https://placehold.co/600x400/1a1a1a/ffffff?text=No+Image';
+                      }}
+                    />
+                    <div className="absolute top-0 left-0 bg-red-600 px-3 py-1">
+                      <span className="text-white text-[10px] sm:text-xs font-mono font-bold uppercase tracking-wider">
+                        {item.category || 'News'}
+                      </span>
                     </div>
                   </div>
-                ))}
-              </div>
-            ) : error ? (
-              <Alert className="bg-red-500/10 border-red-500/20">
-                <AlertCircle className="h-4 w-4 text-red-500" />
-                <AlertDescription className="text-white">
-                  {lang === 'kk'
-                    ? 'Жаңалықтарды жүктеу мүмкін болмады'
-                    : lang === 'en'
-                      ? 'Failed to load news'
-                      : 'Не удалось загрузить новости'}
-                </AlertDescription>
-              </Alert>
-            ) : news.length === 0 ? (
-              <div className="text-center py-12">
-                <Newspaper className="w-16 h-16 text-gray-700 mx-auto mb-4" />
-                <p className="text-gray-500">
-                  {lang === 'kk'
-                    ? 'Жаңалықтар жоқ'
-                    : lang === 'en'
-                      ? 'No news available'
-                      : 'Новостей пока нет'}
-                </p>
-              </div>
-            ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {news.map((item, index) => (
-                  <Link key={item.id} to={`/news/${item.slug}`}>
-                    <motion.article
-                      initial={isMobile ? { opacity: 1 } : { opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{
-                        duration: isMobile ? 0 : 0.4,
-                        delay: isMobile ? 0 : index * 0.05,
-                      }}
-                      className="group bg-gray-900/50 rounded-xl overflow-hidden border border-gray-800 hover:border-gray-700 transition-all cursor-pointer h-full"
-                    >
-                      <div className="relative aspect-video overflow-hidden">
-                        <img
-                          src={item.imageUrl || '/placeholder.svg'}
-                          alt={item.title}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                          onError={e => {
-                            e.currentTarget.src = '/placeholder.svg';
-                            e.currentTarget.onerror = null;
-                          }}
-                        />
-                        {item.category && (
-                          <Badge className="absolute top-3 left-3 bg-red-600">
-                            {item.category}
-                          </Badge>
-                        )}
-                      </div>
-                      <div className="p-5">
-                        <div className="flex items-center gap-2 text-gray-500 text-sm mb-3">
-                          <Calendar className="w-4 h-4" />
-                          {formatDate(item.publishedAt)}
-                        </div>
-                        <h3 className="font-bold text-lg mb-2 group-hover:text-red-400 transition-colors line-clamp-2">
-                          {item.title}
-                        </h3>
-                        <p className="text-gray-400 text-sm line-clamp-3">{item.excerpt}</p>
-                      </div>
-                    </motion.article>
-                  </Link>
-                ))}
-              </div>
-            )}
-          </div>
-        </section>
+
+                  {/* Text */}
+                  <div className="flex flex-col gap-2">
+                    <span className="text-white/40 font-mono text-xs uppercase tracking-wide">
+                      {formatDate(item.publishedAt)}
+                    </span>
+                    <h3 className="text-xl md:text-2xl font-display uppercase leading-tight text-white group-hover:text-red-500 transition-colors line-clamp-3">
+                      {item.title}
+                    </h3>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          )}
+        </div>
       </main>
     </PageWrapper>
   );
