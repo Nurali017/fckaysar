@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useNavigate } from 'react-router-dom';
-import { ChevronRight, ArrowRight, Instagram, Youtube, Facebook } from 'lucide-react';
+import { ChevronRight, ArrowRight } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
 import { useLeagueStandings } from '@/hooks/api/useStandings';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -233,33 +233,6 @@ export const LeagueTable = () => {
               <div className="w-10 h-10 md:w-12 md:h-12 bg-red-600 flex items-center justify-center transition-colors group-hover:bg-red-500">
                 <ArrowRight className="text-white w-6 h-6" />
               </div>
-            </div>
-          </div>
-
-          {/* SOCIALS */}
-          <div className="bg-white/5 p-4 md:p-6 border border-white/5 flex flex-col gap-4">
-            <span className="text-white/50 font-mono text-xs uppercase tracking-wider">
-              {t('sidebar.followUs', 'Follow Us')}
-            </span>
-            <div className="flex items-center gap-3">
-              <a
-                href="#"
-                className="w-10 h-10 bg-white/10 flex items-center justify-center hover:bg-[#E1306C] transition-colors text-white"
-              >
-                <Instagram className="w-5 h-5" />
-              </a>
-              <a
-                href="#"
-                className="w-10 h-10 bg-white/10 flex items-center justify-center hover:bg-[#FF0000] transition-colors text-white"
-              >
-                <Youtube className="w-5 h-5" />
-              </a>
-              <a
-                href="#"
-                className="w-10 h-10 bg-white/10 flex items-center justify-center hover:bg-[#1877F2] transition-colors text-white"
-              >
-                <Facebook className="w-5 h-5" />
-              </a>
             </div>
           </div>
         </div>
