@@ -332,9 +332,12 @@ const StadiumPage = () => {
 
             <div className="p-8 border border-green-500/20 bg-green-900/10 text-center max-w-4xl mx-auto">
               <p className="text-white/80 font-mono text-sm leading-relaxed">
-                <span className="text-green-500 font-bold">FieldTurf</span> — global leader in
-                synthetic sports surfaces. 6cm pile height, multi-layer structure with environmental
-                fill. Certified for high-level competitions.
+                <span className="text-green-500 font-bold">FieldTurf</span> —{' '}
+                {t('stadium.fieldTurfFullDesc', 'Покрытие')}{' '}
+                {t(
+                  'stadium.fieldTurfDetails',
+                  'мировой лидер в области синтетических спортивных покрытий: ворс высотой 6 см, многослойная структура с наполнителем из кварцевого песка и резиновой крошки английского производства.'
+                )}
               </p>
             </div>
           </div>

@@ -24,10 +24,6 @@ export const PartnersSection = () => {
       <h2 className="text-2xl md:text-3xl font-display uppercase text-white mb-4 text-center tracking-wider">
         {t('partners.title', 'Партнёры')}
       </h2>
-      <p className="text-white/40 text-center text-sm mb-12 uppercase tracking-widest">
-        {t('partners.subtitle', 'Официальные партнёры клуба')}
-      </p>
-
       <div className="flex flex-wrap justify-center items-stretch gap-4 md:gap-8 lg:gap-16">
         {PARTNERS.map(partner => (
           <div
