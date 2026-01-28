@@ -1,7 +1,6 @@
 import { PageWrapper } from '@/components/website/PageWrapper';
 import { motion } from 'framer-motion';
 import {
-  MapPin,
   History,
   Landmark,
   Mountain,
@@ -257,64 +256,6 @@ const CityPage = () => {
         </section>
 
         {/* Map Section */}
-        <section className="py-20">
-          <div className="container mx-auto px-4">
-            <div className="text-center mb-12">
-              <MapPin className="w-12 h-12 text-red-500 mx-auto mb-4" />
-              <h2 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-display uppercase text-white mb-4">
-                {t('city.location', 'Location')}
-              </h2>
-            </div>
-
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-              <div className="bg-white/5 p-8 border border-white/10">
-                <h3 className="text-3xl font-display uppercase text-white mb-8">
-                  {t('city.howToGet', 'How to get there')}
-                </h3>
-                <div className="space-y-6">
-                  {[
-                    {
-                      icon: '✈️',
-                      title: t('city.airport', 'Airport'),
-                      desc: t('city.airportDesc', 'Flights from Almaty and Astana'),
-                    },
-                    {
-                      icon: '🚂',
-                      title: t('city.railway', 'Railway Station'),
-                      desc: t('city.railwayDesc', 'Trains from major cities'),
-                    },
-                    {
-                      icon: '🚗',
-                      title: t('city.highway', 'Highway'),
-                      desc: t('city.highwayDesc', 'M39 Highway'),
-                    },
-                  ].map((item, i) => (
-                    <div key={i} className="flex items-start gap-4">
-                      <span className="text-2xl">{item.icon}</span>
-                      <div>
-                        <p className="font-display uppercase text-white text-xl">{item.title}</p>
-                        <p className="text-sm font-mono text-white/50">{item.desc}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div className="border border-white/10 overflow-hidden">
-                <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d195987.81546623572!2d65.35!3d44.85!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x41f643e1e90e9b0b%3A0x57c1d3c49d89e8e!2sKyzylorda%2C%20Kazakhstan!5e0!3m2!1sen!2sus!4v1"
-                  width="100%"
-                  height="100%"
-                  style={{ border: 0, minHeight: '350px' }}
-                  allowFullScreen
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                  className="w-full h-full"
-                />
-              </div>
-            </div>
-          </div>
-        </section>
       </main>
     </PageWrapper>
   );

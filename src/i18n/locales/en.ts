@@ -1089,7 +1089,7 @@ export default {
       phoneInfo: '+7 (7242) XX-XX-XX',
       phoneSub: 'Mon-Fri: 9:00-18:00',
       email: 'Email',
-      emailInfo: 'info@fckaysar.kz',
+      emailInfo: 'info@kaysar.kz',
       emailSub: 'For general inquiries',
       workHours: 'Working Hours',
       workHoursInfo: 'Mon-Fri: 9:00-18:00',

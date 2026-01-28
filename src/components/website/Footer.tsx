@@ -1,4 +1,4 @@
-import { Instagram, Mail, MapPin } from 'lucide-react';
+import { Instagram, Mail } from 'lucide-react';
 import kaisarLogo from '@/assets/kaisar-logo.jpg';
 import { useTranslation } from 'react-i18next';
 
@@ -150,7 +150,7 @@ export const Footer = () => {
                 </li>
                 <li>
                   <a
-                    href="mailto:info@fckaysar.kz"
+                    href="mailto:info@kaysar.kz"
                     className="hover:text-red-500 transition-all duration-200 sm:hover:translate-x-1 inline-block py-1 active:text-red-500"
                   >
                     {t('footer.club.contact')}
@@ -167,10 +167,6 @@ export const Footer = () => {
             </h3>
             <address className="not-italic">
               <ul className="space-y-3 text-gray-400 text-sm">
-                <li className="flex items-start gap-2 justify-center sm:justify-start">
-                  <MapPin className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
-                  <span className="text-left">{t('footer.address')}</span>
-                </li>
                 <li className="flex items-center gap-2 justify-center sm:justify-start">
                   <Mail className="w-5 h-5 text-red-500 flex-shrink-0" />
                   <a

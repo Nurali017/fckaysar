@@ -1091,7 +1091,7 @@ export default {
       phoneInfo: '+7 (7242) XX-XX-XX',
       phoneSub: 'Дс-Жм: 9:00-18:00',
       email: 'Email',
-      emailInfo: 'info@fckaysar.kz',
+      emailInfo: 'info@kaysar.kz',
       emailSub: 'Жалпы сұрақтар үшін',
       workHours: 'Жұмыс уақыты',
       workHoursInfo: 'Дс-Жм: 9:00-18:00',
