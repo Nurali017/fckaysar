@@ -49,12 +49,12 @@ const StatsPage = () => {
                 transition={{ duration: isMobile ? 0 : 0.6 }}
               >
                 <div className="flex items-center gap-4 mb-2">
-                  <BarChart3 className="w-8 h-8 text-red-600" />
+                  <BarChart3 className="w-6 h-6 md:w-8 md:h-8 text-red-600" />
                   <h1 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-display uppercase text-white leading-none">
                     {t('stats.title', 'Season Stats')} <span className="text-red-600">2025</span>
                   </h1>
                 </div>
-                <p className="font-mono text-white/50 text-sm uppercase tracking-wider pl-12">
+                <p className="font-mono text-white/50 text-sm uppercase tracking-wider pl-0 sm:pl-12">
                   {t('stats.subtitle', 'Comprehensive team performance analysis')}
                 </p>
               </motion.div>
@@ -80,7 +80,7 @@ const StatsPage = () => {
         </section>
 
         {/* Main Content */}
-        <div className="container mx-auto px-4 space-y-16">
+        <div className="container mx-auto px-4 space-y-8 md:space-y-16">
           {/* Loading State */}
           {isLoading && <LoadingState />}
 

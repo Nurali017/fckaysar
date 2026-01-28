@@ -48,7 +48,7 @@ export const NewsSection = () => {
       </div>
 
       {/* Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 lg:gap-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6 lg:gap-8">
         {news.map(item => (
           <Link to={`/news/${item.slug}`} key={item.id} className="group flex flex-col gap-3">
             {/* Image Container */}
@@ -59,7 +59,7 @@ export const NewsSection = () => {
                 className="w-full h-full object-cover object-[center_20%] transition-transform duration-700 group-hover:scale-105"
               />
               <div className="absolute top-3 left-3">
-                <span className="bg-red-600 text-white text-[10px] font-mono font-bold uppercase px-2 py-1 tracking-wide">
+                <span className="bg-red-600 text-white text-[11px] sm:text-xs font-mono font-bold uppercase px-2 py-1 tracking-wide">
                   {item.category || 'News'}
                 </span>
               </div>
@@ -70,7 +70,7 @@ export const NewsSection = () => {
               <span className="text-white/40 font-mono text-xs">
                 {formatDate(item.publishedAt)}
               </span>
-              <h3 className="text-xl md:text-2xl font-display uppercase leading-tight text-white group-hover:text-red-500 transition-colors line-clamp-3">
+              <h3 className="text-lg sm:text-xl md:text-2xl font-display uppercase leading-tight text-white group-hover:text-red-500 transition-colors line-clamp-3">
                 {item.title}
               </h3>
             </div>

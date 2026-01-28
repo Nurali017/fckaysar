@@ -25,7 +25,7 @@ export const MatchOverview = ({ match }: MatchOverviewProps) => {
           {t('match.overview.keyFacts', 'Основная информация')}
         </h3>
 
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
           <InfoItem
             icon={<Calendar className="w-4 h-4" />}
             label={t('match.overview.date', 'Дата')}

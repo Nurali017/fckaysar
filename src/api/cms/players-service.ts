@@ -23,7 +23,7 @@ const richTextToPlainText = (richText: CMSRichText | undefined): string => {
 
   const extractText = (nodes: CMSRichTextNode[]): string => {
     return nodes
-      .map((node) => {
+      .map(node => {
         if (node.text) return node.text;
         if (node.children) return extractText(node.children);
         return '';
@@ -72,15 +72,17 @@ const getCurrentSeason = (): string => {
 const transformPlayer = (cmsPlayer: CMSPlayer): PlayerItem => {
   const currentSeason = getCurrentSeason();
   // Try current season first, then fallback patterns, then most recent
-  const currentSeasonStats = cmsPlayer.statistics?.find(
-    (s) => s.season === currentSeason ||
-           s.season === currentSeason.replace('/', '-') ||
-           s.season === currentSeason.replace('/', '-20')
-  ) || cmsPlayer.statistics?.[0]; // Fallback to first (most recent) if no match
+  const currentSeasonStats =
+    cmsPlayer.statistics?.find(
+      s =>
+        s.season === currentSeason ||
+        s.season === currentSeason.replace('/', '-') ||
+        s.season === currentSeason.replace('/', '-20')
+    ) || cmsPlayer.statistics?.[0]; // Fallback to first (most recent) if no match
 
   return {
     id: cmsPlayer.id,
-    name: cmsPlayer.displayName,
+    name: cmsPlayer.displayName || `${cmsPlayer.firstName} ${cmsPlayer.lastName}`.trim(),
     firstName: cmsPlayer.firstName,
     lastName: cmsPlayer.lastName,
     slug: cmsPlayer.slug,
@@ -95,12 +97,12 @@ const transformPlayer = (cmsPlayer: CMSPlayer): PlayerItem => {
     biography: richTextToPlainText(cmsPlayer.biography),
     stats: currentSeasonStats
       ? {
-        appearances: currentSeasonStats.appearances || 0,
-        goals: currentSeasonStats.goals || 0,
-        assists: currentSeasonStats.assists || 0,
-        yellowCards: currentSeasonStats.yellowCards || 0,
-        redCards: currentSeasonStats.redCards || 0,
-      }
+          appearances: currentSeasonStats.appearances || 0,
+          goals: currentSeasonStats.goals || 0,
+          assists: currentSeasonStats.assists || 0,
+          yellowCards: currentSeasonStats.yellowCards || 0,
+          redCards: currentSeasonStats.redCards || 0,
+        }
       : undefined,
     status: cmsPlayer.status,
   };
@@ -109,7 +111,9 @@ const transformPlayer = (cmsPlayer: CMSPlayer): PlayerItem => {
 /**
  * Fetch all players
  */
-export const fetchPlayers = async (params?: CMSQueryParams): Promise<{
+export const fetchPlayers = async (
+  params?: CMSQueryParams
+): Promise<{
   players: PlayerItem[];
   pagination: {
     total: number;
@@ -119,24 +123,21 @@ export const fetchPlayers = async (params?: CMSQueryParams): Promise<{
     hasPrev: boolean;
   };
 }> => {
-  const response = await cmsApiClient.get<CMSPaginatedResponse<CMSPlayer>>(
-    `/${COLLECTION}`,
-    {
-      params: {
-        limit: params?.limit || 50,
-        page: params?.page || 1,
-        sort: params?.sort || 'jerseyNumber',
-        depth: params?.depth || 1,
-        'where[status][not_equals]': 'loaned',
-        ...params?.where,
-      },
-    }
-  );
+  const response = await cmsApiClient.get<CMSPaginatedResponse<CMSPlayer>>(`/${COLLECTION}`, {
+    params: {
+      limit: params?.limit || 50,
+      page: params?.page || 1,
+      sort: params?.sort || 'jerseyNumber',
+      depth: params?.depth || 1,
+      'where[status][not_equals]': 'loaned',
+      ...params?.where,
+    },
+  });
 
   const { docs, totalDocs, page, totalPages, hasNextPage, hasPrevPage } = response.data;
 
   return {
-    players: docs.map((p) => transformPlayer(p)),
+    players: docs.map(p => transformPlayer(p)),
     pagination: {
       total: totalDocs,
       page,
@@ -153,36 +154,30 @@ export const fetchPlayers = async (params?: CMSQueryParams): Promise<{
 export const fetchPlayersByPosition = async (
   position: 'goalkeeper' | 'defender' | 'midfielder' | 'forward'
 ): Promise<PlayerItem[]> => {
-  const response = await cmsApiClient.get<CMSPaginatedResponse<CMSPlayer>>(
-    `/${COLLECTION}`,
-    {
-      params: {
-        limit: 50,
-        'where[position][equals]': position,
-        'where[status][not_equals]': 'loaned',
-        sort: 'jerseyNumber',
-        depth: 1,
-      },
-    }
-  );
+  const response = await cmsApiClient.get<CMSPaginatedResponse<CMSPlayer>>(`/${COLLECTION}`, {
+    params: {
+      limit: 50,
+      'where[position][equals]': position,
+      'where[status][not_equals]': 'loaned',
+      sort: 'jerseyNumber',
+      depth: 1,
+    },
+  });
 
-  return response.data.docs.map((p) => transformPlayer(p));
+  return response.data.docs.map(p => transformPlayer(p));
 };
 
 /**
  * Fetch single player by slug
  */
 export const fetchPlayerBySlug = async (slug: string): Promise<PlayerItem | null> => {
-  const response = await cmsApiClient.get<CMSPaginatedResponse<CMSPlayer>>(
-    `/${COLLECTION}`,
-    {
-      params: {
-        'where[slug][equals]': slug,
-        depth: 2,
-        limit: 1,
-      },
-    }
-  );
+  const response = await cmsApiClient.get<CMSPaginatedResponse<CMSPlayer>>(`/${COLLECTION}`, {
+    params: {
+      'where[slug][equals]': slug,
+      depth: 2,
+      limit: 1,
+    },
+  });
 
   if (response.data.docs.length === 0) return null;
   return transformPlayer(response.data.docs[0]);
@@ -208,16 +203,13 @@ export const fetchPlayerById = async (id: string): Promise<PlayerItem | null> =>
  */
 export const fetchHeroPlayer = async (): Promise<PlayerItem | null> => {
   try {
-    const response = await cmsApiClient.get<CMSPaginatedResponse<CMSPlayer>>(
-      `/${COLLECTION}`,
-      {
-        params: {
-          'where[isHero][equals]': true,
-          limit: 1,
-          depth: 2,
-        },
-      }
-    );
+    const response = await cmsApiClient.get<CMSPaginatedResponse<CMSPlayer>>(`/${COLLECTION}`, {
+      params: {
+        'where[isHero][equals]': true,
+        limit: 1,
+        depth: 2,
+      },
+    });
 
     if (response.data.docs.length === 0) return null;
     return transformPlayer(response.data.docs[0]);

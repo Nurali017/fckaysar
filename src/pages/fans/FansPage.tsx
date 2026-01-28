@@ -37,8 +37,8 @@ const FansPage = () => {
             transition={{ duration: isMobile ? 0 : 0.5 }}
             className="text-center mb-16"
           >
-            <Users className="w-16 h-16 text-red-500 mx-auto mb-4" />
-            <h1 className="text-4xl md:text-6xl font-black uppercase tracking-tighter mb-4">
+            <Users className="w-12 h-12 md:w-16 md:h-16 text-red-500 mx-auto mb-4" />
+            <h1 className="text-3xl md:text-4xl lg:text-6xl font-black uppercase tracking-tighter mb-4">
               {t('fans.title', 'Болельщику')}
             </h1>
             <p className="text-gray-400 text-lg">
@@ -46,7 +46,7 @@ const FansPage = () => {
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 max-w-4xl mx-auto">
             {sections.map((section, index) => (
               <motion.div
                 key={index}

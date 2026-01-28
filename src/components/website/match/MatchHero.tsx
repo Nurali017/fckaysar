@@ -72,7 +72,7 @@ export const MatchHero = ({ match }: MatchHeroProps) => {
           animate={{ opacity: 1, y: 0 }}
           className="flex justify-center mb-6"
         >
-          <div className="inline-flex items-center gap-4 px-6 py-2 rounded-full bg-white/5 backdrop-blur-sm border border-white/10">
+          <div className="inline-flex items-center gap-2 sm:gap-4 px-3 sm:px-6 py-2 rounded-full bg-white/5 backdrop-blur-sm border border-white/10 flex-wrap justify-center">
             <span className="flex items-center gap-2 text-sm text-gray-300">
               <Trophy className="w-4 h-4 text-yellow-500" />
               {match.competition}
@@ -103,15 +103,18 @@ export const MatchHero = ({ match }: MatchHeroProps) => {
               initial={{ scale: 0.8 }}
               animate={{ scale: 1 }}
               transition={{ duration: 0.5, type: 'spring' }}
-              src={match.homeTeam.logo || `https://placehold.co/128x128/1f1f1f/888?text=${match.homeTeam.shortName || match.homeTeam.name.substring(0, 3)}`}
+              src={
+                match.homeTeam.logo ||
+                `https://placehold.co/128x128/1f1f1f/888?text=${match.homeTeam.shortName || match.homeTeam.name.substring(0, 3)}`
+              }
               alt={match.homeTeam.name}
-              className="w-24 h-24 md:w-32 md:h-32 object-contain drop-shadow-[0_0_20px_rgba(255,255,255,0.2)]"
-              onError={(e) => {
+              className="w-16 h-16 sm:w-24 sm:h-24 md:w-32 md:h-32 object-contain drop-shadow-[0_0_20px_rgba(255,255,255,0.2)]"
+              onError={e => {
                 e.currentTarget.src = `https://placehold.co/128x128/1f1f1f/888?text=${match.homeTeam.shortName || match.homeTeam.name.substring(0, 3)}`;
                 e.currentTarget.onerror = null;
               }}
             />
-            <h2 className="mt-4 text-xl md:text-2xl font-bold text-white uppercase tracking-tight">
+            <h2 className="mt-3 sm:mt-4 text-base sm:text-xl md:text-2xl font-bold text-white uppercase tracking-tight">
               {match.homeTeam.name}
             </h2>
             <span className="text-sm text-gray-400 mt-1">{t('match.home', 'Дома')}</span>
@@ -125,21 +128,21 @@ export const MatchHero = ({ match }: MatchHeroProps) => {
             className="flex flex-col items-center"
           >
             {match.status === 'finished' || match.status === 'live' ? (
-              <div className="flex items-center gap-4 md:gap-8">
+              <div className="flex items-center gap-2 sm:gap-4 md:gap-8">
                 <motion.span
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ duration: 0.5, delay: 0.4 }}
-                  className="text-6xl md:text-8xl font-black text-white tabular-nums"
+                  className="text-4xl sm:text-6xl md:text-8xl font-black text-white tabular-nums"
                 >
                   {match.homeTeam.score ?? 0}
                 </motion.span>
-                <span className="text-3xl md:text-4xl font-bold text-white/30">:</span>
+                <span className="text-2xl sm:text-3xl md:text-4xl font-bold text-white/30">:</span>
                 <motion.span
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ duration: 0.5, delay: 0.5 }}
-                  className="text-6xl md:text-8xl font-black text-white tabular-nums"
+                  className="text-4xl sm:text-6xl md:text-8xl font-black text-white tabular-nums"
                 >
                   {match.awayTeam.score ?? 0}
                 </motion.span>
@@ -178,15 +181,18 @@ export const MatchHero = ({ match }: MatchHeroProps) => {
               initial={{ scale: 0.8 }}
               animate={{ scale: 1 }}
               transition={{ duration: 0.5, type: 'spring' }}
-              src={match.awayTeam.logo || `https://placehold.co/128x128/1f1f1f/888?text=${match.awayTeam.shortName || match.awayTeam.name.substring(0, 3)}`}
+              src={
+                match.awayTeam.logo ||
+                `https://placehold.co/128x128/1f1f1f/888?text=${match.awayTeam.shortName || match.awayTeam.name.substring(0, 3)}`
+              }
               alt={match.awayTeam.name}
-              className="w-24 h-24 md:w-32 md:h-32 object-contain drop-shadow-[0_0_20px_rgba(255,255,255,0.2)]"
-              onError={(e) => {
+              className="w-16 h-16 sm:w-24 sm:h-24 md:w-32 md:h-32 object-contain drop-shadow-[0_0_20px_rgba(255,255,255,0.2)]"
+              onError={e => {
                 e.currentTarget.src = `https://placehold.co/128x128/1f1f1f/888?text=${match.awayTeam.shortName || match.awayTeam.name.substring(0, 3)}`;
                 e.currentTarget.onerror = null;
               }}
             />
-            <h2 className="mt-4 text-xl md:text-2xl font-bold text-white uppercase tracking-tight">
+            <h2 className="mt-3 sm:mt-4 text-base sm:text-xl md:text-2xl font-bold text-white uppercase tracking-tight">
               {match.awayTeam.name}
             </h2>
             <span className="text-sm text-gray-400 mt-1">{t('match.away', 'В гостях')}</span>

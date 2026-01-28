@@ -62,7 +62,7 @@ const ClubPage = () => {
       <WebsiteHeader />
 
       {/* Hero Section */}
-      <section className="relative h-[60vh] min-h-[450px] flex items-center justify-center overflow-hidden">
+      <section className="relative h-[60vh] min-h-[350px] md:min-h-[450px] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black z-10" />
         <div
           className="absolute inset-0 bg-cover bg-center"
@@ -77,8 +77,12 @@ const ClubPage = () => {
             transition={{ duration: isMobile ? 0 : 0.8 }}
             className="flex flex-col items-center"
           >
-            <img src={kaisarLogo} alt="FC KAYSAR" className="w-32 h-32 md:w-40 md:h-40 mb-6" />
-            <h1 className="text-5xl md:text-7xl font-black uppercase tracking-tighter mb-4">
+            <img
+              src={kaisarLogo}
+              alt="FC KAYSAR"
+              className="w-24 h-24 sm:w-32 sm:h-32 md:w-40 md:h-40 mb-4 sm:mb-6"
+            />
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-black uppercase tracking-tighter mb-3 sm:mb-4">
               {t('club.fcName', 'ФК')}{' '}
               <span className="text-red-500">{t('club.kaisar', 'Кайсар')}</span>
             </h1>
@@ -123,7 +127,7 @@ const ClubPage = () => {
             className="text-center mb-16"
           >
             <Calendar className="w-12 h-12 text-red-500 mx-auto mb-4" />
-            <h2 className="text-4xl md:text-5xl font-bold uppercase mb-4">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold uppercase mb-4">
               {t('club.strategy', 'Стратегия 2025–2030')}
             </h2>
             <p className="text-gray-400 text-lg max-w-2xl mx-auto">
@@ -134,7 +138,7 @@ const ClubPage = () => {
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 max-w-4xl mx-auto">
             {goals.map((item, index) => (
               <motion.div
                 key={index}
@@ -189,12 +193,12 @@ const ClubPage = () => {
             transition={{ duration: isMobile ? 0 : 0.5 }}
             className="text-center mb-12"
           >
-            <h2 className="text-4xl md:text-5xl font-bold uppercase mb-4">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold uppercase mb-4">
               {t('club.sections', 'Разделы')}
             </h2>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
             {sections.map((section, index) => (
               <motion.div
                 key={index}

@@ -67,7 +67,7 @@ export const Footer = () => {
             <nav>
               <h3
                 id="footer-quick-links"
-                className="font-display font-bold text-xl mb-4 text-white uppercase"
+                className="font-display font-bold text-lg sm:text-xl mb-3 sm:mb-4 text-white uppercase"
               >
                 {t('footer.quickLinks')}
               </h3>

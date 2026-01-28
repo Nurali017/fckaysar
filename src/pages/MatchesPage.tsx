@@ -133,12 +133,12 @@ const MatchCard = ({ match, index }: { match: Match; index: number }) => {
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: index * 0.05 }}
-        className="group relative bg-white/5 border border-white/5 hover:border-red-600/50 transition-all flex flex-col md:flex-row items-center p-4 md:p-6 gap-6"
+        className="group relative bg-white/5 border border-white/5 hover:border-red-600/50 transition-all flex flex-col md:flex-row items-center p-3 sm:p-4 md:p-6 gap-3 sm:gap-4 md:gap-6"
       >
         {/* Status Indicator Line */}
         {result && (
           <div
-            className={`absolute left-0 top-0 bottom-0 w-1 ${resultColor[result]} md:w-1 w-full md:h-full h-1`}
+            className={`absolute left-0 top-0 w-full h-1 md:w-1 md:h-full md:bottom-0 ${resultColor[result]}`}
           />
         )}
 
@@ -153,7 +153,7 @@ const MatchCard = ({ match, index }: { match: Match; index: number }) => {
           {/* Home Team */}
           <div className="flex-1 flex items-center justify-end gap-3 md:gap-4">
             <span
-              className={`font-display uppercase text-sm sm:text-lg md:text-2xl text-right ${isKaysarHome ? 'text-white' : 'text-white/60'}`}
+              className={`font-display uppercase text-xs sm:text-sm md:text-lg lg:text-2xl text-right truncate ${isKaysarHome ? 'text-white' : 'text-white/60'}`}
             >
               {match.homeTeam.name}
             </span>
@@ -168,7 +168,7 @@ const MatchCard = ({ match, index }: { match: Match; index: number }) => {
           <div className="w-16 sm:w-20 md:w-24 flex-shrink-0 text-center">
             {isFinished ? (
               <div className="bg-white/10 py-1 px-3">
-                <span className="font-display text-2xl md:text-3xl text-white tracking-widest">
+                <span className="font-display text-xl sm:text-2xl md:text-3xl text-white tracking-widest">
                   {homeScore}:{awayScore}
                 </span>
               </div>
@@ -187,7 +187,7 @@ const MatchCard = ({ match, index }: { match: Match; index: number }) => {
               className="w-10 h-10 md:w-14 md:h-14 object-contain"
             />
             <span
-              className={`font-display uppercase text-sm sm:text-lg md:text-2xl text-left ${!isKaysarHome ? 'text-white' : 'text-white/60'}`}
+              className={`font-display uppercase text-xs sm:text-sm md:text-lg lg:text-2xl text-left truncate ${!isKaysarHome ? 'text-white' : 'text-white/60'}`}
             >
               {match.awayTeam.name}
             </span>

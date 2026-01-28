@@ -48,14 +48,14 @@ const ContactsPage = () => {
             transition={{ duration: isMobile ? 0 : 0.5 }}
             className="text-center mb-16"
           >
-            <Phone className="w-16 h-16 text-red-500 mx-auto mb-4" />
+            <Phone className="w-12 h-12 md:w-16 md:h-16 text-red-500 mx-auto mb-4" />
             <h1 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-black uppercase tracking-tighter mb-4">
               {t('contacts.title')}
             </h1>
             <p className="text-gray-400 text-lg">{t('contacts.subtitle')}</p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 max-w-5xl mx-auto">
             {contacts.map((contact, index) => (
               <motion.div
                 key={index}
@@ -84,11 +84,11 @@ const ContactsPage = () => {
               <iframe
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d48996.95386655893!2d65.47!3d44.85!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x41f643e1e90e9b0b%3A0x57c1d3c49d89e8e!2sKyzylorda%2C%20Kazakhstan!5e0!3m2!1sen!2sus!4v1"
                 width="100%"
-                height="300"
+                height="250"
+                className="h-[250px] md:h-[300px] transition-all duration-500"
                 style={{ border: 0 }}
                 allowFullScreen
                 loading="lazy"
-                className="transition-all duration-500"
               />
             </div>
           </motion.div>

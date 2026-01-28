@@ -151,7 +151,7 @@ const PlayerRecommendationForm = () => {
                         />
                       </SelectTrigger>
                     </FormControl>
-                    <SelectContent>
+                    <SelectContent className="bg-zinc-800 border-white/20 text-white">
                       <SelectItem value="goalkeeper">
                         {t('positions.goalkeeper', 'Вратарь')}
                       </SelectItem>
@@ -268,7 +268,7 @@ const PlayerRecommendationForm = () => {
                         />
                       </SelectTrigger>
                     </FormControl>
-                    <SelectContent>
+                    <SelectContent className="bg-zinc-800 border-white/20 text-white">
                       <SelectItem value="coach">
                         {t('playerRecommendation.relations.coach', 'Тренер')}
                       </SelectItem>

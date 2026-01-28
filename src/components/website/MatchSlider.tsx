@@ -28,7 +28,7 @@ export const MatchSlider = () => {
   const matches = upcoming.length > 0 ? upcoming : finished;
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  const visibleCount = typeof window !== 'undefined' && window.innerWidth < 768 ? 1 : 3;
+  const visibleCount = typeof window !== 'undefined' && window.innerWidth < 640 ? 1 : 3;
   const maxIndex = Math.max(0, matches.length - visibleCount);
 
   const prev = useCallback(() => setCurrentIndex(i => Math.max(0, i - 1)), []);
@@ -154,18 +154,18 @@ const MatchCard = ({
 
       {/* Date & Venue */}
       <div className="text-center">
-        <div className="text-lg font-bold text-white">{formattedDate}</div>
+        <div className="text-base sm:text-lg font-bold text-white">{formattedDate}</div>
         <div className="text-xs text-gray-500">{match.stadium}</div>
       </div>
 
       {/* Teams + Score */}
-      <div className="flex items-center justify-center gap-6 w-full">
+      <div className="flex items-center justify-center gap-3 sm:gap-6 w-full">
         {/* Home Team */}
         <div className="flex flex-col items-center gap-2 flex-1">
           <img
             src={match.homeTeam.logo}
             alt={match.homeTeam.name}
-            className="w-14 h-14 object-contain"
+            className="w-12 h-12 md:w-14 md:h-14 object-contain"
             onError={e => (e.currentTarget.src = '/images/teams/placeholder-team.svg')}
           />
           <span className="text-xs font-bold text-center uppercase leading-tight">
@@ -180,10 +180,10 @@ const MatchCard = ({
               {t('matches.matchScore', 'СЧЕТ МАТЧА')}
             </div>
             <div className="flex items-center gap-1">
-              <span className="text-3xl font-black text-white bg-red-700 px-3 py-1">
+              <span className="text-2xl md:text-3xl font-black text-white bg-red-700 px-2 sm:px-3 py-1">
                 {match.homeTeam.score ?? 0}
               </span>
-              <span className="text-3xl font-black text-white bg-white/10 px-3 py-1">
+              <span className="text-2xl md:text-3xl font-black text-white bg-white/10 px-2 sm:px-3 py-1">
                 {match.awayTeam.score ?? 0}
               </span>
             </div>
@@ -193,7 +193,9 @@ const MatchCard = ({
             <div className="text-[10px] text-gray-500 uppercase tracking-wider mb-1">
               {t('matches.countdown.untilMatch', 'ДО МАТЧА')}
             </div>
-            <div className="text-4xl font-black text-white tabular-nums">{daysUntil}</div>
+            <div className="text-3xl md:text-4xl font-black text-white tabular-nums">
+              {daysUntil}
+            </div>
             <div className="text-[10px] text-gray-500 uppercase tracking-wider">
               {daysUntil === 1
                 ? t('matches.countdown.day', 'ДЕНЬ')
@@ -207,7 +209,7 @@ const MatchCard = ({
           <img
             src={match.awayTeam.logo}
             alt={match.awayTeam.name}
-            className="w-14 h-14 object-contain"
+            className="w-12 h-12 md:w-14 md:h-14 object-contain"
             onError={e => (e.currentTarget.src = '/images/teams/placeholder-team.svg')}
           />
           <span className="text-xs font-bold text-center uppercase leading-tight">

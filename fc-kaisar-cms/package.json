@@ -23,6 +23,7 @@
     "clear:players-no-photos": "cross-env NODE_OPTIONS=--no-deprecation tsx src/scripts/clear-players-without-photos.ts",
     "test:sota-lineups": "cross-env NODE_OPTIONS=--no-deprecation tsx src/scripts/test-sota-lineups.ts",
     "cleanup:old-players": "cross-env NODE_OPTIONS=--no-deprecation tsx src/scripts/cleanup-old-players.ts",
+    "fill:translations": "cross-env NODE_OPTIONS=--no-deprecation tsx src/scripts/fill-missing-translations.ts",
     "generate:importmap": "cross-env NODE_OPTIONS=--no-deprecation payload generate:importmap",
     "generate:types": "cross-env NODE_OPTIONS=--no-deprecation payload generate:types",
     "lint": "cross-env NODE_OPTIONS=--no-deprecation next lint",

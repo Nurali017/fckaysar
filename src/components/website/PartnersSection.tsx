@@ -28,11 +28,11 @@ export const PartnersSection = () => {
         {t('partners.subtitle', 'Официальные партнёры клуба')}
       </p>
 
-      <div className="flex flex-wrap justify-center items-stretch gap-8 md:gap-16">
+      <div className="flex flex-wrap justify-center items-stretch gap-4 md:gap-8 lg:gap-16">
         {PARTNERS.map(partner => (
           <div
             key={partner.id}
-            className="group flex flex-col items-center gap-4 px-4 py-4 md:px-8 md:py-6 rounded-xl border border-white/5 bg-white/[0.02] hover:bg-white/[0.06] hover:border-white/15 transition-all duration-500 min-w-[150px] md:min-w-[200px]"
+            className="group flex flex-col items-center gap-4 px-4 py-4 md:px-8 md:py-6 rounded-xl border border-white/5 bg-white/[0.02] hover:bg-white/[0.06] hover:border-white/15 transition-all duration-500 min-w-[120px] sm:min-w-[150px] md:min-w-[200px]"
           >
             <span className="text-[10px] uppercase tracking-[0.25em] text-amber-400/70 font-medium">
               {partner.role}
@@ -46,7 +46,7 @@ export const PartnersSection = () => {
                   className="h-full w-auto object-contain max-w-[160px] brightness-0 invert opacity-70 group-hover:opacity-100 transition-opacity duration-300"
                 />
               ) : (
-                <span className="text-white font-bold text-2xl md:text-3xl uppercase tracking-[0.15em] opacity-70 group-hover:opacity-100 transition-opacity duration-300">
+                <span className="text-white font-bold text-xl sm:text-2xl md:text-3xl uppercase tracking-[0.15em] opacity-70 group-hover:opacity-100 transition-opacity duration-300">
                   {partner.name}
                 </span>
               )}

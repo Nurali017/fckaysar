@@ -76,15 +76,13 @@ export const HeroSlider = () => {
         </motion.div>
       </AnimatePresence>
 
-      {/* Gradient overlay: dark left fading to transparent right */}
-      <div className="absolute inset-0 bg-gradient-to-r from-[hsl(222,47%,11%)] via-[hsl(222,47%,11%)]/80 md:via-[hsl(222,47%,11%)]/60 to-transparent z-10" />
+      {/* Gradient overlay: dark left fading to transparent right (desktop only) */}
+      <div className="absolute inset-0 hidden md:block bg-gradient-to-r from-[hsl(222,47%,11%)] via-[hsl(222,47%,11%)]/60 to-transparent z-10" />
       {/* Bottom gradient for text area */}
       <div className="absolute inset-0 bg-gradient-to-t from-[hsl(222,47%,11%)] via-transparent to-transparent opacity-80 z-10" />
-      {/* Mobile: extra overlay for readability */}
-      <div className="absolute inset-0 bg-black/30 md:bg-transparent z-10" />
 
       {/* Content Bottom Left */}
-      <div className="absolute bottom-24 md:bottom-20 left-4 md:left-16 max-w-4xl z-20 pr-4">
+      <div className="absolute bottom-16 sm:bottom-20 md:bottom-24 left-4 md:left-16 max-w-4xl z-20 pr-4">
         <div className="overflow-hidden">
           <motion.div
             key={`content-${currentNews.id}`}

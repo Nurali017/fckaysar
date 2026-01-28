@@ -75,10 +75,10 @@ const NewsPage = () => {
 
                   {/* Text */}
                   <div className="flex flex-col gap-2">
-                    <span className="text-white/40 font-mono text-xs uppercase tracking-wide">
+                    <span className="text-white/40 font-mono text-[11px] sm:text-xs uppercase tracking-wide">
                       {formatDate(item.publishedAt)}
                     </span>
-                    <h3 className="text-xl md:text-2xl font-display uppercase leading-tight text-white group-hover:text-red-500 transition-colors line-clamp-3">
+                    <h3 className="text-lg sm:text-xl md:text-2xl font-display uppercase leading-tight text-white group-hover:text-red-500 transition-colors line-clamp-3">
                       {item.title}
                     </h3>
                   </div>

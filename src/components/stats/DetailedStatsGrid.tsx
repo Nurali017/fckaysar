@@ -65,9 +65,9 @@ export const DetailedStatsGrid = ({ stats, className }: DetailedStatsGridProps) 
 
   return (
     <div className={cn('w-full', className)}>
-      <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as StatCategory)}>
+      <Tabs value={activeTab} onValueChange={v => setActiveTab(v as StatCategory)}>
         <TabsList className="w-full bg-white/5 border border-white/10 p-1 rounded-xl mb-6">
-          {(Object.keys(categoryIcons) as StatCategory[]).map((category) => {
+          {(Object.keys(categoryIcons) as StatCategory[]).map(category => {
             const Icon = categoryIcons[category];
 
             return (
@@ -79,7 +79,7 @@ export const DetailedStatsGrid = ({ stats, className }: DetailedStatsGridProps) 
                   'data-[state=active]:text-white text-gray-400'
                 )}
               >
-                <Icon className="w-4 h-4" />
+                <Icon className="w-5 h-5 sm:w-4 sm:h-4" />
                 <span className="hidden sm:inline">{t(`stats.categories.${category}`)}</span>
               </TabsTrigger>
             );
@@ -118,7 +118,7 @@ const AttackStats = ({ stats }: { stats: ProcessedTeamStats }) => {
       initial="hidden"
       animate="visible"
       exit="exit"
-      className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
+      className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4"
     >
       <motion.div variants={itemVariants}>
         <StatItem
@@ -209,7 +209,7 @@ const DefenseStats = ({ stats }: { stats: ProcessedTeamStats }) => {
       initial="hidden"
       animate="visible"
       exit="exit"
-      className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
+      className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4"
     >
       <motion.div variants={itemVariants}>
         <StatItem
@@ -263,7 +263,7 @@ const DisciplineStats = ({ stats }: { stats: ProcessedTeamStats }) => {
       initial="hidden"
       animate="visible"
       exit="exit"
-      className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
+      className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4"
     >
       <motion.div variants={itemVariants}>
         <StatItem
@@ -325,7 +325,7 @@ const AttendanceStats = ({ stats }: { stats: ProcessedTeamStats }) => {
       initial="hidden"
       animate="visible"
       exit="exit"
-      className="grid grid-cols-2 md:grid-cols-3 gap-4"
+      className="grid grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4"
     >
       <motion.div variants={itemVariants}>
         <StatItem

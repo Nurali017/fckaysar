@@ -111,28 +111,32 @@ const StandingsPage = () => {
               <table className="w-full text-left border-collapse">
                 <thead>
                   <tr className="border-b border-white/10 bg-white/5 text-white/40 font-mono text-xs uppercase tracking-wider">
-                    <th className="p-2 md:p-4 w-10 md:w-16 text-center">{l.position}</th>
-                    <th className="p-2 md:p-4">{l.team}</th>
-                    <th className="p-2 md:p-4 w-10 md:w-16 text-center">{l.played}</th>
-                    <th className="p-2 md:p-4 w-10 md:w-16 text-center text-green-500/70">
+                    <th className="p-1.5 sm:p-2 md:p-4 w-8 sm:w-10 md:w-16 text-center">
+                      {l.position}
+                    </th>
+                    <th className="p-1.5 sm:p-2 md:p-4">{l.team}</th>
+                    <th className="p-1.5 sm:p-2 md:p-4 w-8 sm:w-10 md:w-16 text-center">
+                      {l.played}
+                    </th>
+                    <th className="p-1.5 sm:p-2 md:p-4 w-8 sm:w-10 md:w-16 text-center text-green-500/70">
                       {l.won}
                     </th>
-                    <th className="p-2 md:p-4 w-10 md:w-16 text-center hidden sm:table-cell">
+                    <th className="p-1.5 sm:p-2 md:p-4 w-8 sm:w-10 md:w-16 text-center hidden sm:table-cell">
                       {l.drawn}
                     </th>
-                    <th className="p-2 md:p-4 w-10 md:w-16 text-center text-red-500/70 hidden sm:table-cell">
+                    <th className="p-1.5 sm:p-2 md:p-4 w-8 sm:w-10 md:w-16 text-center text-red-500/70 hidden sm:table-cell">
                       {l.lost}
                     </th>
-                    <th className="p-2 md:p-4 w-10 md:w-16 text-center hidden md:table-cell">
+                    <th className="p-1.5 sm:p-2 md:p-4 w-8 sm:w-10 md:w-16 text-center hidden md:table-cell">
                       {l.gf}
                     </th>
-                    <th className="p-2 md:p-4 w-10 md:w-16 text-center hidden md:table-cell">
+                    <th className="p-1.5 sm:p-2 md:p-4 w-8 sm:w-10 md:w-16 text-center hidden md:table-cell">
                       {l.ga}
                     </th>
-                    <th className="p-2 md:p-4 w-10 md:w-16 text-center hidden sm:table-cell">
+                    <th className="p-1.5 sm:p-2 md:p-4 w-8 sm:w-10 md:w-16 text-center hidden sm:table-cell">
                       {l.gd}
                     </th>
-                    <th className="p-2 md:p-4 w-12 md:w-20 text-center text-white font-bold">
+                    <th className="p-1.5 sm:p-2 md:p-4 w-10 sm:w-12 md:w-20 text-center text-white font-bold">
                       {l.points}
                     </th>
                   </tr>
@@ -145,21 +149,21 @@ const StandingsPage = () => {
                         team.isKaisar ? 'bg-red-900/10' : ''
                       }`}
                     >
-                      <td className="p-2 md:p-4 text-center font-mono text-white/60">
+                      <td className="p-1.5 sm:p-2 md:p-4 text-center font-mono text-white/60">
                         {team.rank}
                       </td>
-                      <td className="p-2 md:p-4">
-                        <div className="flex items-center gap-2 md:gap-4">
+                      <td className="p-1.5 sm:p-2 md:p-4">
+                        <div className="flex items-center gap-1.5 sm:gap-2 md:gap-4">
                           <img
                             src={team.logo}
                             alt={team.teamName}
-                            className="w-6 h-6 md:w-8 md:h-8 object-contain transition-all"
+                            className="w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8 object-contain transition-all"
                             onError={e => {
                               e.currentTarget.src = '/images/placeholder-team.svg';
                             }}
                           />
                           <span
-                            className={`font-display uppercase text-sm md:text-lg tracking-wide ${
+                            className={`font-display uppercase text-xs sm:text-sm md:text-lg tracking-wide truncate ${
                               team.isKaisar
                                 ? 'text-red-500'
                                 : 'text-white group-hover:text-white/80'
@@ -169,30 +173,30 @@ const StandingsPage = () => {
                           </span>
                         </div>
                       </td>
-                      <td className="p-2 md:p-4 text-center font-mono text-white/60">
+                      <td className="p-1.5 sm:p-2 md:p-4 text-center font-mono text-white/60">
                         {team.played}
                       </td>
-                      <td className="p-2 md:p-4 text-center font-mono text-green-500">
+                      <td className="p-1.5 sm:p-2 md:p-4 text-center font-mono text-green-500">
                         {team.won}
                       </td>
-                      <td className="p-2 md:p-4 text-center font-mono text-white/40 hidden sm:table-cell">
+                      <td className="p-1.5 sm:p-2 md:p-4 text-center font-mono text-white/40 hidden sm:table-cell">
                         {team.drawn}
                       </td>
-                      <td className="p-2 md:p-4 text-center font-mono text-red-500 hidden sm:table-cell">
+                      <td className="p-1.5 sm:p-2 md:p-4 text-center font-mono text-red-500 hidden sm:table-cell">
                         {team.lost}
                       </td>
-                      <td className="p-2 md:p-4 text-center font-mono text-white/40 hidden md:table-cell">
+                      <td className="p-1.5 sm:p-2 md:p-4 text-center font-mono text-white/40 hidden md:table-cell">
                         {team.goalsFor}
                       </td>
-                      <td className="p-2 md:p-4 text-center font-mono text-white/40 hidden md:table-cell">
+                      <td className="p-1.5 sm:p-2 md:p-4 text-center font-mono text-white/40 hidden md:table-cell">
                         {team.goalsAgainst}
                       </td>
-                      <td className="p-2 md:p-4 text-center font-mono text-white/60 hidden sm:table-cell">
+                      <td className="p-1.5 sm:p-2 md:p-4 text-center font-mono text-white/60 hidden sm:table-cell">
                         {team.goalDifference > 0 ? `+${team.goalDifference}` : team.goalDifference}
                       </td>
-                      <td className="p-2 md:p-4 text-center">
+                      <td className="p-1.5 sm:p-2 md:p-4 text-center">
                         <span
-                          className={`font-display text-2xl ${team.isKaisar ? 'text-red-500' : 'text-white'}`}
+                          className={`font-display text-xl md:text-2xl ${team.isKaisar ? 'text-red-500' : 'text-white'}`}
                         >
                           {team.points}
                         </span>

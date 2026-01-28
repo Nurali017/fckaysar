@@ -61,7 +61,7 @@ export const TalentRecommendationModal = ({ isOpen, onClose }: TalentRecommendat
               </div>
 
               {/* Content */}
-              <div className="flex-1 overflow-y-auto p-4 md:p-6">
+              <div className="flex-1 overflow-y-auto p-4 md:p-6 [&_input]:bg-white/10 [&_input]:border-white/20 [&_input]:text-white [&_input]:placeholder:text-gray-500 [&_textarea]:bg-white/10 [&_textarea]:border-white/20 [&_textarea]:text-white [&_textarea]:placeholder:text-gray-500 [&_button[role=combobox]]:bg-white/10 [&_button[role=combobox]]:border-white/20 [&_button[role=combobox]]:text-white [&_label]:text-gray-200 [&_p]:text-gray-400 [&_button[role=checkbox]]:border-white/40">
                 <PlayerRecommendationForm />
               </div>
             </motion.div>

@@ -164,7 +164,7 @@ export const WebsiteHeader = () => {
       >
         <div className="container mx-auto px-4 flex items-center justify-between h-16">
           {/* Left: Logo & Nav */}
-          <div className="flex items-center gap-10 h-full">
+          <div className="flex items-center gap-4 lg:gap-10 h-full">
             <div
               onClick={() => navigate('/')}
               className="flex items-center gap-3 cursor-pointer group"
@@ -257,12 +257,12 @@ export const WebsiteHeader = () => {
             transition={{ duration: 0.25 }}
             className="fixed inset-0 z-[99] bg-[#1a1a1a] pt-16 overflow-y-auto"
           >
-            <div className="container mx-auto px-4 py-12">
+            <div className="container mx-auto px-4 py-8 sm:py-12">
               {/* Mega menu grid: 4 cols on desktop, 2 on tablet, 1 on mobile */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-12 gap-y-10">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-6 sm:gap-x-12 gap-y-6 sm:gap-y-10">
                 {megaMenuSections.map(section => (
                   <div key={section.key}>
-                    <h3 className="font-display text-2xl uppercase tracking-wider text-white mb-4">
+                    <h3 className="font-display text-xl sm:text-2xl uppercase tracking-wider text-white mb-3 sm:mb-4">
                       {section.label}
                     </h3>
                     <ul className="flex flex-col gap-2">

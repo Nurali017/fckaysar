@@ -76,14 +76,20 @@ export const LeagueTable = () => {
               <table className="w-full text-left border-collapse">
                 <thead>
                   <tr className="text-white/40 font-mono text-xs uppercase border-b border-white/10">
-                    <th className="p-3 pl-0 w-12 text-center">#</th>
-                    <th className="p-3">{t('league.club', 'Club')}</th>
-                    <th className="p-3 text-center w-12">M</th>
-                    <th className="p-3 text-center w-12">W</th>
-                    <th className="p-3 text-center w-12">D</th>
-                    <th className="p-3 text-center w-12">L</th>
-                    <th className="p-3 text-center w-16 hidden sm:table-cell">+/-</th>
-                    <th className="p-3 text-center w-12 font-bold text-white">P</th>
+                    <th className="p-1.5 sm:p-3 pl-0 w-10 sm:w-12 text-center">#</th>
+                    <th className="p-1.5 sm:p-3">{t('league.club', 'Club')}</th>
+                    <th className="p-1.5 sm:p-3 text-center w-10 sm:w-12">M</th>
+                    <th className="p-1.5 sm:p-3 text-center w-10 sm:w-12">W</th>
+                    <th className="p-1.5 sm:p-3 text-center w-10 sm:w-12 hidden sm:table-cell">
+                      D
+                    </th>
+                    <th className="p-1.5 sm:p-3 text-center w-10 sm:w-12 hidden sm:table-cell">
+                      L
+                    </th>
+                    <th className="p-1.5 sm:p-3 text-center w-16 hidden md:table-cell">+/-</th>
+                    <th className="p-1.5 sm:p-3 text-center w-10 sm:w-12 font-bold text-white">
+                      P
+                    </th>
                   </tr>
                 </thead>
                 <tbody className="font-mono text-sm text-white">
@@ -124,15 +130,15 @@ export const LeagueTable = () => {
                           className={`border-b border-white/5 transition-colors ${active ? 'bg-red-600/20 hover:bg-red-600/30' : 'hover:bg-white/5'}`}
                         >
                           <td
-                            className={`p-3 pl-0 text-center font-bold ${idx < 3 ? 'text-white' : 'text-white/60'}`}
+                            className={`p-1.5 sm:p-3 pl-0 text-center font-bold ${idx < 3 ? 'text-white' : 'text-white/60'}`}
                           >
                             {team.rank}
                           </td>
-                          <td className="p-3 flex items-center gap-3">
+                          <td className="p-1.5 sm:p-3 flex items-center gap-2 sm:gap-3">
                             <img
                               src={team.logo}
                               alt={team.teamName}
-                              className="w-6 h-6 object-contain"
+                              className="w-5 h-5 sm:w-6 sm:h-6 object-contain"
                               onError={e => {
                                 e.currentTarget.src =
                                   'https://placehold.co/24x24/transparent/white?text=FC';
@@ -142,14 +148,20 @@ export const LeagueTable = () => {
                               {team.teamName}
                             </span>
                           </td>
-                          <td className="p-3 text-center">{team.played}</td>
-                          <td className="p-3 text-center text-white/60">{team.won}</td>
-                          <td className="p-3 text-center text-white/60">{team.drawn}</td>
-                          <td className="p-3 text-center text-white/60">{team.lost}</td>
-                          <td className="p-3 text-center text-white/60 hidden sm:table-cell">
+                          <td className="p-1.5 sm:p-3 text-center">{team.played}</td>
+                          <td className="p-1.5 sm:p-3 text-center text-white/60">{team.won}</td>
+                          <td className="p-1.5 sm:p-3 text-center text-white/60 hidden sm:table-cell">
+                            {team.drawn}
+                          </td>
+                          <td className="p-1.5 sm:p-3 text-center text-white/60 hidden sm:table-cell">
+                            {team.lost}
+                          </td>
+                          <td className="p-1.5 sm:p-3 text-center text-white/60 hidden md:table-cell">
                             {team.goalsFor - team.goalsAgainst}
                           </td>
-                          <td className="p-3 text-center font-bold text-lg">{team.points}</td>
+                          <td className="p-1.5 sm:p-3 text-center font-bold text-base sm:text-lg">
+                            {team.points}
+                          </td>
                         </tr>
                       );
                     });
@@ -176,7 +188,7 @@ export const LeagueTable = () => {
         <div className="w-full lg:w-[35%] flex flex-col gap-6">
           {/* CTA 1: ACADEMY */}
           <div
-            className="group relative flex-1 min-h-[200px] w-full overflow-hidden bg-zinc-900 cursor-pointer"
+            className="group relative flex-1 min-h-[160px] md:min-h-[200px] w-full overflow-hidden bg-zinc-900 cursor-pointer"
             onClick={() => setShowRecommendModal(true)}
           >
             <img
@@ -201,7 +213,7 @@ export const LeagueTable = () => {
 
           {/* CTA 2: STADIUM */}
           <div
-            className="group relative flex-1 min-h-[200px] w-full overflow-hidden bg-zinc-900 cursor-pointer"
+            className="group relative flex-1 min-h-[160px] md:min-h-[200px] w-full overflow-hidden bg-zinc-900 cursor-pointer"
             onClick={() => navigate('/stadium')}
           >
             <img

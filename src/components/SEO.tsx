@@ -8,10 +8,10 @@ interface SEOProps {
   type?: string;
 }
 
-const SITE_NAME = 'FC Kaisar';
+const SITE_NAME = 'FC KAYSAR';
 const BASE_URL = 'https://kaysar.kz';
 const DEFAULT_DESCRIPTION =
-  'Официальный сайт футбольного клуба Кайсар. Новости, матчи, команда, статистика и галерея.';
+  'ФК Қайсар — футбол клубының ресми сайты. FC Kaysar. Жаңалықтар, матчтар, команда, статистика және галерея.';
 const DEFAULT_IMAGE = `${BASE_URL}/og-image.png`;
 
 export const SEO = ({
@@ -21,7 +21,7 @@ export const SEO = ({
   image = DEFAULT_IMAGE,
   type = 'website',
 }: SEOProps) => {
-  const fullTitle = title ? `${title} | ${SITE_NAME}` : `${SITE_NAME} - Официальный сайт`;
+  const fullTitle = title ? `${title} | ${SITE_NAME}` : `${SITE_NAME} - Ресми сайт`;
   const url = `${BASE_URL}${path}`;
 
   return (
